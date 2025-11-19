@@ -1,35 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VBK Designs | Premium Boutique & Tailoring</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="VBK Designs - Premier Maggam Work, Bridal Stitching & Boutique in Hindupuram.">
+    <meta name="theme-color" content="#0f1424">
+    <title>VBK Designs | Exclusive Bridal & Maggam Boutique</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         vbk: {
                             navy: '#0f1424',
-                            card: '#2d3250',
+                            dark: '#050811',
+                            card: '#1c2136',
+                            cardHover: '#252b45',
                             mid: '#424769',
                             gold: '#f9b17a',
+                            goldDim: '#c48b5e',
                             purple: '#6769fd',
-                            light: '#e2e8f0'
+                            purpleDark: '#4f51c9',
+                            light: '#e2e8f0',
+                            danger: '#ef4444',
+                            success: '#10b981'
                         }
                     },
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                        'pulse-gold': 'pulseGold 2s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        pulseGold: {
+                            '0%, 100%': { boxShadow: '0 0 0 0 rgba(249, 177, 122, 0.4)' },
+                            '70%': { boxShadow: '0 0 0 10px rgba(249, 177, 122, 0)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
@@ -37,514 +77,1175 @@
     </script>
 
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f1424; }
-        ::-webkit-scrollbar-thumb { background: #424769; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #f9b17a; }
+        /* --- 1. Reset & Base --- */
+        :root {
+            --cursor-size: 20px;
+            --gold-glow: 0 0 15px rgba(249, 177, 122, 0.3);
+        }
 
-        /* Glassmorphism Utilities */
+        body {
+            cursor: default;
+            /* Custom cursor is hidden on touch devices via JS */
+            background-color: #0f1424;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050811;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #424769;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f9b17a;
+        }
+
+        /* --- 2. Custom Cursor --- */
+        #cursor-dot,
+        #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: exclusion;
+        }
+
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+        }
+
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover #cursor-outline {
+            opacity: 1;
+        }
+
+        /* Hover State for Cursor */
+        body.hovering #cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+        }
+
+        /* --- 3. Utility Classes --- */
         .glass {
-            background: rgba(45, 50, 80, 0.7);
+            background: rgba(15, 20, 36, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(28, 33, 54, 0.6);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         .text-gradient {
-            background: linear-gradient(to right, #f9b17a, #ffffff);
+            background: linear-gradient(135deg, #f9b17a 0%, #ffffff 50%, #f9b17a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
         }
 
-        /* Cart Slide Animation */
-        .cart-sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .translate-x-full { transform: translateX(100%); }
-        .translate-x-0 { transform: translateX(0); }
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* --- 4. Component: Product Card --- */
+        .product-card {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-overlay {
+            background: linear-gradient(to top, #0f1424 10%, transparent 100%);
+        }
+
+        /* --- 5. Component: Preloader --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #0f1424;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loader-circle {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(249, 177, 122, 0.2);
+            border-top-color: #f9b17a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* --- 6. Component: Toasts --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* --- 7. Component: Cart Sidebar --- */
+        .cart-sidebar {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .cart-open {
+            overflow: hidden;
+        }
+
+        /* --- 8. Mobile Responsive Tweaks --- */
+        @media (max-width: 768px) {
+
+            #cursor-dot,
+            #cursor-outline {
+                display: none;
+            }
+
+            .glass-card {
+                backdrop-filter: none;
+                background: #1c2136;
+            }
+        }
     </style>
 </head>
-<body class="bg-vbk-navy text-gray-200 antialiased selection:bg-vbk-gold selection:text-vbk-navy">
 
-    <nav class="fixed w-full z-50 glass border-b border-vbk-mid/30 transition-all duration-300" id="navbar">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex flex-col items-start group">
-                <span class="text-2xl font-serif font-bold tracking-wider text-white group-hover:text-vbk-gold transition">VBK<span class="text-vbk-gold">.</span></span>
-                <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Designs</span>
+<body class="antialiased selection:bg-vbk-gold selection:text-vbk-navy">
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <div id="preloader">
+        <div class="loader-circle mb-4"></div>
+        <div class="text-vbk-gold font-serif tracking-[0.4em] text-xs animate-pulse">VBK DESIGNS</div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex flex-col items-start group z-50" onclick="window.scrollTo(0,0)">
+                <span
+                    class="text-2xl font-serif font-bold tracking-wider text-white group-hover:text-vbk-gold transition duration-300">VBK<span
+                        class="text-vbk-gold">.</span></span>
+                <span
+                    class="text-[10px] uppercase tracking-[0.3em] text-gray-400 group-hover:tracking-[0.4em] transition-all">Designs</span>
             </a>
 
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium uppercase tracking-widest text-gray-300">
-                <a href="#top-designs" class="hover:text-vbk-gold transition relative group">Top Picks
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-vbk-gold transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#blouse-designs" class="hover:text-vbk-gold transition relative group">Blouses
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-vbk-gold transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#wedding" class="hover:text-vbk-gold transition relative group">Wedding
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-vbk-gold transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#reviews" class="hover:text-vbk-gold transition relative group">Reviews
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-vbk-gold transition-all group-hover:w-full"></span>
-                </a>
+            <div
+                class="hidden lg:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-gray-300">
+                <a href="#top-designs" class="hover:text-vbk-gold transition py-2 nav-link">Top Picks</a>
+                <a href="#blouse-designs" class="hover:text-vbk-gold transition py-2 nav-link">Blouses</a>
+                <a href="#wedding" class="hover:text-vbk-gold transition py-2 nav-link">Bridal</a>
+                <a href="#materials" class="hover:text-vbk-gold transition py-2 nav-link">Materials</a>
+                <a href="#reviews" class="hover:text-vbk-gold transition py-2 nav-link">Reviews</a>
             </div>
 
-            <div class="flex items-center space-x-6">
-                <button class="hover:text-vbk-gold transition"><i class="fa-regular fa-heart text-xl"></i></button>
-                <button onclick="toggleCart()" class="relative hover:text-vbk-gold transition group">
-                    <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-vbk-purple text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
+            <div class="flex items-center space-x-5 z-50">
+                <button onclick="toggleSearch()" class="text-gray-300 hover:text-vbk-gold transition relative">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
                 </button>
+
+                <button class="text-gray-300 hover:text-vbk-gold transition relative hidden md:block"
+                    onclick="scrollToSection('wishlist')">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlist-badge"
+                        class="absolute -top-2 -right-2 w-4 h-4 bg-vbk-purple text-[9px] flex items-center justify-center rounded-full text-white font-bold opacity-0 transition-opacity">0</span>
+                </button>
+
+                <button onclick="app.toggleCart()" class="text-gray-300 hover:text-vbk-gold transition relative group">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cart-count"
+                        class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+                </button>
+
+                <button onclick="app.toggleMobileMenu()"
+                    class="lg:hidden text-2xl text-white hover:text-vbk-gold transition">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="search-bar"
+            class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 p-4 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
+            <div class="container mx-auto relative">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                <input type="text" id="global-search" placeholder="Search for velvet, maggam, zari..."
+                    class="w-full bg-vbk-navy border border-vbk-mid rounded-full py-3 pl-12 pr-4 text-gray-200 focus:outline-none focus:border-vbk-gold transition">
+                <button onclick="toggleSearch()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-vbk-navy/95 z-40 transform -translate-y-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 lg:hidden backdrop-blur-xl">
+            <a href="#top-designs" onclick="app.toggleMobileMenu()"
+                class="text-3xl font-serif text-white hover:text-vbk-gold">Top Picks</a>
+            <a href="#blouse-designs" onclick="app.toggleMobileMenu()"
+                class="text-3xl font-serif text-white hover:text-vbk-gold">Blouses</a>
+            <a href="#wedding" onclick="app.toggleMobileMenu()"
+                class="text-3xl font-serif text-white hover:text-vbk-gold">Bridal</a>
+            <a href="#materials" onclick="app.toggleMobileMenu()"
+                class="text-3xl font-serif text-white hover:text-vbk-gold">Materials</a>
+            <div class="flex gap-6 mt-8">
+                <a href="#"
+                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="#"
+                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
+                        class="fa-brands fa-whatsapp"></i></a>
             </div>
         </div>
     </nav>
 
-    <header class="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-vbk-navy via-[#1a1f3c] to-vbk-navy z-0"></div>
-        <div class="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1551446339-1e5c6f07c5d4?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
-        
-        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-vbk-purple rounded-full blur-[120px] opacity-20 animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-vbk-gold rounded-full blur-[120px] opacity-10"></div>
-
-        <div class="container relative z-10 text-center px-4">
-            <div class="inline-block border border-vbk-gold/30 rounded-full px-4 py-1 mb-6 bg-vbk-navy/50 backdrop-blur-sm">
-                <span class="text-vbk-gold text-xs uppercase tracking-[0.2em] font-semibold">Premium Stitching Services</span>
+    <header class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-vbk-navy z-0">
+            <div
+                class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583391733958-e004e45d8b60?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 scale-110 animate-[float_20s_ease-in-out_infinite]">
             </div>
-            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 leading-tight">
-                Elegance Stitched <br/><span class="text-gradient">To Perfection</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-vbk-navy via-vbk-navy/60 to-transparent"></div>
+        </div>
+
+        <div
+            class="absolute top-1/4 left-1/4 w-96 h-96 bg-vbk-purple rounded-full blur-[120px] opacity-20 animate-pulse">
+        </div>
+        <div
+            class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-vbk-gold rounded-full blur-[120px] opacity-15 animate-float">
+        </div>
+
+        <div class="container relative z-10 text-center px-4 mt-12">
+            <div
+                class="inline-block border border-vbk-gold/30 rounded-full px-6 py-2 mb-6 bg-vbk-navy/30 backdrop-blur-sm animate-fade-in">
+                <span class="text-vbk-gold text-xs uppercase tracking-[0.3em] font-bold"><i
+                        class="fa-solid fa-star text-[10px] mr-2"></i>Premium Stitching Services</span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-[1.1] animate-slide-up opacity-0"
+                style="animation-delay: 0.5s;">
+                Threads of <br /><span class="text-gradient">Tradition</span>
             </h1>
-            <p class="text-gray-400 text-lg max-w-xl mx-auto mb-10 font-light">
-                From intricate Maggam work to modern minimal cuts. Discover the artistry of VBK Designs.
+
+            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed animate-slide-up opacity-0"
+                style="animation-delay: 0.9s;">
+                Where intricate Maggam artistry meets contemporary silhouettes.
+                Custom designed, perfectly fitted, and delivered with love.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#top-designs" class="bg-vbk-gold text-vbk-navy font-bold py-3 px-8 rounded-none hover:bg-white transition duration-300 uppercase tracking-widest text-sm">
-                    View Designs
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center animate-slide-up opacity-0"
+                style="animation-delay: 0.6s;">
+                <a href="#top-designs"
+                    class="group relative bg-vbk-gold text-vbk-navy font-bold py-4 px-10 overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(249,177,122,0.4)] rounded-sm">
+                    <div
+                        class="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full opacity-20">
+                    </div>
+                    <span class="relative uppercase tracking-widest text-xs flex items-center gap-2">Explore Designs <i
+                            class="fa-solid fa-arrow-right"></i></span>
                 </a>
-                <a href="#wedding" class="border border-vbk-gold text-vbk-gold font-bold py-3 px-8 rounded-none hover:bg-vbk-gold hover:text-vbk-navy transition duration-300 uppercase tracking-widest text-sm">
+                <a href="#wedding"
+                    class="px-10 py-4 border border-gray-600 text-gray-300 uppercase tracking-widest text-xs font-bold hover:border-vbk-gold hover:text-vbk-gold transition rounded-sm">
                     Bridal Collection
                 </a>
             </div>
         </div>
+
+        <a href="#stats"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500 hover:text-vbk-gold transition">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
     </header>
 
-    <section class="py-10 border-b border-vbk-mid/20">
+    <section id="stats" class="py-12 border-y border-vbk-mid/20 bg-[#0a0e1a]">
         <div class="container mx-auto px-6">
-            <div class="flex overflow-x-auto gap-4 pb-4 scrollbar-hide" id="category-chips">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-vbk-mid/20">
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">17+</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Years Experience</div>
                 </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">700+</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Happy Customers</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">48h</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Express Delivery</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">100%</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Fitting Guarantee</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="top-designs" class="py-20 bg-vbk-navy">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-end mb-12">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-2">Top Designs</h2>
-                    <div class="h-1 w-20 bg-vbk-purple"></div>
-                </div>
-                <a href="#" class="text-vbk-gold text-sm uppercase tracking-widest hover:text-white transition">View All <i class="fa-solid fa-arrow-right ml-2"></i></a>
-            </div>
-            
-            <div id="top-designs-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                </div>
-        </div>
-    </section>
+    <main>
 
-    <section id="blouse-designs" class="py-20 bg-[#13182b]">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">Blouse Neck Designs</h2>
-                <p class="text-gray-400">Filter by style to find your perfect match</p>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-2 mb-12" id="blouse-tabs">
-                <button onclick="filterBlouses('All')" class="tab-btn active-tab px-6 py-2 border border-vbk-gold bg-vbk-gold text-vbk-navy font-bold text-xs uppercase tracking-wider transition">All</button>
-                <button onclick="filterBlouses('V Neck')" class="tab-btn px-6 py-2 border border-vbk-mid text-gray-300 hover:border-vbk-gold hover:text-vbk-gold text-xs uppercase tracking-wider transition">V Neck</button>
-                <button onclick="filterBlouses('Boat Neck')" class="tab-btn px-6 py-2 border border-vbk-mid text-gray-300 hover:border-vbk-gold hover:text-vbk-gold text-xs uppercase tracking-wider transition">Boat Neck</button>
-                <button onclick="filterBlouses('Maggam')" class="tab-btn px-6 py-2 border border-vbk-mid text-gray-300 hover:border-vbk-gold hover:text-vbk-gold text-xs uppercase tracking-wider transition">Maggam</button>
-                <button onclick="filterBlouses('Back Dori')" class="tab-btn px-6 py-2 border border-vbk-mid text-gray-300 hover:border-vbk-gold hover:text-vbk-gold text-xs uppercase tracking-wider transition">Back Dori</button>
-            </div>
-
-            <div id="blouse-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                </div>
-        </div>
-    </section>
-
-    <section id="wedding" class="py-24 relative overflow-hidden">
-        <div class="absolute inset-0 bg-vbk-card opacity-50"></div>
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="order-2 md:order-1">
-                    <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">The Bridal Edit</span>
-                    <h2 class="text-4xl md:text-6xl font-serif text-white mb-6 leading-none">Wedding <br/><span class="text-vbk-gold">Collection</span></h2>
-                    <p class="text-gray-300 mb-8 text-lg font-light">
-                        Exclusive heavy Maggam work, Zardosi, and stone embroidery designed to make your special day unforgettable.
-                    </p>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="bg-vbk-navy/80 p-4 border border-vbk-gold/20">
-                            <i class="fa-solid fa-gem text-vbk-purple text-2xl mb-2"></i>
-                            <h4 class="font-bold text-white">Stone Work</h4>
-                        </div>
-                        <div class="bg-vbk-navy/80 p-4 border border-vbk-gold/20">
-                            <i class="fa-solid fa-wand-magic-sparkles text-vbk-purple text-2xl mb-2"></i>
-                            <h4 class="font-bold text-white">Zardosi</h4>
-                        </div>
+        <section id="top-designs" class="py-24 bg-vbk-navy relative">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div>
+                        <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">Handpicked
+                            For You</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-white">Trending Now</h2>
                     </div>
-
-                    <button class="bg-transparent border border-white text-white hover:bg-white hover:text-vbk-navy font-bold py-3 px-8 transition duration-300 uppercase tracking-widest text-sm">
-                        Book Consultation
-                    </button>
-                </div>
-                <div class="order-1 md:order-2 grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1583391733958-e004e45d8b60?q=80&w=600&auto=format&fit=crop" class="rounded-lg shadow-2xl translate-y-8 border-2 border-vbk-mid">
-                    <img src="https://images.unsplash.com/photo-1594043167161-b31870d23176?q=80&w=600&auto=format&fit=crop" class="rounded-lg shadow-2xl -translate-y-8 border-2 border-vbk-gold">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="materials" class="py-20 bg-vbk-navy border-t border-vbk-mid/20">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <span class="text-gray-500 uppercase text-xs font-bold tracking-widest">For Professionals</span>
-                    <h2 class="text-3xl font-serif text-white mt-1">Tailoring Essentials</h2>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="materials-grid">
-                </div>
-        </div>
-    </section>
-
-    <section id="reviews" class="py-24 relative overflow-hidden bg-[#13182b]">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-vbk-gold rounded-full blur-[150px] opacity-5 pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-vbk-purple rounded-full blur-[150px] opacity-5 pointer-events-none"></div>
-
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-16">
-                <span class="text-vbk-gold font-bold uppercase tracking-widest text-xs mb-2 block">Testimonials</span>
-                <h2 class="text-3xl md:text-4xl font-serif text-white">Client Love</h2>
-                <div class="w-16 h-1 bg-vbk-purple mx-auto mt-4"></div>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-vbk-card/40 backdrop-blur-md p-8 border border-vbk-mid/30 rounded-lg hover:border-vbk-gold/50 transition duration-300 flex flex-col">
-                    <div class="flex text-vbk-gold mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <div class="flex items-center gap-4 mt-4 md:mt-0">
+                        <select id="sort-top" onchange="app.sortProducts('top-designs', this.value)"
+                            class="bg-vbk-card border border-vbk-mid text-gray-300 text-xs py-2 px-4 rounded focus:outline-none focus:border-vbk-gold">
+                            <option value="default">Sort By: Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
                     </div>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 flex-grow">
-                        "Absolutely in love with the Maggam work blouse! The detailing is intricate and exactly what I envisioned for my wedding. The fitting was perfect on the first try."
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-vbk-purple flex items-center justify-center font-bold text-vbk-navy">S</div>
-                        <div>
-                            <h4 class="text-white font-serif font-bold text-sm">Sneha Reddy</h4>
-                            <span class="text-xs text-gray-500">Hyderabad</span>
+                </div>
+
+                <div id="grid-top-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+
+                <div class="mt-12 text-center">
+                    <button
+                        class="border-b border-vbk-gold text-vbk-gold pb-1 text-xs uppercase tracking-widest hover:text-white hover:border-white transition">View
+                        All Trending</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="blouse-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <i class="fa-solid fa-scissors text-vbk-gold text-2xl mb-4"></i>
+                    <h2 class="text-4xl font-serif text-white mb-4">Designer Blouses</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">From simple cuts to heavy Maggam masterpieces. Choose your
+                        style.</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-2 mb-12" id="blouse-tabs">
+                </div>
+
+                <div id="grid-blouses" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="wedding" class="py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-black/40 z-0"></div>
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-embroidery.png')] opacity-20 z-0">
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
+                    <div class="lg:col-span-5">
+                        <span class="text-vbk-gold font-bold uppercase tracking-widest text-xs mb-2 block">The Bridal
+                            Edit</span>
+                        <h2 class="text-5xl md:text-6xl font-serif text-white mb-6 leading-tight">Royal <br />Collection
+                        </h2>
+                        <p class="text-gray-300 mb-8 text-lg font-light leading-relaxed">
+                            Make your special day unforgettable with our exclusive heavy Zardosi, Stone work, and
+                            Cutwork designs. We coordinate Bride & Groom outfits to perfection.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="document.getElementById('grid-wedding').scrollIntoView()"
+                                class="bg-vbk-purple text-white font-bold py-3 px-8 hover:bg-vbk-purpleDark transition uppercase tracking-widest text-sm rounded-sm">
+                                Shop Bridal
+                            </button>
+                            <button onclick="app.openConsultation()"
+                                class="border border-white text-white font-bold py-3 px-8 hover:bg-white hover:text-vbk-navy transition uppercase tracking-widest text-sm rounded-sm">
+                                Book Consultation
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-vbk-card/40 backdrop-blur-md p-8 border border-vbk-mid/30 rounded-lg hover:border-vbk-gold/50 transition duration-300 flex flex-col">
-                    <div class="flex text-vbk-gold mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 flex-grow">
-                        "VBK Designs has the best collection of materials. I ordered Zardosi materials and lining cloth, the quality is premium. Highly recommended for boutiques!"
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-vbk-purple flex items-center justify-center font-bold text-vbk-navy">P</div>
-                        <div>
-                            <h4 class="text-white font-serif font-bold text-sm">Priya K.</h4>
-                            <span class="text-xs text-gray-500">Boutique Owner</span>
+                    <div class="lg:col-span-7 grid grid-cols-2 gap-4">
+                        <div class="space-y-4 mt-8">
+                            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop"
+                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
+                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-gold">
+                                <div class="text-2xl font-serif font-bold text-white">15+</div>
+                                <div class="text-xs text-gray-400 uppercase">Artisans per piece</div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-purple">
+                                <div class="text-2xl font-serif font-bold text-white">Pure</div>
+                                <div class="text-xs text-gray-400 uppercase">Silk & Gold Zari</div>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1595514020182-52695528d91f?q=80&w=800&auto=format&fit=crop"
+                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-vbk-card/40 backdrop-blur-md p-8 border border-vbk-mid/30 rounded-lg hover:border-vbk-gold/50 transition duration-300 flex flex-col">
-                    <div class="flex text-vbk-gold mb-4 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+                    <h3 class="text-2xl font-serif text-white">Bridal Catalog</h3>
+                    <select onchange="app.filterCategory('wedding', this.value)"
+                        class="bg-transparent border border-white/20 text-white text-xs py-2 px-4 rounded focus:bg-vbk-card">
+                        <option value="all">All Bridal</option>
+                        <option value="heavy">Heavy Work</option>
+                        <option value="simple">Reception Wear</option>
+                    </select>
+                </div>
+
+                <div id="grid-wedding" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="py-20 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                    <div>
+                        <span class="text-gray-500 uppercase text-xs font-bold tracking-widest">DIY & Boutique
+                            Supplies</span>
+                        <h2 class="text-3xl font-serif text-white mt-1">Tailoring Essentials</h2>
                     </div>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 flex-grow">
-                        "Stitched a lehenga for my daughter. The design suggestions by the team were excellent, and the delivery was right on time. Great service."
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-vbk-purple flex items-center justify-center font-bold text-vbk-navy">L</div>
-                        <div>
-                            <h4 class="text-white font-serif font-bold text-sm">Lakshmi M.</h4>
-                            <span class="text-xs text-gray-500">Telangana</span>
+                    <a href="#"
+                        class="text-xs uppercase tracking-widest text-vbk-gold border-b border-vbk-gold pb-1 hover:text-white hover:border-white transition">View
+                        Bulk Rates</a>
+                </div>
+
+                <div id="grid-materials" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews" class="py-24 bg-vbk-card relative">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">Client Diaries</h2>
+                    <div class="w-24 h-1 bg-vbk-gold mx-auto"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div
+                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
+                        <i
+                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
+                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"The fitting was absolutely perfect on the
+                            first try! The Maggam work details are so intricate. VBK is now my go-to boutique."</p>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-purple-500 flex items-center justify-center text-vbk-navy font-bold">
+                                S</div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Sneha Reddy</h4>
+                                <p class="text-[10px] text-gray-500 uppercase">Hyderabad</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
+                        <i
+                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
+                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Ordered customized latkans and lining
+                            material. The quality is top-notch compared to local markets. Delivery was super fast."</p>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-vbk-purple flex items-center justify-center text-white font-bold">
+                                P</div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Priya K.</h4>
+                                <p class="text-[10px] text-gray-500 uppercase">Boutique Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
+                        <i
+                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
+                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Designed my entire wedding trousseau
+                            here. They were very patient with my changes and the final output was stunning."</p>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-red-500 flex items-center justify-center text-white font-bold">
+                                L</div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Lakshmi M.</h4>
+                                <p class="text-[10px] text-gray-500 uppercase">Bangalore</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <footer class="bg-black py-16 border-t border-vbk-mid/30">
+        </section>
+
+    </main>
+
+    <footer class="bg-black py-16 border-t border-vbk-mid/30 text-sm">
         <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-12">
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-3xl font-serif font-bold text-white mb-4">VBK<span class="text-vbk-gold">.</span></h3>
-                    <p class="text-gray-400 max-w-sm mb-6">
-                        Your destination for bespoke blouse designing, bridal wear, and premium tailoring materials.
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-1">
+                    <h3 class="text-3xl font-serif font-bold text-white mb-4">VBK<span class="text-vbk-gold">.</span>
+                    </h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed text-xs">
+                        Elevating traditional stitching to an art form. Your trusted partner for all bespoke tailoring
+                        needs.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-vbk-card flex items-center justify-center text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-vbk-card flex items-center justify-center text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy transition"><i class="fa-brands fa-whatsapp"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-vbk-card flex items-center justify-center text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
-                
+
                 <div>
-                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-sm">Collections</h4>
-                    <ul class="space-y-3 text-gray-400 text-sm">
-                        <li><a href="#" class="hover:text-vbk-gold transition">Bridal Edit</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Maggam Work</a></li>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Shop</h4>
+                    <ul class="space-y-3 text-gray-500 text-xs">
+                        <li><a href="#" class="hover:text-vbk-gold transition">Bridal Wear</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Casual Blouses</a></li>
                         <li><a href="#" class="hover:text-vbk-gold transition">Lehengas</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Saree Falls & Lining</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Materials</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-sm">Contact</h4>
-                    <ul class="space-y-3 text-gray-400 text-sm">
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot mt-1 text-vbk-purple"></i> Hindupuram, AP, India</li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-phone mt-1 text-vbk-purple"></i> 7382203777</li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-envelope mt-1 text-vbk-purple"></i> vbkdesigns.embro@gmail.com</li>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Company</h4>
+                    <ul class="space-y-3 text-gray-500 text-xs">
+                        <li><a href="#" class="hover:text-vbk-gold transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Pricing Guide</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Measurement Guide</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Contact</h4>
+                    <ul class="space-y-4 text-gray-500 text-xs">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-vbk-gold"></i>
+                            <span>Hindupuram, Andhra Pradesh,<br>India - 515201</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone mt-1 text-vbk-gold"></i>
+                            <span>+91 73822 03777</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-envelope mt-1 text-vbk-gold"></i>
+                            <span>vbkdesigns.embro@gmail.com</span>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-600 uppercase tracking-widest">
+            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-600 uppercase tracking-widest">
                 &copy; 2025 VBK Designs. All Rights Reserved.
             </div>
         </div>
     </footer>
 
-    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-50 hidden transition-opacity backdrop-blur-sm" onclick="toggleCart(false)"></div>
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-vbk-navy z-50 shadow-2xl flex flex-col transform translate-x-full cart-sidebar border-l border-vbk-mid/30">
+    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-[60] hidden transition-opacity backdrop-blur-sm"
+        onclick="app.toggleCart(false)"></div>
+    <div id="cart-sidebar"
+        class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-vbk-navy z-[70] shadow-2xl flex flex-col transform translate-x-full cart-sidebar border-l border-vbk-mid/30">
         <div class="p-6 border-b border-vbk-mid/30 flex justify-between items-center bg-vbk-card">
             <div>
-                <h2 class="text-xl font-serif font-bold text-white">Inquiry Bag</h2>
-                <p class="text-xs text-gray-400">Review your selection before chatting</p>
+                <h2 class="text-xl font-serif font-bold text-white">Your Inquiry Bag</h2>
+                <p class="text-xs text-gray-400">Items to discuss on WhatsApp</p>
             </div>
-            <button onclick="toggleCart(false)" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <button onclick="app.toggleCart(false)"
+                class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded hover:bg-white/10"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
         </div>
-        
-        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
-            </div>
 
-        <div class="p-6 border-t border-vbk-mid/30 bg-vbk-card">
-            <div class="flex justify-between mb-4 text-gray-300 text-sm">
-                <span>Selected Items:</span>
-                <span id="cart-total-items" class="font-bold text-white">0</span>
+        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </div>
+
+        <div class="p-6 border-t border-vbk-mid/30 bg-vbk-card z-20">
+            <div class="flex justify-between mb-2 text-gray-300 text-sm">
+                <span>Total Items:</span>
+                <span id="cart-total-count" class="font-bold text-white">0</span>
             </div>
-            <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 text-white py-4 font-bold shadow-lg hover:bg-green-500 transition flex items-center justify-center gap-3 uppercase tracking-widest text-sm">
+            <div class="flex justify-between mb-4 text-gray-300 text-sm">
+                <span>Est. Material Cost:</span>
+                <span id="cart-total-price" class="font-bold text-vbk-gold">₹0</span>
+            </div>
+            <button onclick="app.openCheckoutModal()"
+                class="w-full bg-green-600 text-white py-4 font-bold shadow-lg hover:bg-green-500 transition flex items-center justify-center gap-3 uppercase tracking-widest text-sm rounded-sm hover:-translate-y-1 duration-200">
                 <i class="fa-brands fa-whatsapp text-xl"></i> Send Inquiry
             </button>
         </div>
     </div>
 
+    <div id="quick-view-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+            onclick="app.closeModal('quick-view-modal')"></div>
+
+        <div
+            class="bg-vbk-card w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden relative z-10 flex flex-col md:flex-row animate-fade-in border border-vbk-mid/30 max-h-[90vh]">
+            <button onclick="app.closeModal('quick-view-modal')"
+                class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 text-white rounded-full hover:bg-vbk-gold hover:text-vbk-navy transition flex items-center justify-center"><i
+                    class="fa-solid fa-xmark"></i></button>
+
+            <div class="md:w-1/2 bg-black relative h-64 md:h-auto group overflow-hidden">
+                <img id="qv-img" src=""
+                    class="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute bottom-4 left-4">
+                    <span id="qv-tag"
+                        class="bg-vbk-purple text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest">New
+                        Arrival</span>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 p-8 md:p-10 flex flex-col bg-vbk-navy overflow-y-auto">
+                <div class="mb-auto">
+                    <div class="flex justify-between items-start mb-2">
+                        <span id="qv-category"
+                            class="text-vbk-gold text-xs font-bold uppercase tracking-widest">Category</span>
+                        <span id="qv-price" class="text-white font-bold text-lg font-mono">₹0</span>
+                    </div>
+                    <h2 id="qv-title" class="text-3xl md:text-4xl font-serif font-bold text-white mb-6 leading-tight">
+                        Product Title</h2>
+
+                    <div class="space-y-4 mb-8">
+                        <p id="qv-desc" class="text-gray-400 text-sm leading-relaxed">Description goes here.</p>
+
+                        <div class="bg-vbk-card/50 p-4 rounded border border-vbk-mid/30">
+                            <h4 class="text-white text-xs font-bold uppercase mb-3">Features</h4>
+                            <ul class="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i>
+                                    Custom Fit</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i>
+                                    Premium Fabric</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i>
+                                    Hand Embroidery</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i>
+                                    Worldwide Ship</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mt-6">
+                    <button id="qv-add-btn"
+                        class="flex-1 bg-vbk-gold text-vbk-navy font-bold py-4 px-6 rounded-sm hover:bg-white transition uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(249,177,122,0.3)]">
+                        Add to Inquiry
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="app.closeModal('checkout-modal')"></div>
+        <div
+            class="bg-vbk-card w-full max-w-md p-8 rounded-lg shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up">
+            <div class="text-center mb-6">
+                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-4"></i>
+                <h3 class="text-2xl font-serif text-white font-bold">Final Step</h3>
+                <p class="text-xs text-gray-400 mt-2">Help us personalize your inquiry</p>
+            </div>
+
+            <form onsubmit="app.processWhatsApp(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">Your Name</label>
+                    <input type="text" id="cust-name" required
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
+                        placeholder="e.g., Ananya">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">City / Location</label>
+                    <input type="text" id="cust-city" required
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
+                        placeholder="e.g., Bangalore">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">Additional Notes (Optional)</label>
+                    <textarea id="cust-note"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition h-24"
+                        placeholder="Specific fabric or date requirement?"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-green-600 text-white font-bold py-3 rounded hover:bg-green-500 transition mt-4">
+                    Start WhatsApp Chat <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // --- Data Definitions ---
-        const products = {
-            topDesigns: Array.from({length: 8}, (_, i) => ({
-                id: `VDN10${i}`,
-                title: ["Royal Blue Maggam", "Emerald Cutwork", "Ruby Zardosi", "Pearl Mesh Back", "Golden Tissue", "Velvet Patchwork", "Mirror Work V-Neck", "Floral Threadwork"][i],
-                category: "Top Designs",
-                // Fallback image logic same as before
-                img: `https://placehold.co/400x500/2d3250/f9b17a?text=Design+${i+1}`,
-                price: "Custom"
-            })),
-            blouses: [
-                { id: "BD001", title: "Deep V Elegance", category: "V Neck", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=V+Neck+1" },
-                { id: "BD002", title: "Bridal Pot Neck", category: "Maggam", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=Maggam+1" },
-                { id: "BD003", title: "Sheer Boat Neck", category: "Boat Neck", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=Boat+Neck" },
-                { id: "BD004", title: "Dori Tassel Back", category: "Back Dori", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=Back+Dori" },
-                { id: "BD005", title: "Simple U Cut", category: "All", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=Simple+U" },
-                { id: "BD006", title: "Heavy Stone V", category: "V Neck", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=V+Neck+Heavy" },
-                { id: "BD007", title: "Kundan Work", category: "Maggam", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=Maggam+2" },
-                { id: "BD008", title: "High Collar Mesh", category: "Boat Neck", img: "https://placehold.co/400x500/1a1f3c/ffffff?text=High+Collar" },
-            ],
-            materials: [
-                { id: "TM001", title: "Saree Falls (Cotton)", price: "₹250/doz", img: "https://placehold.co/300x300/2d3250/ffffff?text=Falls" },
-                { id: "TM002", title: "Zigzag Thread Gold", price: "₹120", img: "https://placehold.co/300x300/2d3250/ffffff?text=Thread" },
-                { id: "TM003", title: "Antique Buttons", price: "₹50/set", img: "https://placehold.co/300x300/2d3250/ffffff?text=Buttons" },
-                { id: "TM004", title: "Satin Lining", price: "₹80/mtr", img: "https://placehold.co/300x300/2d3250/ffffff?text=Lining" },
-                { id: "TM005", title: "Stone Glue", price: "₹45", img: "https://placehold.co/300x300/2d3250/ffffff?text=Glue" }
-            ]
+        // --- CONSTANTS & DATABASE ---
+        const CONFIG = {
+            currency: '₹',
+            phone: '917382203777', // Your number
+            animationDuration: 300
         };
 
-        let cart = [];
+        const DB = [
+            // --- Top Designs ---
+            { id: 'T1', title: 'Royal Blue Maggam', cat: 'top-designs', sub: 'Maggam', price: 4500, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500', feat: true },
+            { id: 'T2', title: 'Emerald Zardosi', cat: 'top-designs', sub: 'Zardosi', price: 5200, img: 'https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=500', feat: true },
+            { id: 'T3', title: 'Ruby Cutwork', cat: 'top-designs', sub: 'Cutwork', price: 3800, img: 'https://images.unsplash.com/photo-1595514020182-52695528d91f?w=500', feat: false },
+            { id: 'T4', title: 'Golden Tissue', cat: 'top-designs', sub: 'Thread', price: 3200, img: 'https://i.pinimg.com/736x/56/f0/4c/56f04c1561b3e48feb22e35fd7232f60.jpg?w=500', feat: true },
 
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCategoryChips();
-            renderTopDesigns();
-            renderBlouses('All');
-            renderMaterials();
-        });
+            // --- Blouses ---
+            { id: 'B1', title: 'Deep V Velvet', cat: 'blouses', sub: 'V Neck', price: 2800, img: 'https://i.pinimg.com/1200x/c2/ce/5e/c2ce5e3880b5baa996ce5192ce09aa07.jpg?w=500' },
+            { id: 'B2', title: 'Pot Neck Bridal', cat: 'blouses', sub: 'Maggam', price: 8500, img: 'https://i.pinimg.com/736x/8b/9c/7b/8b9c7bd565d8d04c5c66357c2a0d8cd5.jpg?w=500' },
+            { id: 'B3', title: 'Boat Neck Mesh', cat: 'blouses', sub: 'Boat Neck', price: 2200, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
+            { id: 'B4', title: 'Dori Tassel Back', cat: 'blouses', sub: 'Back Dori', price: 1800, img: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500' },
+            { id: 'B5', title: 'High Neck Collar', cat: 'blouses', sub: 'Boat Neck', price: 2400, img: 'https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=500' },
+            { id: 'B6', title: 'Mirror Work U', cat: 'blouses', sub: 'Mirror', price: 3500, img: 'https://images.unsplash.com/photo-1595514020182-52695528d91f?w=500' },
+            { id: 'B7', title: 'Pot Neck Bridal', cat: 'blouses', sub: 'Maggam', price: 8500, img: 'https://i.pinimg.com/736x/8b/9c/7b/8b9c7bd565d8d04c5c66357c2a0d8cd5.jpg?w=500' },
+            { id: 'B8', title: 'Boat Neck Mesh', cat: 'blouses', sub: 'Boat Neck', price: 2200, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
 
-        // --- Rendering Functions ---
+            // --- Wedding ---
+            { id: 'W1', title: 'Peacock Motif Heavy', cat: 'wedding', sub: 'heavy', price: 12000, img: 'https://images.unsplash.com/photo-1595514020182-52695528d91f?w=500' },
+            { id: 'W2', title: 'Full Sleeve Stone', cat: 'wedding', sub: 'heavy', price: 15000, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
+            { id: 'W3', title: 'Simple Bead Work', cat: 'wedding', sub: 'simple', price: 5000, img: 'https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=500' },
+            { id: 'W4', title: 'Kundan Bridal Set', cat: 'wedding', sub: 'heavy', price: 18000, img: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500' },
 
-        function renderCategoryChips() {
-            const categories = ['Top Designs', 'Wedding', 'Addutera', 'Lehangas', 'Materials', 'Stitching'];
-            const container = document.getElementById('category-chips');
-            container.innerHTML = categories.map(cat => `
-                <button class="whitespace-nowrap px-6 py-3 bg-vbk-card border border-vbk-mid text-gray-300 rounded-full hover:bg-vbk-purple hover:text-white hover:border-vbk-purple transition duration-300 text-xs font-bold uppercase tracking-widest shadow-lg">
-                    ${cat}
-                </button>
-            `).join('');
-        }
+            // --- Materials ---
+            { id: 'M1', title: 'Cotton Falls', cat: 'materials', sub: 'supplies', price: 250, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Falls' },
+            { id: 'M2', title: 'Gold Zari Thread', cat: 'materials', sub: 'supplies', price: 120, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Thread' },
+            { id: 'M3', title: 'Satin Lining', cat: 'materials', sub: 'fabric', price: 80, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Lining' },
+            { id: 'M4', title: 'Stone Glue B7000', cat: 'materials', sub: 'supplies', price: 150, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Glue' },
+            { id: 'M5', title: 'Antique Buttons', cat: 'materials', sub: 'buttons', price: 50, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Buttons' },
+        ];
 
-        function renderTopDesigns() {
-            const container = document.getElementById('top-designs-grid');
-            container.innerHTML = products.topDesigns.map(item => createProductCard(item)).join('');
-        }
+        // --- STATE MANAGEMENT (Store) ---
+        class Store {
+            constructor() {
+                this.cart = JSON.parse(localStorage.getItem('vbk_cart')) || [];
+                this.wishlist = JSON.parse(localStorage.getItem('vbk_wishlist')) || [];
+                this.products = DB;
+                this.filters = {
+                    blouses: 'All',
+                    wedding: 'all'
+                };
+            }
 
-        function renderBlouses(filter) {
-            const container = document.getElementById('blouse-grid');
-            const filtered = filter === 'All' 
-                ? products.blouses 
-                : products.blouses.filter(p => p.category === filter);
-            
-            container.innerHTML = filtered.map(item => createProductCard(item)).join('');
-        }
+            save() {
+                localStorage.setItem('vbk_cart', JSON.stringify(this.cart));
+                localStorage.setItem('vbk_wishlist', JSON.stringify(this.wishlist));
+                app.updateCartBadge();
+            }
 
-        function renderMaterials() {
-            const container = document.getElementById('materials-grid');
-            container.innerHTML = products.materials.map(item => `
-                <div class="bg-vbk-card border border-vbk-mid/50 group hover:-translate-y-1 transition duration-300">
-                    <div class="relative overflow-hidden h-32">
-                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition">
-                    </div>
-                    <div class="p-3">
-                        <div class="text-[10px] text-vbk-purple font-bold mb-1">Essentials</div>
-                        <h4 class="text-sm font-bold text-white truncate">${item.title}</h4>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-xs text-vbk-gold">${item.price}</span>
-                            <button onclick="addToCart('${item.id}', '${item.title}', '${item.price}', '${item.img}')" class="w-6 h-6 bg-white text-vbk-navy rounded flex items-center justify-center hover:bg-vbk-gold text-xs"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+            addToCart(id) {
+                const product = this.products.find(p => p.id === id);
+                if (!product) return;
 
-        // --- Component Factory ---
-        function createProductCard(item) {
-            return `
-                <div class="bg-vbk-card border border-vbk-mid/50 group hover:shadow-[0_0_20px_rgba(103,105,253,0.15)] transition duration-500 relative">
-                    <div class="relative overflow-hidden h-64 md:h-80">
-                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
-                        <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded border border-white/10">
-                            #${item.id}
-                        </div>
-                        <div class="absolute bottom-0 left-0 w-full p-4 translate-y-full group-hover:translate-y-0 transition duration-300 bg-gradient-to-t from-vbk-navy to-transparent">
-                            <button onclick="addToCart('${item.id}', '${item.title}', 'Custom', '${item.img}')" class="w-full bg-vbk-gold text-vbk-navy font-bold py-2 text-xs uppercase tracking-widest hover:bg-white transition">
-                                Add to Inquiry
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="text-lg font-serif text-white leading-tight mb-1 group-hover:text-vbk-gold transition">${item.title}</h3>
-                        <p class="text-xs text-gray-500 uppercase tracking-wider mb-0">Stitching / Custom</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- Logic: Tabs ---
-        function filterBlouses(category) {
-            const buttons = document.querySelectorAll('#blouse-tabs button');
-            buttons.forEach(btn => {
-                if(btn.innerText === category) {
-                    btn.classList.remove('border-vbk-mid', 'text-gray-300');
-                    btn.classList.add('bg-vbk-gold', 'text-vbk-navy', 'border-vbk-gold', 'font-bold');
+                const exists = this.cart.find(i => i.id === id);
+                if (exists) {
+                    app.toast('Item already in cart', 'info');
                 } else {
-                    btn.classList.add('border-vbk-mid', 'text-gray-300');
-                    btn.classList.remove('bg-vbk-gold', 'text-vbk-navy', 'border-vbk-gold', 'font-bold');
+                    this.cart.push(product);
+                    this.save();
+                    app.toast(`Added ${product.title} to bag`, 'success');
+                    app.renderCart();
+
+                    // Animate cart icon
+                    const icon = document.querySelector('.fa-bag-shopping');
+                    icon.classList.add('animate-bounce');
+                    setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
                 }
-            });
-            renderBlouses(category);
-        }
+                app.toggleCart(true);
+            }
 
-        // --- Logic: Cart & WhatsApp ---
-        function toggleCart(forceState = null) {
-            const sidebar = document.getElementById('cart-sidebar');
-            const overlay = document.getElementById('cart-overlay');
-            const isOpen = !sidebar.classList.contains('translate-x-full');
-            
-            const shouldOpen = forceState !== null ? forceState : !isOpen;
+            removeFromCart(id) {
+                this.cart = this.cart.filter(i => i.id !== id);
+                this.save();
+                app.renderCart();
+            }
 
-            if (shouldOpen) {
-                sidebar.classList.remove('translate-x-full');
-                sidebar.classList.add('translate-x-0');
-                overlay.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('translate-x-full');
-                sidebar.classList.remove('translate-x-0');
-                overlay.classList.add('hidden');
+            getCartTotal() {
+                return this.cart.reduce((sum, item) => sum + item.price, 0);
             }
         }
 
-        function addToCart(id, title, price, img) {
-            const existing = cart.find(item => item.id === id);
-            if (existing) return; 
+        const store = new Store();
 
-            cart.push({ id, title, price, img });
-            updateCartUI();
-            toggleCart(true);
-        }
+        // --- APPLICATION LOGIC (App) ---
+        const app = {
+            init() {
+                this.removeLoader();
+                this.initCursor();
+                this.renderAllSections();
+                this.updateCartBadge();
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
+                // Render initial filters
+                this.renderBlouseTabs();
+            },
 
-        function updateCartUI() {
-            const container = document.getElementById('cart-items');
-            const countBadge = document.getElementById('cart-count');
-            const totalItems = document.getElementById('cart-total-items');
+            removeLoader() {
+                setTimeout(() => {
+                    const loader = document.getElementById('preloader');
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 600);
+                }, 1000);
+            },
 
-            countBadge.innerText = cart.length;
-            countBadge.style.opacity = cart.length > 0 ? '1' : '0';
-            totalItems.innerText = cart.length;
+            initCursor() {
+                const dot = document.getElementById('cursor-dot');
+                const outline = document.getElementById('cursor-outline');
 
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 text-gray-500">
-                        <i class="fa-solid fa-bag-shopping text-4xl mb-3 opacity-20"></i>
-                        <p class="text-sm">Your inquiry bag is empty.</p>
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+
+                    dot.style.left = `${posX}px`;
+                    dot.style.top = `${posY}px`;
+
+                    outline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+
+                document.querySelectorAll('a, button, .product-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                });
+            },
+
+            // --- RENDERERS ---
+            renderAllSections() {
+                this.renderGrid('grid-top-designs', store.products.filter(p => p.cat === 'top-designs'));
+                this.renderGrid('grid-blouses', store.products.filter(p => p.cat === 'blouses'));
+                this.renderGrid('grid-wedding', store.products.filter(p => p.cat === 'wedding'));
+                this.renderGrid('grid-materials', store.products.filter(p => p.cat === 'materials'));
+            },
+
+            renderGrid(elementId, products) {
+                const container = document.getElementById(elementId);
+                if (!container) return;
+
+                container.innerHTML = products.map((p, index) => `
+                    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col opacity-0 animate-fade-in" style="animation-delay: ${index * 50}ms">
+                        <div class="relative overflow-hidden h-72">
+                            <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                                <button onclick="app.openQuickView('${p.id}')" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-vbk-navy hover:bg-vbk-gold transition transform hover:scale-110" title="Quick View">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                                <button onclick="store.addToCart('${p.id}')" class="w-10 h-10 bg-vbk-purple rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110" title="Add to Bag">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </button>
+                            </div>
+                            <div class="absolute bottom-2 left-2">
+                                <span class="bg-vbk-navy/80 backdrop-blur text-white text-[10px] px-2 py-1 rounded uppercase font-bold border border-white/10">${p.sub}</span>
+                            </div>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-white font-serif font-bold text-lg leading-tight group-hover:text-vbk-gold transition cursor-pointer" onclick="app.openQuickView('${p.id}')">${p.title}</h3>
+                            </div>
+                            <p class="text-gray-400 text-xs mb-3 flex-grow">Custom stitching available</p>
+                            <div class="flex justify-between items-center border-t border-white/5 pt-3 mt-auto">
+                                <span class="text-vbk-gold font-bold font-mono">${CONFIG.currency}${p.price}</span>
+                                <button onclick="store.addToCart('${p.id}')" class="text-gray-400 text-xs hover:text-white uppercase tracking-wider font-bold transition">Add +</button>
+                            </div>
+                        </div>
                     </div>
+                `).join('');
+            },
+
+            renderBlouseTabs() {
+                const tabs = ['All', 'V Neck', 'Boat Neck', 'Maggam', 'Back Dori'];
+                const container = document.getElementById('blouse-tabs');
+
+                container.innerHTML = tabs.map(tab => `
+                    <button onclick="app.filterBlouses('${tab}')" 
+                        class="px-6 py-2 rounded-full text-xs uppercase tracking-widest font-bold border transition duration-300 ${store.filters.blouses === tab ? 'bg-vbk-gold text-vbk-navy border-vbk-gold shadow-[0_0_15px_rgba(249,177,122,0.4)]' : 'border-vbk-mid text-gray-400 hover:border-vbk-gold hover:text-vbk-gold'}">
+                        ${tab}
+                    </button>
+                `).join('');
+            },
+
+            renderCart() {
+                const container = document.getElementById('cart-items-container');
+                const cart = store.cart;
+
+                document.getElementById('cart-total-count').innerText = cart.length;
+                document.getElementById('cart-total-price').innerText = CONFIG.currency + store.getCartTotal();
+
+                if (cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+                            <i class="fa-solid fa-bag-shopping text-4xl mb-4 opacity-20"></i>
+                            <p class="text-xs uppercase tracking-widest">Your bag is empty</p>
+                            <button onclick="app.toggleCart(false)" class="mt-4 text-vbk-gold underline text-xs">Continue Shopping</button>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = cart.map(item => `
+                    <div class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up">
+                        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
+                        <div class="flex-grow">
+                            <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
+                            <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
+                            <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
+                        </div>
+                        <button onclick="store.removeFromCart('${item.id}')" class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `).join('');
+            },
+
+            // --- ACTIONS ---
+
+            toggleCart(forceOpen = null) {
+                const sidebar = document.getElementById('cart-sidebar');
+                const overlay = document.getElementById('cart-overlay');
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                const shouldOpen = forceOpen !== null ? forceOpen : !isOpen;
+
+                if (shouldOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    this.renderCart();
+                    document.body.classList.add('cart-open');
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('cart-open');
+                }
+            },
+
+            toggleMobileMenu() {
+                const menu = document.getElementById('mobile-menu');
+                const isOpen = !menu.classList.contains('-translate-y-full');
+
+                if (isOpen) {
+                    menu.classList.add('-translate-y-full');
+                } else {
+                    menu.classList.remove('-translate-y-full');
+                }
+            },
+
+            filterBlouses(category) {
+                store.filters.blouses = category;
+                this.renderBlouseTabs();
+
+                let products = store.products.filter(p => p.cat === 'blouses');
+                if (category !== 'All') {
+                    products = products.filter(p => p.sub === category);
+                }
+
+                // Animate transition
+                const grid = document.getElementById('grid-blouses');
+                grid.classList.add('opacity-0');
+                setTimeout(() => {
+                    this.renderGrid('grid-blouses', products);
+                    grid.classList.remove('opacity-0');
+                }, 200);
+            },
+
+            filterCategory(section, type) {
+                let products = store.products.filter(p => p.cat === section);
+                if (type !== 'all') {
+                    // Simple logic for 'heavy' vs 'simple' using price as proxy for demo
+                    if (type === 'heavy') products = products.filter(p => p.price > 10000);
+                    else products = products.filter(p => p.price <= 10000);
+                }
+                this.renderGrid(`grid-${section}`, products);
+            },
+
+            sortProducts(section, method) {
+                let products = store.products.filter(p => p.cat === section);
+
+                if (method === 'price-low') products.sort((a, b) => a.price - b.price);
+                else if (method === 'price-high') products.sort((a, b) => b.price - a.price);
+
+                this.renderGrid(`grid-${section}`, products);
+            },
+
+            openQuickView(id) {
+                const product = store.products.find(p => p.id === id);
+                if (!product) return;
+
+                document.getElementById('qv-img').src = product.img;
+                document.getElementById('qv-title').innerText = product.title;
+                document.getElementById('qv-price').innerText = CONFIG.currency + product.price;
+                document.getElementById('qv-category').innerText = product.cat.replace('-', ' ');
+                document.getElementById('qv-desc').innerText = `Exclusive ${product.sub} design. Handcrafted with precision. Available for custom sizing.`;
+
+                const btn = document.getElementById('qv-add-btn');
+                btn.onclick = () => {
+                    store.addToCart(id);
+                    this.closeModal('quick-view-modal');
+                };
+
+                document.getElementById('quick-view-modal').classList.remove('hidden');
+            },
+
+            openConsultation() {
+                const msg = "Hi VBK Designs, I would like to book a consultation for Bridal wear.";
+                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+            },
+
+            openCheckoutModal() {
+                if (store.cart.length === 0) return;
+                document.getElementById('checkout-modal').classList.remove('hidden');
+            },
+
+            processWhatsApp(e) {
+                e.preventDefault();
+                const name = document.getElementById('cust-name').value;
+                const city = document.getElementById('cust-city').value;
+                const note = document.getElementById('cust-note').value;
+
+                let msg = `*New Inquiry from VBK Website*\n\n`;
+                msg += `*Name:* ${name}\n`;
+                msg += `*City:* ${city}\n`;
+                if (note) msg += `*Note:* ${note}\n`;
+                msg += `\n*Selected Items:*\n`;
+
+                store.cart.forEach((item, i) => {
+                    msg += `${i + 1}. ${item.title} (${CONFIG.currency}${item.price})\n`;
+                });
+
+                msg += `\n*Est. Total:* ${CONFIG.currency}${store.getCartTotal()}\n`;
+                msg += `\nPlease confirm availability and stitching time.`;
+
+                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+                this.closeModal('checkout-modal');
+                this.toggleCart(false);
+            },
+
+            closeModal(id) {
+                document.getElementById(id).classList.add('hidden');
+            },
+
+            updateCartBadge() {
+                const badge = document.getElementById('cart-count');
+                const count = store.cart.length;
+                badge.innerText = count;
+                if (count > 0) badge.classList.remove('scale-0');
+                else badge.classList.add('scale-0');
+            },
+
+            toast(msg, type = 'success') {
+                const container = document.getElementById('toast-container');
+                const el = document.createElement('div');
+                const colorClass = type === 'success' ? 'border-green-500 text-green-400' : 'border-blue-500 text-blue-400';
+
+                el.className = `toast bg-vbk-card border-l-4 ${colorClass} p-4 rounded shadow-2xl flex items-center gap-3 min-w-[250px] backdrop-blur-md border-y border-r border-white/5`;
+                el.innerHTML = `
+                    <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+                    <span class="text-xs font-bold text-white tracking-wide">${msg}</span>
                 `;
+
+                container.appendChild(el);
+                requestAnimationFrame(() => el.classList.add('show'));
+                setTimeout(() => {
+                    el.classList.remove('show');
+                    setTimeout(() => el.remove(), 400);
+                }, 3000);
+            }
+        };
+
+        // Helper: Search Toggle
+        function toggleSearch() {
+            const bar = document.getElementById('search-bar');
+            const isOpen = !bar.classList.contains('opacity-0');
+
+            if (isOpen) {
+                bar.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+            } else {
+                bar.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+                document.getElementById('global-search').focus();
+            }
+        }
+
+        // Global Search Logic
+        document.getElementById('global-search').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            if (val.length < 2) {
+                app.renderAllSections(); // Reset
                 return;
             }
 
-            container.innerHTML = cart.map(item => `
-                <div class="flex gap-4 bg-vbk-card/50 p-3 border border-vbk-mid/30 rounded">
-                    <img src="${item.img}" class="w-16 h-20 object-cover rounded border border-vbk-mid/50">
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start">
-                            <h4 class="text-white text-sm font-bold font-serif">${item.title}</h4>
-                            <button onclick="removeFromCart('${item.id}')" class="text-gray-500 hover:text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                        <div class="text-[10px] text-vbk-gold font-mono mt-1">ID: ${item.id}</div>
-                        <div class="text-xs text-gray-400 mt-2">${item.price}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
+            // Filter everything
+            const allProducts = store.products;
+            const matched = allProducts.filter(p =>
+                p.title.toLowerCase().includes(val) ||
+                p.sub.toLowerCase().includes(val) ||
+                p.cat.toLowerCase().includes(val)
+            );
 
-        function checkoutWhatsApp() {
-            if (cart.length === 0) return;
+            // A crude way to show results in Top Designs grid for demo
+            app.renderGrid('grid-top-designs', matched);
+            // Hide others to focus on search results
+            document.getElementById('grid-blouses').innerHTML = '';
+            document.getElementById('grid-wedding').innerHTML = '';
+        });
 
-            let message = "Hello VBK Designs! I am interested in the following items/designs:\n\n";
-            cart.forEach((item, index) => {
-                message += `${index + 1}. *${item.title}* (ID: ${item.id})\n`;
-            });
-            
-            message += `\nPlease let me know the pricing and availability.`;
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => app.init());
 
-            const encodedMsg = encodeURIComponent(message);
-            // UPDATED NUMBER HERE
-            window.open(`https://wa.me/917382203777?text=${encodedMsg}`, '_blank');
-        }
     </script>
 </body>
+
 </html>
