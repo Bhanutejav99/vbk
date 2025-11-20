@@ -978,7 +978,6 @@
                     console.error('Store not defined!');
                 }
 
-                showDebugInfo(DB);
                 app.init();
             } catch (error) {
                 console.error('Error loading products:', error);
@@ -990,8 +989,6 @@
             const lines = csvText.split('\n');
             // Normalize headers: remove BOM, trim, remove quotes, lowercase
             const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').replace(/^\ufeff/, '').toLowerCase());
-            console.log('Parsed Headers:', headers);
-            window.lastHeaders = headers; // Store headers for debug info
 
             const products = [];
 
@@ -1045,36 +1042,6 @@
                 }
             }
             return products;
-        }
-
-        function showDebugInfo(products) {
-            const debugDiv = document.createElement('div');
-            debugDiv.style.position = 'fixed';
-            debugDiv.style.bottom = '10px';
-            debugDiv.style.right = '10px';
-            debugDiv.style.background = 'rgba(0,0,0,0.8)';
-            debugDiv.style.color = '#fff';
-            debugDiv.style.padding = '10px';
-            debugDiv.style.zIndex = '9999';
-            debugDiv.style.fontSize = '12px';
-            debugDiv.style.maxWidth = '300px';
-            debugDiv.style.maxHeight = '200px';
-            debugDiv.style.overflow = 'auto';
-
-            if (products.length === 0) {
-                debugDiv.innerHTML = '<strong>DEBUG:</strong> Loaded 0 products.<br>Check CSV headers.<br>Headers found: ' +
-                    (window.lastHeaders ? window.lastHeaders.join(', ') : 'Unknown');
-            } else {
-                const p = products[0];
-                debugDiv.innerHTML = `<strong>DEBUG:</strong> Loaded ${products.length} products.<br>
-                First Item:<br>
-                ID: ${p.id}<br>
-                Title: ${p.title}<br>
-                Cat: ${p.cat}<br>
-                Img: ${p.img}<br>
-                Headers found: ${Object.keys(p).join(', ')}`;
-            }
-            document.body.appendChild(debugDiv);
         }
     </script>
     <script>
