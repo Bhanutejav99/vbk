@@ -971,25 +971,23 @@
 
         function parseCSV(csvText) {
             const lines = csvText.split('\n');
-            const headers = lines[0].split(',').map(h => h.trim());
+            // Normalize headers: remove BOM, trim, remove quotes, lowercase
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').replace(/^\ufeff/, '').toLowerCase());
+            console.log('Parsed Headers:', headers);
+            window.lastHeaders = headers; // Store headers for debug info
+
             const products = [];
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].trim();
                 if (!currentLine) continue;
 
-                // Simple CSV split (assuming no commas in values for now, or handle basic quotes)
-                // For better robustness with user input, we might need a regex splitter, 
-                // but let's start with simple split as our generated CSV is simple.
-                // However, titles might have commas. Let's use a slightly smarter regex if possible,
-                // or just rely on the fact that we control the format mostly. 
-                // The user might edit it though. 
-                // Let's use a regex that handles quoted fields.
-                const values = currentLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-                // Actually, a simple split is risky. Let's use a standard simple parser.
+                // Regex to handle quoted fields correctly
+                // This regex is more robust for CSV parsing, but the manual loop below is also present.
+                // For this change, we'll keep the manual loop as it was already there and just update headers.
+                // const values = currentLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
 
                 const row = {};
-                let p = 0; // pointer for char index
                 let col = 0;
                 let inQuote = false;
                 let val = '';
@@ -1047,7 +1045,8 @@
             debugDiv.style.overflow = 'auto';
 
             if (products.length === 0) {
-                debugDiv.innerHTML = '<strong>DEBUG:</strong> Loaded 0 products.<br>Check CSV headers.';
+                debugDiv.innerHTML = '<strong>DEBUG:</strong> Loaded 0 products.<br>Check CSV headers.<br>Headers found: ' +
+                    (window.lastHeaders ? window.lastHeaders.join(', ') : 'Unknown');
             } else {
                 const p = products[0];
                 debugDiv.innerHTML = `<strong>DEBUG:</strong> Loaded ${products.length} products.<br>
