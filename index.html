@@ -941,9 +941,8 @@
     </script>
     <script>
         // Google Sheet CSV URL
-        // Google Sheet CSV URL (wrapped in CORS proxy for local access)
-        // Using corsproxy.io as it is often more reliable
-        const SHEET_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
+        // Google Sheet CSV URL (using allorigins JSON API to avoid 403s)
+        const SHEET_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
 
         let DB = [];
 
@@ -953,11 +952,16 @@
                 const response = await fetch(SHEET_URL);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-                const data = await response.text();
+                const json = await response.json();
+                const data = json.contents; // Content is in .contents field
+
+                if (!data) throw new Error('No data received from proxy');
+
                 console.log('Data received (first 50 chars):', data.substring(0, 50));
 
                 DB = parseCSV(data);
                 console.log('Products loaded from Sheet:', DB.length);
+                showDebugInfo(DB);
                 app.init();
             } catch (error) {
                 console.error('Error loading products:', error);
@@ -1026,6 +1030,35 @@
                 }
             }
             return products;
+        }
+
+        function showDebugInfo(products) {
+            const debugDiv = document.createElement('div');
+            debugDiv.style.position = 'fixed';
+            debugDiv.style.bottom = '10px';
+            debugDiv.style.right = '10px';
+            debugDiv.style.background = 'rgba(0,0,0,0.8)';
+            debugDiv.style.color = '#fff';
+            debugDiv.style.padding = '10px';
+            debugDiv.style.zIndex = '9999';
+            debugDiv.style.fontSize = '12px';
+            debugDiv.style.maxWidth = '300px';
+            debugDiv.style.maxHeight = '200px';
+            debugDiv.style.overflow = 'auto';
+
+            if (products.length === 0) {
+                debugDiv.innerHTML = '<strong>DEBUG:</strong> Loaded 0 products.<br>Check CSV headers.';
+            } else {
+                const p = products[0];
+                debugDiv.innerHTML = `<strong>DEBUG:</strong> Loaded ${products.length} products.<br>
+                First Item:<br>
+                ID: ${p.id}<br>
+                Title: ${p.title}<br>
+                Cat: ${p.cat}<br>
+                Img: ${p.img}<br>
+                Headers found: ${Object.keys(p).join(', ')}`;
+            }
+            document.body.appendChild(debugDiv);
         }
     </script>
     <script>
