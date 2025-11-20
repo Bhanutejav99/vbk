@@ -942,21 +942,26 @@
     <script>
         // Google Sheet CSV URL
         // Google Sheet CSV URL (wrapped in CORS proxy for local access)
-        const SHEET_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
+        // Using corsproxy.io as it is often more reliable
+        const SHEET_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
 
         let DB = [];
 
         async function fetchProductData() {
             try {
+                console.log('Fetching data from:', SHEET_URL);
                 const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
                 const data = await response.text();
+                console.log('Data received (first 50 chars):', data.substring(0, 50));
+
                 DB = parseCSV(data);
                 console.log('Products loaded from Sheet:', DB.length);
                 app.init();
             } catch (error) {
                 console.error('Error loading products:', error);
-                // Fallback or alert
-                alert('Failed to load product data. Please check your connection.');
+                alert(`Failed to load product data: ${error.message}. Check console for details.`);
             }
         }
 
