@@ -970,6 +970,14 @@
 
                 DB = parseCSV(data);
                 console.log('Products loaded from Sheet:', DB.length);
+
+                // Update store with new data
+                if (typeof store !== 'undefined') {
+                    store.products = DB;
+                } else {
+                    console.error('Store not defined!');
+                }
+
                 showDebugInfo(DB);
                 app.init();
             } catch (error) {
