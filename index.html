@@ -953,9 +953,18 @@
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
                 const json = await response.json();
-                const data = json.contents; // Content is in .contents field
+                let data = json.contents; // Content is in .contents field
 
                 if (!data) throw new Error('No data received from proxy');
+
+                // Handle Base64 encoded data (data:text/csv;base64,...)
+                if (data.startsWith('data:')) {
+                    const base64Part = data.split(',')[1];
+                    if (base64Part) {
+                        // Decode Base64 (handling UTF-8 chars correctly)
+                        data = new TextDecoder().decode(Uint8Array.from(atob(base64Part), c => c.charCodeAt(0)));
+                    }
+                }
 
                 console.log('Data received (first 50 chars):', data.substring(0, 50));
 
