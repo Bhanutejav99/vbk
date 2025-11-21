@@ -264,6 +264,156 @@
                 background: #1c2136;
             }
         }
+
+        /* === LAZY LOADING === */
+        img.lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        img.lazy.loaded {
+            opacity: 1;
+        }
+
+        img.lazy:not(.loaded) {
+            background: linear-gradient(110deg, #1c2136 8%, #252b44 18%, #1c2136 33%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: -200% 0;
+            }
+        }
+
+        /* === BACK TO TOP BUTTON === */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f9b17a 0%, #f9a066 100%);
+            color: #0f1424;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(249, 177, 122, 0.4);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #back-to-top:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(249, 177, 122, 0.6);
+            transform: scale(1.1);
+        }
+
+        #back-to-top:active {
+            transform: scale(0.95);
+        }
+
+        /* === BREADCRUMBS === */
+        #breadcrumbs {
+            background: rgba(28, 33, 54, 0.4);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .breadcrumb-item {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-item:hover {
+            color: #f9b17a;
+        }
+
+        .breadcrumb-item.active {
+            color: #f9b17a;
+        }
+
+        /* === FILTER SIDEBAR === */
+        #filter-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(15, 20, 36, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s ease-in-out;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-y: auto;
+        }
+
+        #filter-sidebar.open {
+            right: 0;
+        }
+
+        #filter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        #filter-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .filter-section {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Price Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #252b44;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f9b17a;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f9b17a;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            #filter-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
     </style>
 </head>
 
@@ -278,6 +428,11 @@
     </div>
 
     <div id="toast-container"></div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up text-xl"></i>
+    </button>
 
     <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
@@ -334,11 +489,23 @@
 
         <div id="search-bar"
             class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 p-4 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
-            <div class="container mx-auto relative">
+            <div class="container mx-auto relative flex gap-3 items-center">
                 <i
                     class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                 <input type="text" id="global-search" placeholder="Search for velvet, maggam, zari..."
-                    class="w-full bg-vbk-navy border border-vbk-mid rounded-full py-3 pl-12 pr-4 text-gray-200 focus:outline-none focus:border-vbk-gold transition">
+                    class="w-full bg-vbk-navy border border-vbk-mid text-white placeholder-gray-500 rounded-full px-12 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold focus:border-transparent transition">
+                <button onclick="app.toggleFilters()"
+                    class="flex-shrink-0 px-6 py-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white rounded-full transition font-bold uppercase text-xs tracking-wider">
+                    <i class="fa-solid fa-sliders mr-2"></i>Filters
+                </button>
+                <select id="global-sort" onchange="app.applySorting()"
+                    class="flex-shrink-0 bg-vbk-navy border border-vbk-mid text-white rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold transition">
+                    <option value="">Sort By</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                </select>
                 <button onclick="toggleSearch()"
                     class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -365,6 +532,73 @@
             </div>
         </div>
     </nav>
+
+    <!-- Breadcrumbs -->
+    <div id="breadcrumbs" class="fixed top-[72px] left-0 w-full z-40 py-2 px-4 hidden">
+        <div class="container mx-auto">
+            <nav class="flex items-center text-xs space-x-2">
+                <a href="#" onclick="window.scrollTo(0,0)" class="breadcrumb-item hover:text-vbk-gold">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+                <span class="text-gray-600">/</span>
+                <span id="breadcrumb-current" class="breadcrumb-item active"></span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Filter Sidebar -->
+    <div id="filter-overlay" onclick="app.toggleFilters()"></div>
+    <div id="filter-sidebar">
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-white">Filters</h2>
+                <button onclick="app.toggleFilters()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3 flex items-center justify-between">
+                    <span>Price Range</span>
+                    <span id="price-display" class="text-vbk-gold text-sm">₹0 - ₹10000</span>
+                </h3>
+                <div class="space-y-3">
+                    <input type="range" id="price-min" min="0" max="10000" value="0" step="100">
+                    <input type="range" id="price-max" min="0" max="10000" value="10000" step="100">
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3">Colors</h3>
+                <div class="grid grid-cols-4 gap-2" id="color-filters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Subcategories -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3">Categories</h3>
+                <div class="space-y-2 max-h-64 overflow-y-auto" id="subcategory-filters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 mt-6">
+                <button onclick="app.applyFilters()"
+                    class="flex-1 bg-vbk-gold text-vbk-navy py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-white transition">
+                    Apply Filters
+                </button>
+                <button onclick="app.resetFilters()"
+                    class="flex-1 bg-vbk-card text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-vbk-mid transition border border-vbk-mid">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
 
     <header class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 bg-vbk-navy z-0">
@@ -721,6 +955,28 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist" class="py-24 bg-vbk-navy relative">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-serif text-white mb-4 font-bold">
+                        My Wishlist <i class="fa-solid fa-heart text-pink-500"></i>
+                    </h2>
+                    <p class="text-gray-400 text-lg">Your saved favorites</p>
+                </div>
+
+                <div id="wishlist-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Wishlist items will be rendered here -->
+                </div>
+
+                <div id="wishlist-empty" class="text-center py-16 hidden">
+                    <i class="fa-regular fa-heart text-6xl text-gray-600 mb-4"></i>
+                    <h3 class="text-2xl text-gray-400 mb-2">Your wishlist is empty</h3>
+                    <p class="text-gray-500">Start adding products you love!</p>
                 </div>
             </div>
         </section>
@@ -1094,6 +1350,31 @@
             getCartTotal() {
                 return this.cart.reduce((sum, item) => sum + item.price, 0);
             }
+
+            toggleWishlist(id) {
+                const product = this.products.find(p => p.id === id);
+                if (!product) return;
+
+                const index = this.wishlist.findIndex(w => w.id === id);
+                if (index > -1) {
+                    // Remove from wishlist
+                    this.wishlist.splice(index, 1);
+                    app.toast(`Removed from wishlist`, 'info');
+                } else {
+                    // Add to wishlist
+                    this.wishlist.push(product);
+                    app.toast(`Added ${product.title} to wishlist`, 'success');
+                }
+
+                this.save();
+                app.updateWishlistBadge();
+
+                // Re-render the grid to update heart icons
+                app.renderAllSections();
+
+                // Re-render wishlist section
+                app.renderWishlist();
+            }
         }
 
         const store = new Store();
@@ -1102,15 +1383,40 @@
         const app = {
             currentSlide: 0,
             currentProduct: null,
+            filters: {
+                priceMin: 0,
+                priceMax: 10000,
+                colors: [],
+                subcategories: [],
+                sortBy: ''
+            },
+            currentProducts: [],
 
             init() {
                 this.removeLoader();
                 this.initCursor();
                 this.renderAllSections();
                 this.updateCartBadge();
+                this.updateWishlistBadge();
+                this.renderWishlist();
 
                 // Render initial filters
                 this.renderBlouseTabs();
+
+                // Initialize scroll spy for navigation
+                this.initScrollSpy();
+
+                // Initialize lazy loading for images
+                this.initLazyLoading();
+
+                // Initialize back to top button
+                this.initBackToTop();
+
+                // Initialize breadcrumbs
+                this.initBreadcrumbs();
+
+                // Initialize filter sidebar
+                this.initFilterSidebar();
             },
 
             removeLoader() {
@@ -1144,6 +1450,235 @@
                 });
             },
 
+            initScrollSpy() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link');
+
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '-20% 0px -70% 0px',
+                    threshold: 0
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            navLinks.forEach(link => {
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('text-vbk-gold');
+                                    link.classList.remove('text-gray-300');
+                                } else {
+                                    link.classList.remove('text-vbk-gold');
+                                    link.classList.add('text-gray-300');
+                                }
+                            });
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(section => observer.observe(section));
+            },
+
+            initLazyLoading() {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            const src = img.getAttribute('data-src');
+                            if (src) {
+                                img.src = src;
+                                img.classList.add('loaded');
+                                img.classList.remove('lazy');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('img.lazy').forEach(img => imageObserver.observe(img));
+
+                // Re-observe new images when they're added
+                this.lazyLoadObserver = imageObserver;
+            },
+
+            initBackToTop() {
+                const backToTopBtn = document.getElementById('back-to-top');
+
+                // Show/hide based on scroll position
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                // Smooth scroll to top
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            },
+
+            initBreadcrumbs() {
+                const sections = document.querySelectorAll('section[id]');
+                const breadcrumbs = document.getElementById('breadcrumbs');
+                const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            const title = this.getSectionTitle(id);
+                            if (title) {
+                                breadcrumbCurrent.textContent = title;
+                                breadcrumbs.classList.remove('hidden');
+                            } else {
+                                breadcrumbs.classList.add('hidden');
+                            }
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                sections.forEach(section => observer.observe(section));
+            },
+
+            getSectionTitle(id) {
+                const titles = {
+                    'top-designs': 'Top Picks', 'blouse-designs': 'Blouse Designs',
+                    'Kurthi-designs': 'Kurthis', 'wedding': 'Bridal Collection',
+                    'lehanga-designs': 'Lehangas', 'frock-designs': 'Frocks',
+                    'maggam-designs': 'Maggam Work', 'Saree-Tassels-designs': 'Saree Tassels',
+                    'T-Shirt-Embroidery-designs': 'T-Shirt Embroidery', 'Adduthera-designs': 'Adduthera',
+                    'God-embroidery': 'God Embroidery', 'materials': 'Materials',
+                    'reviews': 'Reviews', 'wishlist': 'Wishlist'
+                };
+                return titles[id] || '';
+            },
+
+            initFilterSidebar() {
+                const colors = [
+                    { name: 'Red', value: '#ef4444' }, { name: 'Pink', value: '#ec4899' },
+                    { name: 'Purple', value: '#a855f7' }, { name: 'Blue', value: '#3b82f6' },
+                    { name: 'Green', value: '#22c55e' }, { name: 'Yellow', value: '#eab308' },
+                    { name: 'Orange', value: '#f97316' }, { name: 'Gold', value: '#f9b17a' },
+                    { name: 'Black', value: '#000000' }, { name: 'White', value: '#ffffff' },
+                    { name: 'Brown', value: '#92400e' }, { name: 'Gray', value: '#6b7280' }
+                ];
+
+                document.getElementById('color-filters').innerHTML = colors.map(color => `
+                    <button onclick="app.toggleColorFilter('${color.name}')" data-color="${color.name}"
+                        class="color-filter-btn w-12 h-12 rounded-full border-2 border-gray-600 hover:border-vbk-gold transition flex items-center justify-center"
+                        style="background: ${color.value};${color.name === 'White' ? 'border-color: #4b5563;' : ''}">
+                        <i class="fa-solid fa-check text-white opacity-0 text-sm drop-shadow-lg"></i>
+                    </button>
+                `).join('');
+
+                const subcategories = [...new Set(store.products.map(p => p.sub))].sort();
+                document.getElementById('subcategory-filters').innerHTML = subcategories.map(sub => `
+                    <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
+                        <input type="checkbox" value="${sub}" onchange="app.toggleSubcategoryFilter('${sub}')"
+                            class="w-4 h-4 rounded border-gray-600 bg-vbk-navy text-vbk-gold focus:ring-vbk-gold">
+                        <span class="text-sm">${sub}</span>
+                    </label>
+                `).join('');
+
+                const priceMin = document.getElementById('price-min');
+                const priceMax = document.getElementById('price-max');
+                const updatePrice = () => {
+                    if (parseInt(priceMin.value) > parseInt(priceMax.value)) priceMin.value = priceMax.value;
+                    document.getElementById('price-display').textContent = `₹${priceMin.value} - ₹${priceMax.value}`;
+                };
+                priceMin.addEventListener('input', updatePrice);
+                priceMax.addEventListener('input', updatePrice);
+            },
+
+            toggleFilters() {
+                const sidebar = document.getElementById('filter-sidebar');
+                const overlay = document.getElementById('filter-overlay');
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('show');
+            },
+
+            toggleColorFilter(colorName) {
+                const icon = document.querySelector(`[data-color="${colorName}"] i`);
+                const isActive = icon.style.opacity === '1';
+                icon.style.opacity = isActive ? '0' : '1';
+                this.filters.colors = isActive ? this.filters.colors.filter(c => c !== colorName) : [...this.filters.colors, colorName];
+            },
+
+            toggleSubcategoryFilter(sub) {
+                this.filters.subcategories = this.filters.subcategories.includes(sub)
+                    ? this.filters.subcategories.filter(s => s !== sub) : [...this.filters.subcategories, sub];
+            },
+
+            applyFilters() {
+                const priceMin = parseInt(document.getElementById('price-min').value);
+                const priceMax = parseInt(document.getElementById('price-max').value);
+                this.filters.priceMin = priceMin;
+                this.filters.priceMax = priceMax;
+
+                let filtered = store.products.filter(p => {
+                    if (p.price < priceMin || p.price > priceMax) return false;
+                    if (this.filters.subcategories.length > 0 && !this.filters.subcategories.includes(p.sub)) return false;
+                    if (this.filters.colors.length > 0 && !this.filters.colors.some(c => p.title.toLowerCase().includes(c.toLowerCase()))) return false;
+                    return true;
+                });
+
+                filtered = this.sortProducts(filtered, this.filters.sortBy);
+                this.currentProducts = filtered;
+                this.renderFilteredResults(filtered);
+                this.toggleFilters();
+                this.toast(`Found ${filtered.length} products`, 'info');
+            },
+
+            resetFilters() {
+                this.filters = { priceMin: 0, priceMax: 10000, colors: [], subcategories: [], sortBy: '' };
+                document.getElementById('price-min').value = 0;
+                document.getElementById('price-max').value = 10000;
+                document.getElementById('price-display').textContent = '₹0 - ₹10000';
+                document.querySelectorAll('.color-filter-btn i').forEach(i => i.style.opacity = '0');
+                document.querySelectorAll('#subcategory-filters input').forEach(cb => cb.checked = false);
+                document.getElementById('global-sort').value = '';
+                this.currentProducts = [];
+                this.renderAllSections();
+                this.toast('Filters reset', 'info');
+            },
+
+            applySorting() {
+                const sortValue = document.getElementById('global-sort').value;
+                this.filters.sortBy = sortValue;
+                const toSort = this.currentProducts.length > 0 ? this.currentProducts : store.products;
+                const sorted = this.sortProducts(toSort, sortValue);
+                if (this.currentProducts.length > 0) this.currentProducts = sorted;
+                this.renderFilteredResults(sorted);
+            },
+
+            sortProducts(products, sortBy) {
+                const sorted = [...products];
+                if (sortBy === 'price-asc') return sorted.sort((a, b) => a.price - b.price);
+                if (sortBy === 'price-desc') return sorted.sort((a, b) => b.price - a.price);
+                if (sortBy === 'name-asc') return sorted.sort((a, b) => a.title.localeCompare(b.title));
+                if (sortBy === 'name-desc') return sorted.sort((a, b) => b.title.localeCompare(a.title));
+                return sorted;
+            },
+
+            renderFilteredResults(products) {
+                ['top-designs', 'blouses', 'wedding', 'materials', 'Kurthi-designs', 'lehanga-designs',
+                    'frock-designs', 'maggam-designs', 'Saree-Tassels-designs', 'T-Shirt-Embroidery-designs',
+                    'Adduthera-designs', 'God-embroidery'].forEach(cat => {
+                        const filtered = products.filter(p => p.cat === cat);
+                        const container = document.getElementById(`grid-${cat}`);
+                        if (container) {
+                            container.dataset.currentPage = '1';
+                            this.renderGrid(`grid-${cat}`, filtered);
+                        }
+                    });
+            },
+
             // --- RENDERERS ---
             renderAllSections() {
                 this.renderGrid('grid-top-designs', store.products.filter(p => p.cat === 'top-designs'));
@@ -1161,22 +1696,34 @@
                 this.renderGrid('grid-God-embroidery', store.products.filter(p => p.cat === 'God-embroidery'));
             },
 
-            renderGrid(elementId, products) {
+            renderGrid(elementId, products, initialLimit = 8) {
                 const container = document.getElementById(elementId);
                 if (!container) return;
 
-                container.innerHTML = products.map((p, index) => `
+                // Get current page (for batched loading)
+                const currentPage = parseInt(container.dataset.currentPage || '1');
+                const itemsPerPage = initialLimit;
+                const displayCount = currentPage * itemsPerPage;
+
+                const displayProducts = products.slice(0, displayCount);
+                const hasMore = products.length > displayCount;
+
+                const productHTML = displayProducts.map((p, index) => `
     <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col opacity-0 animate-fade-in"
         style="animation-delay: ${index * 50}ms">
         <div class="relative overflow-hidden h-72">
-            <img src="${p.img}" alt="${p.title}"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <img data-src="${p.img}" alt="${p.title}" class="lazy w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
             <div
                 class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                 <button onclick="app.openQuickView('${p.id}')"
                     class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-vbk-navy hover:bg-vbk-gold transition transform hover:scale-110"
                     title="Quick View">
                     <i class="fa-regular fa-eye"></i>
+                </button>
+                <button onclick="store.toggleWishlist('${p.id}')"
+                    class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
+                    title="Add to Wishlist">
+                    <i class="${store.wishlist.some(w => w.id === '${p.id}') ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                 </button>
                 <button onclick="store.addToCart('${p.id}')"
                     class="w-10 h-10 bg-vbk-purple rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
@@ -1204,6 +1751,66 @@
         </div>
     </div>
     `).join('');
+
+                container.innerHTML = productHTML;
+
+                // Reinitialize lazy loading for new images
+                if (this.lazyLoadObserver) {
+                    container.querySelectorAll('img.lazy').forEach(img => this.lazyLoadObserver.observe(img));
+                }
+
+                // Add "Show More" button if needed
+                if (hasMore) {
+                    const remaining = products.length - displayCount;
+                    const nextBatch = Math.min(remaining, itemsPerPage);
+                    const buttonWrapper = document.createElement('div');
+                    buttonWrapper.className = 'col-span-full flex justify-center mt-8';
+                    buttonWrapper.innerHTML = `
+                        <button onclick="app.showMore('${elementId}')" 
+                            class="px-8 py-3 bg-vbk-gold text-vbk-navy font-bold uppercase tracking-wider rounded-full hover:bg-white transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            Load More (+${nextBatch} items)
+                        </button>
+                    `;
+                    container.appendChild(buttonWrapper);
+                }
+            },
+
+            showMore(elementId) {
+                const container = document.getElementById(elementId);
+                const currentPage = parseInt(container.dataset.currentPage || '1');
+                const itemsPerPage = 8;
+
+                // Get all products for this grid
+                const gridMap = {
+                    'grid-top-designs': store.products.filter(p => p.cat === 'top-designs'),
+                    'grid-blouses': store.products.filter(p => p.cat === 'blouses'),
+                    'grid-wedding': store.products.filter(p => p.cat === 'wedding'),
+                    'grid-materials': store.products.filter(p => p.cat === 'materials'),
+                    'grid-Kurthi-designs': store.products.filter(p => p.cat === 'Kurthi-designs'),
+                    'grid-lehanga-designs': store.products.filter(p => p.cat === 'lehanga-designs'),
+                    'grid-frock-designs': store.products.filter(p => p.cat === 'frock-designs'),
+                    'grid-maggam-designs': store.products.filter(p => p.cat === 'maggam-designs'),
+                    'grid-Saree-Tassels-designs': store.products.filter(p => p.cat === 'Saree-Tassels-designs'),
+                    'grid-T-Shirt-Embroidery-designs': store.products.filter(p => p.cat === 'T-Shirt-Embroidery-designs'),
+                    'grid-Adduthera-designs': store.products.filter(p => p.cat === 'Adduthera-designs'),
+                    'grid-God-embroidery': store.products.filter(p => p.cat === 'God-embroidery')
+                };
+
+                const allProducts = gridMap[elementId] || [];
+                const newPage = currentPage + 1;
+                container.dataset.currentPage = newPage;
+
+                // Render with updated page (which will show more items)
+                this.renderGrid(elementId, allProducts);
+
+                // Scroll to first new item smoothly
+                setTimeout(() => {
+                    const newItems = container.querySelectorAll('.product-card');
+                    const firstNewItem = newItems[currentPage * itemsPerPage];
+                    if (firstNewItem) {
+                        firstNewItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 100);
             },
 
             renderBlouseTabs() {
@@ -1270,6 +1877,48 @@
                     overlay.classList.add('hidden');
                     document.body.classList.remove('cart-open');
                 }
+            },
+
+            renderWishlist() {
+                const grid = document.getElementById('wishlist-grid');
+                const empty = document.getElementById('wishlist-empty');
+
+                if (store.wishlist.length === 0) {
+                    grid.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+
+                grid.classList.remove('hidden');
+                empty.classList.add('hidden');
+
+                grid.innerHTML = store.wishlist.map(p => `
+                    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-72">
+                            <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <button onclick="store.toggleWishlist('${p.id}')" 
+                                class="absolute top-3 right-3 w-10 h-10 bg-pink-500/90 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-red-500 transition"
+                                title="Remove from Wishlist">
+                                <i class="fa-solid fa-trash text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-white font-serif font-bold text-lg leading-tight flex-1">${p.title}</h3>
+                            </div>
+                            <p class="text-gray-500 text-xs uppercase mb-2">${p.sub}</p>
+                            <div class="mt-auto pt-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-vbk-gold">${CONFIG.currency}${p.price}</span>
+                                </div>
+                                <button onclick="store.addToCart('${p.id}')" 
+                                    class="w-full mt-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
             },
 
             toggleMobileMenu() {
@@ -1444,9 +2093,25 @@
             updateCartBadge() {
                 const badge = document.getElementById('cart-count');
                 const count = store.cart.length;
-                badge.innerText = count;
-                if (count > 0) badge.classList.remove('scale-0');
-                else badge.classList.add('scale-0');
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.classList.remove('scale-0');
+                    badge.classList.add('scale-100');
+                } else {
+                    badge.classList.remove('scale-100');
+                    badge.classList.add('scale-0');
+                }
+            },
+
+            updateWishlistBadge() {
+                const badge = document.getElementById('wishlist-badge');
+                const count = store.wishlist.length;
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.style.opacity = '1';
+                } else {
+                    badge.style.opacity = '0';
+                }
             },
 
             toast(msg, type = 'success') {
@@ -1480,6 +2145,19 @@
             } else {
                 bar.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
                 document.getElementById('global-search').focus();
+            }
+        }
+
+        // Scroll to Section Function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const navHeight = 80;
+                const targetPosition = section.offsetTop - navHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
             }
         }
 
