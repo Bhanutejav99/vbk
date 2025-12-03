@@ -436,6 +436,31 @@
                 padding-bottom: 80px;
             }
         }
+
+        /* --- 10. Fly to Cart Animation --- */
+        .fly-img {
+            position: fixed;
+            z-index: 9999;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 0 15px rgba(249, 177, 122, 0.5);
+        }
+
+        /* --- 11. Scroll Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -1344,18 +1369,8 @@
 
             addToCart(id) {
                 const product = this.products.find(p => p.id === id);
-                if (!product) return;
-
-                const exists = this.cart.find(i => i.id === id);
-                if (exists) {
-                    app.toast('Item already in cart', 'info');
-                } else {
+                if (product) {
                     this.cart.push(product);
-                    this.save();
-                    app.toast(`Added ${product.title} to bag`, 'success');
-                    app.renderCart();
-
-                    // Animate cart icon
                     const icon = document.querySelector('.fa-bag-shopping');
                     icon.classList.add('animate-bounce');
                     setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
@@ -2167,6 +2182,49 @@
                     el.classList.remove('show');
                     setTimeout(() => el.remove(), 400);
                 }, 3000);
+            },
+
+            flyToCart(sourceImg) {
+                const cartIcon = window.innerWidth < 768 ?
+                    document.querySelector('#bottom-nav .fa-bag-shopping') :
+                    document.querySelector('#navbar .fa-bag-shopping');
+
+                if (!cartIcon || !sourceImg) {
+                    this.toast('Item added to cart!');
+                    return;
+                }
+
+                const flyImg = sourceImg.cloneNode();
+                flyImg.classList.add('fly-img');
+
+                const startRect = sourceImg.getBoundingClientRect();
+                const endRect = cartIcon.getBoundingClientRect();
+
+                flyImg.style.top = `${startRect.top}px`;
+                flyImg.style.left = `${startRect.left}px`;
+                flyImg.style.width = `${startRect.width}px`;
+                flyImg.style.height = `${startRect.height}px`;
+
+                document.body.appendChild(flyImg);
+
+                // Force reflow
+                void flyImg.offsetWidth;
+
+                flyImg.style.top = `${endRect.top + 10}px`;
+                flyImg.style.left = `${endRect.left + 10}px`;
+                flyImg.style.width = '20px';
+                flyImg.style.height = '20px';
+                flyImg.style.opacity = '0';
+
+                setTimeout(() => {
+                    flyImg.remove();
+                    this.toast('Item added to cart!');
+
+                    // Shake the cart icon
+                    cartIcon.parentElement.classList.add('animate-bounce');
+                    setTimeout(() => cartIcon.parentElement.classList.remove('animate-bounce'), 500);
+
+                }, 800);
             }
         };
 
@@ -2283,6 +2341,36 @@
             }
             lastScrollTop = scrollTop;
         });
+
+        // Scroll Animations Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        // Function to observe new elements (called after rendering grids)
+        function observeElements() {
+            document.querySelectorAll('.product-card, section h2, section p, .filter-section').forEach(el => {
+                el.classList.add('reveal');
+                observer.observe(el);
+            });
+        }
+
+        // Hook into render functions to re-observe
+        const originalRenderGrid = app.renderGrid;
+        app.renderGrid = function (containerId, products) {
+            originalRenderGrid.call(app, containerId, products);
+            setTimeout(observeElements, 100); // Small delay to ensure DOM is ready
+        };
     </script>
 </body>
 
