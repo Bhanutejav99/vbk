@@ -1,81 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="VBK Designs - Premier Maggam Work, Bridal Stitching & Boutique in Hindupuram.">
-    <meta name="theme-color" content="#0f1424">
-    <title>VBK Designs | Exclusive Bridal & Maggam Boutique</title>
+    <title>VBK Designs | Premium Boutique</title>
 
-    <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json">
+    <!-- PWA Meta -->
+    <meta name="theme-color" content="#0f1424">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0f1424">
+    <link rel="manifest" href="manifest.json">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
         rel="stylesheet">
 
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
                     colors: {
                         vbk: {
                             navy: '#0f1424',
                             dark: '#050811',
                             card: '#1c2136',
-                            cardHover: '#252b45',
-                            mid: '#424769',
                             gold: '#f9b17a',
                             goldDim: '#c48b5e',
-                            purple: '#6769fd',
-                            purpleDark: '#4f51c9',
-                            light: '#e2e8f0',
-                            danger: '#ef4444',
-                            success: '#10b981'
+                            accent: '#6769fd',
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
                     },
                     animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'spin-slow': 'spin 8s linear infinite',
                         'fade-in': 'fadeIn 0.5s ease-out forwards',
-                        'slide-up': 'slideUp 0.5s ease-out forwards',
-                        'pulse-gold': 'pulseGold 2s infinite',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        pulseGold: {
-                            '0%, 100%': { boxShadow: '0 0 0 0 rgba(249, 177, 122, 0.4)' },
-                            '70%': { boxShadow: '0 0 0 10px rgba(249, 177, 122, 0)' },
-                        }
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        pop: { '0%': { transform: 'scale(0.8)' }, '50%': { transform: 'scale(1.2)' }, '100%': { transform: 'scale(1)' } }
                     }
                 }
             }
@@ -83,2483 +58,351 @@
     </script>
 
     <style>
-        /* --- 1. Reset & Base --- */
-        :root {
-            --cursor-size: 20px;
-            --gold-glow: 0 0 15px rgba(249, 177, 122, 0.3);
-        }
-
+        /* Custom Utilities */
         body {
-            cursor: default;
-            /* Custom cursor is hidden on touch devices via JS */
             background-color: #0f1424;
-            overflow-x: hidden;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #050811;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #424769;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #f9b17a;
-        }
-
-        /* --- 2. Custom Cursor --- */
-        #cursor-dot,
-        #cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-            mix-blend-mode: exclusion;
-        }
-
-        #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: white;
-        }
-
-        #cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-
-        body:hover #cursor-outline {
-            opacity: 1;
-        }
-
-        /* Hover State for Cursor */
-        body.hovering #cursor-outline {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: transparent;
-        }
-
-        /* --- 3. Utility Classes --- */
         .glass {
-            background: rgba(15, 20, 36, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(15, 20, 36, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .glass-card {
-            background: rgba(28, 33, 54, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #f9b17a 0%, #ffffff 50%, #f9b17a 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        /* --- 4. Component: Product Card --- */
-        .product-card {
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
-        }
-
-        .product-overlay {
-            background: linear-gradient(to top, #0f1424 10%, transparent 100%);
-        }
-
-        /* --- 5. Component: Preloader --- */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background: #0f1424;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        .loader-circle {
-            width: 60px;
-            height: 60px;
-            border: 2px solid rgba(249, 177, 122, 0.2);
-            border-top-color: #f9b17a;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        /* --- 6. Component: Toasts --- */
-        #toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-        }
-
-        .toast {
-            pointer-events: auto;
-            transform: translateX(100%);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            opacity: 0;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        /* --- 7. Component: Cart Sidebar --- */
-        .cart-sidebar {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .cart-open {
-            overflow: hidden;
-        }
-
-        /* --- 8. Mobile Responsive Tweaks --- */
-        @media (max-width: 768px) {
-
-            #cursor-dot,
-            #cursor-outline {
-                display: none;
-            }
-
-            .glass-card {
-                backdrop-filter: none;
-                background: #1c2136;
-            }
-        }
-
-        /* === LAZY LOADING === */
-        img.lazy {
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        img.lazy.loaded {
-            opacity: 1;
-        }
-
-        img.lazy:not(.loaded) {
-            background: linear-gradient(110deg, #1c2136 8%, #252b44 18%, #1c2136 33%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s linear infinite;
-        }
-
-        @keyframes shimmer {
-            to {
-                background-position: -200% 0;
-            }
-        }
-
-        /* === BACK TO TOP BUTTON === */
-        #back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #f9b17a 0%, #f9a066 100%);
-            color: #0f1424;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 999;
-            box-shadow: 0 4px 15px rgba(249, 177, 122, 0.4);
-        }
-
-        #back-to-top.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        #back-to-top:hover {
-            background: #ffffff;
-            box-shadow: 0 6px 20px rgba(249, 177, 122, 0.6);
-            transform: scale(1.1);
-        }
-
-        #back-to-top:active {
-            transform: scale(0.95);
-        }
-
-        /* === BREADCRUMBS === */
-        #breadcrumbs {
-            background: rgba(28, 33, 54, 0.4);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .breadcrumb-item {
-            color: #9ca3af;
-            transition: color 0.3s;
-        }
-
-        .breadcrumb-item:hover {
-            color: #f9b17a;
-        }
-
-        .breadcrumb-item.active {
-            color: #f9b17a;
-        }
-
-        /* === FILTER SIDEBAR === */
-        #filter-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: rgba(15, 20, 36, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            transition: right 0.3s ease-in-out;
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            overflow-y: auto;
-        }
-
-        #filter-sidebar.open {
-            right: 0;
-        }
-
-        #filter-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        #filter-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .filter-section {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Price Range Slider */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 4px;
-            border-radius: 2px;
-            background: #252b44;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #f9b17a;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #f9b17a;
-            cursor: pointer;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            #filter-sidebar {
-                width: 100%;
-                right: -100%;
-            }
-        }
-
-        /* --- 9. Mobile Bottom Navigation & Touch Optimizations --- */
-        .pb-safe {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        @media (max-width: 768px) {
-            * {
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            /* Adjust body padding for bottom nav */
-            body {
-                padding-bottom: 80px;
-            }
-        }
-
-        /* --- 10. Fly to Cart Animation --- */
-        .fly-img {
-            position: fixed;
-            z-index: 9999;
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 50%;
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            box-shadow: 0 0 15px rgba(249, 177, 122, 0.5);
-        }
-
-        /* --- 11. Scroll Animations --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 12. Sticky Category Bar --- */
-        #category-bar {
-            position: sticky;
-            top: 72px;
-            /* Height of navbar */
-            z-index: 40;
-            background: rgba(15, 20, 36, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            padding: 10px 0;
-            transition: top 0.3s;
-        }
-
-        #category-bar::-webkit-scrollbar {
+        .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
 
-        .cat-item {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 12px;
-            opacity: 0.7;
-            transition: all 0.3s;
-            cursor: pointer;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .cat-item.active,
-        .cat-item:hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .cat-icon {
-            width: 50px;
-            height: 50px;
+        .story-ring {
+            background: linear-gradient(45deg, #f9b17a, #6769fd);
+            padding: 2px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1c2136, #252b45);
-            border: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 5px;
-            transition: all 0.3s;
         }
 
-        .cat-item.active .cat-icon {
-            border-color: #f9b17a;
-            box-shadow: 0 0 10px rgba(249, 177, 122, 0.3);
-        }
-
-        /* --- 13. Mobile Grid & Compact Cards --- */
-        @media (max-width: 640px) {
-            .mobile-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
-            }
-
-            .product-card .p-4 {
-                padding: 10px !important;
-            }
-
-            .product-card h3 {
-                font-size: 0.8rem !important;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .product-card p {
-                font-size: 0.7rem !important;
-            }
-
-            .add-btn-mobile {
-                width: 30px;
-                height: 30px;
-                padding: 0 !important;
-                border-radius: 50% !important;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .add-btn-mobile span {
-                display: none;
-            }
-
-            .add-btn-mobile i {
-                margin: 0 !important;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* --- 14. Floating Cart Button (FAB) --- */
-        #fab-cart {
-            position: fixed;
-            bottom: 100px;
-            /* Above bottom nav on mobile */
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #f9b17a;
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(249, 177, 122, 0.3);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 25px rgba(249, 177, 122, 0.4);
-            z-index: 49;
-            /* Below bottom nav (50) */
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+            border-top-color: #f9b17a;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        #fab-cart:hover {
-            transform: scale(1.1);
-        }
-
-        #fab-cart:active {
-            transform: scale(0.9);
-        }
-
-        @media (min-width: 768px) {
-            #fab-cart {
-                bottom: 30px;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-vbk-gold selection:text-vbk-navy">
+<body class="pb-24">
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-outline"></div>
+    <!-- App Container -->
+    <div id="app" class="max-w-md mx-auto min-h-screen relative bg-vbk-navy shadow-2xl overflow-hidden">
 
-    <div id="preloader">
-        <div class="loader-circle mb-4"></div>
-        <div class="text-vbk-gold font-serif tracking-[0.4em] text-xs animate-pulse">VBK DESIGNS</div>
-    </div>
-
-    <div id="toast-container"></div>
-
-    <!-- Back to Top Button -->
-    <button id="back-to-top" aria-label="Back to Top">
-        <i class="fa-solid fa-arrow-up text-xl"></i>
-    </button>
-
-    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
-        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex flex-col items-start group z-50" onclick="window.scrollTo(0,0)">
-                <span
-                    class="text-2xl font-serif font-bold tracking-wider text-white group-hover:text-vbk-gold transition duration-300">VBK<span
-                        class="text-vbk-gold">.</span></span>
-                <span
-                    class="text-[10px] uppercase tracking-[0.3em] text-gray-400 group-hover:tracking-[0.4em] transition-all">Designs</span>
-            </a>
-
-            <div
-                class="hidden lg:flex items-center space-x-5 text-[11px] font-bold uppercase tracking-wider text-gray-300">
-                <a href="#top-designs" class="hover:text-vbk-gold transition py-2 nav-link">Top Picks</a>
-                <a href="#blouse-designs" class="hover:text-vbk-gold transition py-2 nav-link">Blouses</a>
-                <a href="#Kurthi-designs" class="hover:text-vbk-gold transition py-2 nav-link">Kurthis</a>
-                <a href="#wedding" class="hover:text-vbk-gold transition py-2 nav-link">Bridal</a>
-                <a href="#lehanga-designs" class="hover:text-vbk-gold transition py-2 nav-link">Lehangas</a>
-                <a href="#frock-designs" class="hover:text-vbk-gold transition py-2 nav-link">Frocks</a>
-                <a href="#maggam-designs" class="hover:text-vbk-gold transition py-2 nav-link">Maggam</a>
-                <a href="#Saree-Tassels-designs" class="hover:text-vbk-gold transition py-2 nav-link">Tassels</a>
-                <a href="#T-Shirt-Embroidery-designs" class="hover:text-vbk-gold transition py-2 nav-link">T Shirt</a>
-                <a href="#Adduthera-designs" class="hover:text-vbk-gold transition py-2 nav-link">Adduthera</a>
-                <a href="#God-embroidery" class="hover:text-vbk-gold transition py-2 nav-link">God Designs</a>
-                <a href="#materials" class="hover:text-vbk-gold transition py-2 nav-link">Materials</a>
-                <a href="#reviews" class="hover:text-vbk-gold transition py-2 nav-link">Reviews</a>
-
+        <!-- Top Bar -->
+        <header
+            class="fixed top-0 w-full max-w-md z-50 glass px-4 py-3 flex justify-between items-center transition-transform duration-300"
+            id="top-bar">
+            <div class="flex items-center gap-2">
+                <h1 class="font-serif text-xl font-bold tracking-wide text-white">VBK<span
+                        class="text-vbk-gold">.</span></h1>
             </div>
-
-            <div class="flex items-center space-x-5 z-50">
-                <button onclick="toggleSearch()" class="text-gray-300 hover:text-vbk-gold transition relative">
-                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            <div class="flex items-center gap-4">
+                <button class="relative text-gray-300 hover:text-white transition">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
-
-                <button class="text-gray-300 hover:text-vbk-gold transition relative hidden md:block"
-                    onclick="scrollToSection('wishlist')">
-                    <i class="fa-regular fa-heart text-lg"></i>
-                    <span id="wishlist-badge"
-                        class="absolute -top-2 -right-2 w-4 h-4 bg-vbk-purple text-[9px] flex items-center justify-center rounded-full text-white font-bold opacity-0 transition-opacity">0</span>
-                </button>
-
-                <button onclick="app.toggleCart()" class="text-gray-300 hover:text-vbk-gold transition relative group">
+                <button onclick="app.toggleCart()" class="relative text-gray-300 hover:text-white transition">
                     <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="cart-count"
-                        class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
-                </button>
-
-                <button onclick="app.toggleMobileMenu()"
-                    class="lg:hidden text-2xl text-white hover:text-vbk-gold transition">
-                    <i class="fa-solid fa-bars-staggered"></i>
+                    <span id="cart-badge"
+                        class="absolute -top-1 -right-1 bg-vbk-gold text-vbk-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
                 </button>
             </div>
-        </div>
+        </header>
 
-        <div id="search-bar"
-            class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 p-4 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
-            <div class="container mx-auto relative flex gap-3 items-center">
-                <i
-                    class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                <input type="text" id="global-search" placeholder="Search for velvet, maggam, zari..."
-                    class="w-full bg-vbk-navy border border-vbk-mid text-white placeholder-gray-500 rounded-full px-12 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold focus:border-transparent transition">
-                <button onclick="app.toggleFilters()"
-                    class="flex-shrink-0 px-6 py-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white rounded-full transition font-bold uppercase text-xs tracking-wider">
-                    <i class="fa-solid fa-sliders mr-2"></i>Filters
-                </button>
-                <select id="global-sort" onchange="app.applySorting()"
-                    class="flex-shrink-0 bg-vbk-navy border border-vbk-mid text-white rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold transition">
-                    <option value="">Sort By</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                    <option value="name-desc">Name: Z to A</option>
-                </select>
-                <button onclick="toggleSearch()"
-                    class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"><i
-                        class="fa-solid fa-xmark"></i></button>
-            </div>
-        </div>
+        <!-- Main Content Area -->
+        <main id="main-content" class="pt-16 px-4">
 
-        <div id="mobile-menu"
-            class="fixed inset-0 bg-vbk-navy/95 z-40 transform -translate-y-full transition-transform duration-500 flex flex-col justify-center items-center space-y-8 lg:hidden backdrop-blur-xl">
-            <a href="#top-designs" onclick="app.toggleMobileMenu()"
-                class="text-3xl font-serif text-white hover:text-vbk-gold">Top Picks</a>
-            <a href="#blouse-designs" onclick="app.toggleMobileMenu()"
-                class="text-3xl font-serif text-white hover:text-vbk-gold">Blouses</a>
-            <a href="#wedding" onclick="app.toggleMobileMenu()"
-                class="text-3xl font-serif text-white hover:text-vbk-gold">Bridal</a>
-            <a href="#materials" onclick="app.toggleMobileMenu()"
-                class="text-3xl font-serif text-white hover:text-vbk-gold">Materials</a>
-            <div class="flex gap-6 mt-8">
-                <a href="#"
-                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
-                        class="fa-brands fa-instagram"></i></a>
-                <a href="#"
-                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
-                        class="fa-brands fa-whatsapp"></i></a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Sticky Category Bar -->
-    <div id="category-bar" class="hidden md:block">
-        <!-- Initially hidden on mobile, shown via JS logic if needed, or just keep visible -->
-        <div class="container mx-auto px-4 flex items-center overflow-x-auto no-scrollbar" id="cat-scroll-container">
-            <!-- Populated by JS -->
-        </div>
-    </div>
-
-    <!-- Breadcrumbs -->
-    <div id="breadcrumbs" class="fixed top-[72px] left-0 w-full z-40 py-2 px-4 hidden">
-        <div class="container mx-auto">
-            <nav class="flex items-center text-xs space-x-2">
-                <a href="#" onclick="window.scrollTo(0,0)" class="breadcrumb-item hover:text-vbk-gold">
-                    <i class="fa-solid fa-house"></i> Home
-                </a>
-                <span class="text-gray-600">/</span>
-                <span id="breadcrumb-current" class="breadcrumb-item active"></span>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Filter Sidebar -->
-    <div id="filter-overlay" onclick="app.toggleFilters()"></div>
-    <div id="filter-sidebar">
-        <div class="p-6">
-            <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-white">Filters</h2>
-                <button onclick="app.toggleFilters()" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-2xl"></i>
-                </button>
-            </div>
-
-            <!-- Price Range -->
-            <div class="filter-section py-4">
-                <h3 class="text-white font-bold mb-3 flex items-center justify-between">
-                    <span>Price Range</span>
-                    <span id="price-display" class="text-vbk-gold text-sm">₹0 - ₹10000</span>
-                </h3>
-                <div class="space-y-3">
-                    <input type="range" id="price-min" min="0" max="10000" value="0" step="100">
-                    <input type="range" id="price-max" min="0" max="10000" value="10000" step="100">
-                </div>
-            </div>
-
-            <!-- Colors -->
-            <div class="filter-section py-4">
-                <h3 class="text-white font-bold mb-3">Colors</h3>
-                <div class="grid grid-cols-4 gap-2" id="color-filters">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Subcategories -->
-            <div class="filter-section py-4">
-                <h3 class="text-white font-bold mb-3">Categories</h3>
-                <div class="space-y-2 max-h-64 overflow-y-auto" id="subcategory-filters">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex gap-3 mt-6">
-                <button onclick="app.applyFilters()"
-                    class="flex-1 bg-vbk-gold text-vbk-navy py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-white transition">
-                    Apply Filters
-                </button>
-                <button onclick="app.resetFilters()"
-                    class="flex-1 bg-vbk-card text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-vbk-mid transition border border-vbk-mid">
-                    Reset
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <header class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-vbk-navy z-0">
-            <div
-                class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583391733958-e004e45d8b60?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 scale-110 animate-[float_20s_ease-in-out_infinite]">
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-vbk-navy via-vbk-navy/60 to-transparent"></div>
-        </div>
-
-        <div
-            class="absolute top-1/4 left-1/4 w-96 h-96 bg-vbk-purple rounded-full blur-[120px] opacity-20 animate-pulse">
-        </div>
-        <div
-            class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-vbk-gold rounded-full blur-[120px] opacity-15 animate-float">
-        </div>
-
-        <div class="container relative z-10 text-center px-4 mt-12">
-            <div
-                class="inline-block border border-vbk-gold/30 rounded-full px-6 py-2 mb-6 bg-vbk-navy/30 backdrop-blur-sm animate-fade-in">
-                <span class="text-vbk-gold text-xs uppercase tracking-[0.3em] font-bold"><i
-                        class="fa-solid fa-star text-[10px] mr-2"></i>Premium Stitching Services</span>
-            </div>
-
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-[1.1] animate-slide-up opacity-0"
-                style="animation-delay: 0.5s;">
-                Threads of <br /><span class="text-gradient">Tradition</span>
-            </h1>
-
-            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed animate-slide-up opacity-0"
-                style="animation-delay: 0.9s;">
-                Where intricate Maggam artistry meets contemporary silhouettes.
-                Custom designed, perfectly fitted, and delivered with love.
-            </p>
-
-            <div class="flex flex-col md:flex-row gap-4 justify-center items-center animate-slide-up opacity-0"
-                style="animation-delay: 0.6s;">
-                <a href="#top-designs"
-                    class="group relative bg-vbk-gold text-vbk-navy font-bold py-4 px-10 overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(249,177,122,0.4)] rounded-sm">
+            <!-- Stories / Categories -->
+            <div class="flex gap-4 overflow-x-auto no-scrollbar py-4 mb-2" id="stories-container">
+                <!-- Injected via JS -->
+                <div class="flex flex-col items-center gap-1 min-w-[70px] cursor-pointer group">
                     <div
-                        class="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full opacity-20">
+                        class="w-16 h-16 rounded-full bg-vbk-card flex items-center justify-center border border-white/10 group-hover:border-vbk-gold transition">
+                        <div class="loader"></div>
                     </div>
-                    <span class="relative uppercase tracking-widest text-xs flex items-center gap-2">Explore Designs <i
-                            class="fa-solid fa-arrow-right"></i></span>
-                </a>
-                <a href="#wedding"
-                    class="px-10 py-4 border border-gray-600 text-gray-300 uppercase tracking-widest text-xs font-bold hover:border-vbk-gold hover:text-vbk-gold transition rounded-sm">
-                    Bridal Collection
-                </a>
-            </div>
-        </div>
-
-        <a href="#stats"
-            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500 hover:text-vbk-gold transition">
-            <i class="fa-solid fa-chevron-down"></i>
-        </a>
-    </header>
-
-    <section id="stats" class="py-12 border-y border-vbk-mid/20 bg-[#0a0e1a]">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-vbk-mid/20">
-                <div class="p-2">
-                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">17+</div>
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Years Experience</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">700+</div>
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Happy Customers</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">48h</div>
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Express Delivery</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">100%</div>
-                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Fitting Guarantee</div>
+                    <span class="text-[10px] text-gray-400">Loading...</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <main>
-
-        <section id="top-designs" class="py-24 bg-vbk-navy relative">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <!-- Hero Banner -->
+            <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-8 group">
+                <img src="https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=800&q=80"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt="Hero">
+                <div class="absolute inset-0 bg-gradient-to-t from-vbk-navy/80 to-transparent flex items-end p-6">
                     <div>
-                        <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">Handpicked
-                            For You</span>
-                        <h2 class="text-4xl md:text-5xl font-serif text-white">Trending Now</h2>
-                    </div>
-                    <div class="flex items-center gap-4 mt-4 md:mt-0">
-                        <select id="sort-top" onchange="app.sortProducts('top-designs', this.value)"
-                            class="bg-vbk-card border border-vbk-mid text-gray-300 text-xs py-2 px-4 rounded focus:outline-none focus:border-vbk-gold">
-                            <option value="default">Sort By: Featured</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="grid-top-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                </div>
-
-                <div class="mt-12 text-center">
-                    <button
-                        class="border-b border-vbk-gold text-vbk-gold pb-1 text-xs uppercase tracking-widest hover:text-white hover:border-white transition">View
-                        All Trending</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="blouse-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <i class="fa-solid fa-scissors text-vbk-gold text-2xl mb-4"></i>
-                    <h2 class="text-4xl font-serif text-white mb-4">Designer Blouses</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">From simple cuts to heavy Maggam masterpieces. Choose your
-                        style.</p>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-2 mb-12" id="blouse-tabs">
-                </div>
-
-                <div id="grid-blouses" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                </div>
-            </div>
-        </section>
-
-        <section id="Kurthi-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Designer Kurthis</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Elegant and comfortable Kurthis for every occasion.</p>
-                </div>
-                <div id="grid-Kurthi-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="lehanga-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Lehangas</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Traditional and contemporary Lehangas.</p>
-                </div>
-                <div id="grid-lehanga-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="frock-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Frocks</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Beautiful Frocks for kids and adults.</p>
-                </div>
-                <div id="grid-frock-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="maggam-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Maggam Works</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Intricate Maggam designs on various outfits.</p>
-                </div>
-                <div id="grid-maggam-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="Saree-Tassels-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Saree Tassels</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Custom handmade tassels for your sarees.</p>
-                </div>
-                <div id="grid-Saree-Tassels-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="T-Shirt-Embroidery-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">T-Shirt Embroidery</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Personalized embroidery on T-Shirts.</p>
-                </div>
-                <div id="grid-T-Shirt-Embroidery-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                </div>
-            </div>
-        </section>
-
-        <section id="Adduthera-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">Adduthera</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Traditional Adduthera designs.</p>
-                </div>
-                <div id="grid-Adduthera-designs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="God-embroidery" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif text-white mb-4">God Embroidery</h2>
-                    <p class="text-gray-400 max-w-md mx-auto">Divine embroidery designs.</p>
-                </div>
-                <div id="grid-God-embroidery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-            </div>
-        </section>
-
-        <section id="wedding" class="py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-black/40 z-0"></div>
-            <div
-                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-embroidery.png')] opacity-20 z-0">
-            </div>
-
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
-                    <div class="lg:col-span-5">
-                        <span class="text-vbk-gold font-bold uppercase tracking-widest text-xs mb-2 block">The Bridal
-                            Edit</span>
-                        <h2 class="text-5xl md:text-6xl font-serif text-white mb-6 leading-tight">Royal <br />Collection
-                        </h2>
-                        <p class="text-gray-300 mb-8 text-lg font-light leading-relaxed">
-                            Make your special day unforgettable with our exclusive heavy Zardosi, Stone work, and
-                            Cutwork designs. We coordinate Bride & Groom outfits to perfection.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <button onclick="document.getElementById('grid-wedding').scrollIntoView()"
-                                class="bg-vbk-purple text-white font-bold py-3 px-8 hover:bg-vbk-purpleDark transition uppercase tracking-widest text-sm rounded-sm">
-                                Shop Bridal
-                            </button>
-                            <button onclick="app.openConsultation()"
-                                class="border border-white text-white font-bold py-3 px-8 hover:bg-white hover:text-vbk-navy transition uppercase tracking-widest text-sm rounded-sm">
-                                Book Consultation
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-7 grid grid-cols-2 gap-4">
-                        <div class="space-y-4 mt-8">
-                            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop"
-                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
-                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-gold">
-                                <div class="text-2xl font-serif font-bold text-white">15+</div>
-                                <div class="text-xs text-gray-400 uppercase">Artisans per piece</div>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-purple">
-                                <div class="text-2xl font-serif font-bold text-white">Pure</div>
-                                <div class="text-xs text-gray-400 uppercase">Silk & Gold Zari</div>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1595514020182-52695528d91f?q=80&w=800&auto=format&fit=crop"
-                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
-                    <h3 class="text-2xl font-serif text-white">Bridal Catalog</h3>
-                    <select onchange="app.filterCategory('wedding', this.value)"
-                        class="bg-transparent border border-white/20 text-white text-xs py-2 px-4 rounded focus:bg-vbk-card">
-                        <option value="all">All Bridal</option>
-                        <option value="heavy">Heavy Work</option>
-                        <option value="simple">Reception Wear</option>
-                    </select>
-                </div>
-
-                <div id="grid-wedding" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                </div>
-            </div>
-        </section>
-
-        <section id="materials" class="py-20 bg-vbk-navy border-t border-vbk-mid/20">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-                    <div>
-                        <span class="text-gray-500 uppercase text-xs font-bold tracking-widest">DIY & Boutique
-                            Supplies</span>
-                        <h2 class="text-3xl font-serif text-white mt-1">Tailoring Essentials</h2>
-                    </div>
-                    <a href="#"
-                        class="text-xs uppercase tracking-widest text-vbk-gold border-b border-vbk-gold pb-1 hover:text-white hover:border-white transition">View
-                        Bulk Rates</a>
-                </div>
-
-                <div id="grid-materials" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-                </div>
-            </div>
-        </section>
-
-        <section id="reviews" class="py-24 bg-vbk-card relative">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">Client Diaries</h2>
-                    <div class="w-24 h-1 bg-vbk-gold mx-auto"></div>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"The fitting was absolutely perfect on the
-                            first try! The Maggam work details are so intricate. VBK is now my go-to boutique."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-purple-500 flex items-center justify-center text-vbk-navy font-bold">
-                                S</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Sneha Reddy</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Hyderabad</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Ordered customized latkans and lining
-                            material. The quality is top-notch compared to local markets. Delivery was super fast."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-vbk-purple flex items-center justify-center text-white font-bold">
-                                P</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Priya K.</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Boutique Owner</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Designed my entire wedding trousseau
-                            here. They were very patient with my changes and the final output was stunning."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-red-500 flex items-center justify-center text-white font-bold">
-                                L</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Lakshmi M.</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Bangalore</p>
-                            </div>
-                        </div>
+                        <span class="text-vbk-gold text-xs font-bold uppercase tracking-wider mb-1 block">New
+                            Collection</span>
+                        <h2 class="text-2xl font-serif font-bold leading-tight">Bridal Elegance</h2>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Wishlist Section -->
-        <section id="wishlist" class="py-24 bg-vbk-navy relative">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-serif text-white mb-4 font-bold">
-                        My Wishlist <i class="fa-solid fa-heart text-pink-500"></i>
-                    </h2>
-                    <p class="text-gray-400 text-lg">Your saved favorites</p>
-                </div>
-
-                <div id="wishlist-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Wishlist items will be rendered here -->
-                </div>
-
-                <div id="wishlist-empty" class="text-center py-16 hidden">
-                    <i class="fa-regular fa-heart text-6xl text-gray-600 mb-4"></i>
-                    <h3 class="text-2xl text-gray-400 mb-2">Your wishlist is empty</h3>
-                    <p class="text-gray-500">Start adding products you love!</p>
-                </div>
+            <!-- Product Grid -->
+            <div class="grid grid-cols-2 gap-4 pb-4" id="product-grid">
+                <!-- Injected via JS -->
             </div>
-        </section>
 
-    </main>
-
-    <footer class="bg-black py-16 border-t border-vbk-mid/30 text-sm">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div class="md:col-span-1">
-                    <h3 class="text-3xl font-serif font-bold text-white mb-4">VBK<span class="text-vbk-gold">.</span>
-                    </h3>
-                    <p class="text-gray-500 mb-6 leading-relaxed text-xs">
-                        Elevating traditional stitching to an art form. Your trusted partner for all bespoke tailoring
-                        needs.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#"
-                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
-                                class="fa-brands fa-instagram"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
-                                class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
-                                class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Shop</h4>
-                    <ul class="space-y-3 text-gray-500 text-xs">
-                        <li><a href="#" class="hover:text-vbk-gold transition">Bridal Wear</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Casual Blouses</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Lehengas</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Materials</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Company</h4>
-                    <ul class="space-y-3 text-gray-500 text-xs">
-                        <li><a href="#" class="hover:text-vbk-gold transition">About Us</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Pricing Guide</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Measurement Guide</a></li>
-                        <li><a href="#" class="hover:text-vbk-gold transition">Privacy Policy</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Contact</h4>
-                    <ul class="space-y-4 text-gray-500 text-xs">
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-location-dot mt-1 text-vbk-gold"></i>
-                            <span>Hindupuram, Andhra Pradesh,<br>India - 515201</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-phone mt-1 text-vbk-gold"></i>
-                            <span>+91 73822 03777</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-envelope mt-1 text-vbk-gold"></i>
-                            <span>vbkdesigns.embro@gmail.com</span>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Loading State -->
+            <div id="loading-indicator" class="flex justify-center py-8 hidden">
+                <div class="loader"></div>
             </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-600 uppercase tracking-widest">
-                &copy; 2025 VBK Designs. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
 
-    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-[60] hidden transition-opacity backdrop-blur-sm"
-        onclick="app.toggleCart(false)"></div>
-    <div id="cart-sidebar"
-        class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-vbk-navy z-[70] shadow-2xl flex flex-col transform translate-x-full cart-sidebar border-l border-vbk-mid/30">
-        <div class="p-6 border-b border-vbk-mid/30 flex justify-between items-center bg-vbk-card">
-            <div>
-                <h2 class="text-xl font-serif font-bold text-white">Your Inquiry Bag</h2>
-                <p class="text-xs text-gray-400">Items to discuss on WhatsApp</p>
-            </div>
-            <button onclick="app.toggleCart(false)"
-                class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded hover:bg-white/10"><i
-                    class="fa-solid fa-xmark text-xl"></i></button>
-        </div>
+        </main>
 
-        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
-        </div>
-
-        <div class="p-6 border-t border-vbk-mid/30 bg-vbk-card z-20">
-            <div class="flex justify-between mb-2 text-gray-300 text-sm">
-                <span>Total Items:</span>
-                <span id="cart-total-count" class="font-bold text-white">0</span>
-            </div>
-            <div class="flex justify-between mb-4 text-gray-300 text-sm">
-                <span>Est. Material Cost:</span>
-                <span id="cart-total-price" class="font-bold text-vbk-gold">₹0</span>
-            </div>
-            <button onclick="app.openCheckoutModal()"
-                class="w-full bg-green-600 text-white py-4 font-bold shadow-lg hover:bg-green-500 transition flex items-center justify-center gap-3 uppercase tracking-widest text-sm rounded-sm hover:-translate-y-1 duration-200">
-                <i class="fa-brands fa-whatsapp text-xl"></i> Send Inquiry
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 w-full max-w-md z-50 glass px-6 py-3 flex justify-between items-center">
+            <button onclick="app.navigate('home')"
+                class="nav-btn active flex flex-col items-center gap-1 text-vbk-gold transition">
+                <i class="fa-solid fa-house text-xl"></i>
+                <span class="text-[10px] font-medium">Home</span>
             </button>
-        </div>
-    </div>
+            <button onclick="app.navigate('search')"
+                class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-white transition">
+                <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                <span class="text-[10px] font-medium">Search</span>
+            </button>
+            <button onclick="app.navigate('wishlist')"
+                class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-white transition">
+                <i class="fa-regular fa-heart text-xl"></i>
+                <span class="text-[10px] font-medium">Saved</span>
+            </button>
+            <button onclick="app.navigate('profile')"
+                class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-white transition">
+                <i class="fa-regular fa-user text-xl"></i>
+                <span class="text-[10px] font-medium">Profile</span>
+            </button>
+        </nav>
 
-    <div id="quick-view-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
-            onclick="app.closeModal('quick-view-modal')"></div>
-
-        <div
-            class="bg-vbk-card w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden relative z-10 flex flex-col md:flex-row animate-fade-in border border-vbk-mid/30 max-h-[90vh]">
-            <button onclick="app.closeModal('quick-view-modal')"
-                class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 text-white rounded-full hover:bg-vbk-gold hover:text-vbk-navy transition flex items-center justify-center"><i
-                    class="fa-solid fa-xmark"></i></button>
-
-            <div class="md:w-1/2 bg-black relative h-64 md:h-auto group overflow-hidden">
-                <img id="qv-img" src="" class="w-full h-full object-cover opacity-90 transition-transform duration-700">
-
-                <!-- Carousel Controls -->
-                <button onclick="app.prevSlide()"
-                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-vbk-gold hover:text-vbk-navy transition z-20">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button onclick="app.nextSlide()"
-                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-vbk-gold hover:text-vbk-navy transition z-20">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-
-                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20" id="carousel-dots">
-                    <!-- Dots will be injected here -->
-                </div>
-
-                <div class="absolute bottom-4 left-4 z-10">
-                    <span id="qv-tag"
-                        class="bg-vbk-purple text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest">New
-                        Arrival</span>
-                </div>
-            </div>
-
-            <div class="md:w-1/2 p-8 md:p-10 flex flex-col bg-vbk-navy overflow-y-auto">
-                <div class="mb-auto">
-                    <div class="flex justify-between items-start mb-2">
-                        <span id="qv-category"
-                            class="text-vbk-gold text-xs font-bold uppercase tracking-widest">Category</span>
-                        <span id="qv-price" class="text-white font-bold text-lg font-mono">₹0</span>
-                    </div>
-                    <h2 id="qv-title" class="text-3xl md:text-4xl font-serif font-bold text-white mb-6 leading-tight">
-                        Product Title</h2>
-
-                    <div class="space-y-4 mb-8">
-                        <p id="qv-desc" class="text-gray-400 text-sm leading-relaxed">Description goes here.</p>
-
-                        <div class="bg-vbk-card/50 p-4 rounded border border-vbk-mid/30">
-                            <h4 class="text-white text-xs font-bold uppercase mb-3">Features</h4>
-                            <ul id="qv-features" class="grid grid-cols-2 gap-2 text-xs text-gray-400">
-                                <!-- Features will be injected dynamically -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex gap-4 mt-6">
-                    <button id="qv-add-btn"
-                        class="flex-1 bg-vbk-gold text-vbk-navy font-bold py-4 px-6 rounded-sm hover:bg-white transition uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(249,177,122,0.3)]">
-                        Add to Inquiry
-                    </button>
-                </div>
+        <!-- Product Detail Modal (Bottom Sheet) -->
+        <div id="product-modal" class="fixed inset-0 z-[60] hidden">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"
+                onclick="app.closeProduct()"></div>
+            <div class="absolute bottom-0 w-full bg-vbk-card rounded-t-3xl overflow-hidden transform translate-y-full transition-transform duration-300 flex flex-col max-h-[90vh]"
+                id="modal-content">
+                <!-- Content Injected via JS -->
             </div>
         </div>
+
     </div>
 
-    <div id="checkout-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="app.closeModal('checkout-modal')"></div>
-        <div
-            class="bg-vbk-card w-full max-w-md p-8 rounded-lg shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up">
-            <div class="text-center mb-6">
-                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-2xl font-serif text-white font-bold">Final Step</h3>
-                <p class="text-xs text-gray-400 mt-2">Help us personalize your inquiry</p>
-            </div>
-
-            <form onsubmit="app.processWhatsApp(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Your Name</label>
-                    <input type="text" id="cust-name" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Ananya">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">City / Location</label>
-                    <input type="text" id="cust-city" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Bangalore">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Additional Notes (Optional)</label>
-                    <textarea id="cust-note"
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition h-24"
-                        placeholder="Specific fabric or date requirement?"></textarea>
-                </div>
-                <button type="submit"
-                    class="w-full bg-green-600 text-white font-bold py-3 rounded hover:bg-green-500 transition mt-4">
-                    Start WhatsApp Chat <i class="fa-solid fa-paper-plane ml-2"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-
+    <!-- Application Logic -->
     <script>
-        // --- CONSTANTS & DATABASE ---
+        // --- CONFIG ---
         const CONFIG = {
-            currency: '₹',
-            phone: '917382203777', // Your number
-            animationDuration: 300
+            sheetUrl: '', // User to provide this
+            fallbackData: [
+                { id: 'T1', title: 'Royal Blue Maggam', cat: 'Top Designs', price: 4500, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
+                { id: 'T2', title: 'Emerald Zardosi', cat: 'Top Designs', price: 5200, img: 'https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=500' },
+                { id: 'T3', title: 'Cutwork Design', cat: 'Top Designs', price: 3800, img: 'https://i.pinimg.com/1200x/7e/9f/95/7e9f95c8b51361b7215b80de1e42c96c.jpg?w=500' },
+                { id: 'B1', title: 'Deep V Velvet', cat: 'Blouses', price: 2800, img: 'https://i.pinimg.com/1200x/c2/ce/5e/c2ce5e3880b5baa996ce5192ce09aa07.jpg?w=500' },
+                { id: 'B2', title: 'Pot Neck Bridal', cat: 'Blouses', price: 8500, img: 'https://i.pinimg.com/736x/8b/9c/7b/8b9c7bd565d8d04c5c66357c2a0d8cd5.jpg?w=500' },
+                { id: 'W1', title: 'Peacock Motif Heavy', cat: 'Wedding', price: 12000, img: 'https://images.unsplash.com/photo-1595514020182-52695528d91f?w=500' },
+                { id: 'W2', title: 'Full Sleeve Stone', cat: 'Wedding', price: 15000, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
+                { id: 'L1', title: 'Bridal Lehanga', cat: 'Lehangas', price: 15000, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Lehanga' },
+                { id: 'F1', title: 'Party Wear Frock', cat: 'Frocks', price: 3500, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Frock' },
+                { id: 'Mag1', title: 'Heavy Maggam Work', cat: 'Maggam', price: 5000, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Maggam' },
+                { id: 'K1', title: 'Designer Kurthi', cat: 'Kurthis', price: 1200, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Kurthi' },
+                { id: 'M1', title: 'Cotton Falls', cat: 'Materials', price: 250, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Falls' }
+            ]
         };
 
-    </script>
-    <script>
-        // Google Sheet CSV URL
-        // Google Sheet CSV URL (using allorigins JSON API to avoid 403s)
-        const SHEET_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
+        // --- STORE ---
+        const store = {
+            products: [],
+            cart: JSON.parse(localStorage.getItem('vbk_cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('vbk_wishlist')) || [],
 
-        let DB = [];
+            init() {
+                this.fetchProducts();
+                this.updateUI();
+            },
 
-        async function fetchProductData() {
-            try {
-                console.log('Fetching data from:', SHEET_URL);
-                const response = await fetch(SHEET_URL);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                const json = await response.json();
-                let data = json.contents; // Content is in .contents field
-
-                if (!data) throw new Error('No data received from proxy');
-
-                // Handle Base64 encoded data (data:text/csv;base64,...)
-                if (data.startsWith('data:')) {
-                    const base64Part = data.split(',')[1];
-                    if (base64Part) {
-                        // Decode Base64 (handling UTF-8 chars correctly)
-                        data = new TextDecoder().decode(Uint8Array.from(atob(base64Part), c => c.charCodeAt(0)));
-                    }
-                }
-
-                console.log('Data received (first 50 chars):', data.substring(0, 50));
-
-                DB = parseCSV(data);
-                console.log('Products loaded from Sheet:', DB.length);
-
-                // Update store with new data
-                if (typeof store !== 'undefined') {
-                    store.products = DB;
-                } else {
-                    console.error('Store not defined!');
-                }
-
-                app.init();
-            } catch (error) {
-                console.error('Error loading products:', error);
-                alert(`Failed to load product data: ${error.message}. Check console for details.`);
-            }
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n');
-            // Normalize headers: remove BOM, trim, remove quotes, lowercase
-            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').replace(/^\ufeff/, '').toLowerCase());
-
-            const products = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].trim();
-                if (!currentLine) continue;
-
-                // Regex to handle quoted fields correctly
-                // This regex is more robust for CSV parsing, but the manual loop below is also present.
-                // For this change, we'll keep the manual loop as it was already there and just update headers.
-                // const values = currentLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-
-                const row = {};
-                let col = 0;
-                let inQuote = false;
-                let val = '';
-
-                for (let char of currentLine + ',') { // append comma to flush last value
-                    if (char === '"') {
-                        inQuote = !inQuote;
-                    } else if (char === ',' && !inQuote) {
-                        const header = headers[col];
-                        if (header) {
-                            row[header] = val.trim().replace(/^"|"$/g, ''); // remove surrounding quotes
-                        }
-                        val = '';
-                        col++;
+            async fetchProducts() {
+                try {
+                    if (CONFIG.sheetUrl) {
+                        const res = await fetch(CONFIG.sheetUrl);
+                        const text = await res.text();
+                        this.products = this.parseCSV(text);
                     } else {
-                        val += char;
+                        // Simulate network delay for effect
+                        await new Promise(r => setTimeout(r, 800));
+                        this.products = CONFIG.fallbackData;
                     }
+                    app.renderStories();
+                    app.renderGrid();
+                } catch (e) {
+                    console.error('Fetch error:', e);
+                    this.products = CONFIG.fallbackData;
+                    app.renderStories();
+                    app.renderGrid();
                 }
+            },
 
-                // Post-process fields
-                if (row.id) {
-                    // Handle images array (split by |)
-                    if (row.images) {
-                        row.images = row.images.split('|').map(url => url.trim());
-                    } else {
-                        row.images = [row.img];
-                    }
+            parseCSV(csv) {
+                const lines = csv.split('\n').slice(1); // Skip header
+                return lines.map(line => {
+                    const [id, title, cat, sub, price, img] = line.split(',');
+                    if (!id) return null;
+                    return { id, title, cat, sub, price: Number(price), img: img?.trim() };
+                }).filter(Boolean);
+            },
 
-                    // Handle price (number)
-                    row.price = parseInt(row.price) || 0;
-
-                    // Handle boolean
-                    if (row.feat === 'true') row.feat = true;
-                    else if (row.feat === 'false') row.feat = false;
-                    else delete row.feat; // undefined if empty
-
-                    products.push(row);
+            addToCart(product) {
+                if (!this.cart.find(p => p.id === product.id)) {
+                    this.cart.push(product);
+                    this.save();
+                    app.toast('Added to Bag');
                 }
-            }
-            return products;
-        }
-    </script>
-    <script>
+                this.updateUI();
+            },
 
-        // --- STATE MANAGEMENT (Store) ---
-        class Store {
-            constructor() {
-                this.cart = JSON.parse(localStorage.getItem('vbk_cart')) || [];
-                this.wishlist = JSON.parse(localStorage.getItem('vbk_wishlist')) || [];
-                this.products = DB;
-                this.filters = {
-                    blouses: 'All',
-                    wedding: 'all'
-                };
-            }
+            removeFromCart(id) {
+                this.cart = this.cart.filter(p => p.id !== id);
+                this.save();
+                this.updateUI();
+            },
 
             save() {
                 localStorage.setItem('vbk_cart', JSON.stringify(this.cart));
                 localStorage.setItem('vbk_wishlist', JSON.stringify(this.wishlist));
-                app.updateCartBadge();
+            },
+
+            updateUI() {
+                const badge = document.getElementById('cart-badge');
+                badge.textContent = this.cart.length;
+                badge.style.opacity = this.cart.length ? '1' : '0';
             }
+        };
 
-            addToCart(id) {
-                const product = this.products.find(p => p.id === id);
-                if (product) {
-                    this.cart.push(product);
-                    const icon = document.querySelector('.fa-bag-shopping');
-                    icon.classList.add('animate-bounce');
-                    setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
-                }
-                app.toggleCart(true);
-            }
-
-            removeFromCart(id) {
-                this.cart = this.cart.filter(i => i.id !== id);
-                this.save();
-                app.renderCart();
-            }
-
-            getCartTotal() {
-                return this.cart.reduce((sum, item) => sum + item.price, 0);
-            }
-
-            toggleWishlist(id) {
-                const product = this.products.find(p => p.id === id);
-                if (!product) return;
-
-                const index = this.wishlist.findIndex(w => w.id === id);
-                if (index > -1) {
-                    // Remove from wishlist
-                    this.wishlist.splice(index, 1);
-                    app.toast(`Removed from wishlist`, 'info');
-                } else {
-                    // Add to wishlist
-                    this.wishlist.push(product);
-                    app.toast(`Added ${product.title} to wishlist`, 'success');
-                }
-
-                this.save();
-                app.updateWishlistBadge();
-
-                // Re-render the grid to update heart icons
-                app.renderAllSections();
-
-                // Re-render wishlist section
-                app.renderWishlist();
-            }
-        }
-
-        const store = new Store();
-
-        // --- APPLICATION LOGIC (App) ---
+        // --- APP CONTROLLER ---
         const app = {
-            currentSlide: 0,
-            currentProduct: null,
-            filters: {
-                priceMin: 0,
-                priceMax: 10000,
-                colors: [],
-                subcategories: [],
-                sortBy: ''
-            },
-            currentProducts: [],
-
             init() {
-                this.removeLoader();
-                this.initCursor();
-                this.renderAllSections();
-                this.updateCartBadge();
-                this.updateWishlistBadge();
-                this.renderWishlist();
-
-                // Render initial filters
-                this.renderBlouseTabs();
-
-                // Initialize scroll spy for navigation
-                this.initScrollSpy();
-
-                // Initialize lazy loading for images
-                this.initLazyLoading();
-
-                // Initialize back to top button
-                this.initBackToTop();
-
-                // Initialize breadcrumbs
-                this.initBreadcrumbs();
-
-                // Initialize filter sidebar
-                this.initFilterSidebar();
+                store.init();
             },
 
-            removeLoader() {
-                setTimeout(() => {
-                    const loader = document.getElementById('preloader');
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 600);
-                }, 1000);
-            },
+            renderStories() {
+                const categories = [...new Set(store.products.map(p => p.cat))];
+                const container = document.getElementById('stories-container');
 
-            initCursor() {
-                const dot = document.getElementById('cursor-dot');
-                const outline = document.getElementById('cursor-outline');
-
-                window.addEventListener('mousemove', (e) => {
-                    const posX = e.clientX;
-                    const posY = e.clientY;
-
-                    dot.style.left = `${posX}px`;
-                    dot.style.top = `${posY}px`;
-
-                    outline.animate({
-                        left: `${posX}px`,
-                        top: `${posY}px`
-                    }, { duration: 500, fill: "forwards" });
-                });
-
-                document.querySelectorAll('a, button, .product-card').forEach(el => {
-                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-                });
-            },
-
-            initScrollSpy() {
-                const sections = document.querySelectorAll('section[id]');
-                const navLinks = document.querySelectorAll('.nav-link');
-
-                const observerOptions = {
-                    root: null,
-                    rootMargin: '-20% 0px -70% 0px',
-                    threshold: 0
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const id = entry.target.getAttribute('id');
-                            navLinks.forEach(link => {
-                                if (link.getAttribute('href') === `#${id}`) {
-                                    link.classList.add('text-vbk-gold');
-                                    link.classList.remove('text-gray-300');
-                                } else {
-                                    link.classList.remove('text-vbk-gold');
-                                    link.classList.add('text-gray-300');
-                                }
-                            });
-                        }
-                    });
-                }, observerOptions);
-
-                sections.forEach(section => observer.observe(section));
-            },
-
-            initLazyLoading() {
-                const imageObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            const src = img.getAttribute('data-src');
-                            if (src) {
-                                img.src = src;
-                                img.classList.add('loaded');
-                                img.classList.remove('lazy');
-                                observer.unobserve(img);
-                            }
-                        }
-                    });
-                });
-
-                document.querySelectorAll('img.lazy').forEach(img => imageObserver.observe(img));
-
-                // Re-observe new images when they're added
-                this.lazyLoadObserver = imageObserver;
-            },
-
-            initBackToTop() {
-                const backToTopBtn = document.getElementById('back-to-top');
-
-                // Show/hide based on scroll position
-                window.addEventListener('scroll', () => {
-                    if (window.pageYOffset > 300) {
-                        backToTopBtn.classList.add('show');
-                    } else {
-                        backToTopBtn.classList.remove('show');
-                    }
-                });
-
-                // Smooth scroll to top
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            },
-
-            initBreadcrumbs() {
-                const sections = document.querySelectorAll('section[id]');
-                const breadcrumbs = document.getElementById('breadcrumbs');
-                const breadcrumbCurrent = document.getElementById('breadcrumb-current');
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const id = entry.target.getAttribute('id');
-                            const title = this.getSectionTitle(id);
-                            if (title) {
-                                breadcrumbCurrent.textContent = title;
-                                breadcrumbs.classList.remove('hidden');
-                            } else {
-                                breadcrumbs.classList.add('hidden');
-                            }
-                        }
-                    });
-                }, { threshold: 0.3 });
-
-                sections.forEach(section => observer.observe(section));
-            },
-
-            getSectionTitle(id) {
-                const titles = {
-                    'top-designs': 'Top Picks', 'blouse-designs': 'Blouse Designs',
-                    'Kurthi-designs': 'Kurthis', 'wedding': 'Bridal Collection',
-                    'lehanga-designs': 'Lehangas', 'frock-designs': 'Frocks',
-                    'maggam-designs': 'Maggam Work', 'Saree-Tassels-designs': 'Saree Tassels',
-                    'T-Shirt-Embroidery-designs': 'T-Shirt Embroidery', 'Adduthera-designs': 'Adduthera',
-                    'God-embroidery': 'God Embroidery', 'materials': 'Materials',
-                    'reviews': 'Reviews', 'wishlist': 'Wishlist'
-                };
-                return titles[id] || '';
-            },
-
-            initFilterSidebar() {
-                const colors = [
-                    { name: 'Red', value: '#ef4444' }, { name: 'Pink', value: '#ec4899' },
-                    { name: 'Purple', value: '#a855f7' }, { name: 'Blue', value: '#3b82f6' },
-                    { name: 'Green', value: '#22c55e' }, { name: 'Yellow', value: '#eab308' },
-                    { name: 'Orange', value: '#f97316' }, { name: 'Gold', value: '#f9b17a' },
-                    { name: 'Black', value: '#000000' }, { name: 'White', value: '#ffffff' },
-                    { name: 'Brown', value: '#92400e' }, { name: 'Gray', value: '#6b7280' }
-                ];
-
-                document.getElementById('color-filters').innerHTML = colors.map(color => `
-                    <button onclick="app.toggleColorFilter('${color.name}')" data-color="${color.name}"
-                        class="color-filter-btn w-12 h-12 rounded-full border-2 border-gray-600 hover:border-vbk-gold transition flex items-center justify-center"
-                        style="background: ${color.value};${color.name === 'White' ? 'border-color: #4b5563;' : ''}">
-                        <i class="fa-solid fa-check text-white opacity-0 text-sm drop-shadow-lg"></i>
-                    </button>
+                container.innerHTML = categories.map((cat, i) => `
+                    <div class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group animate-fade-in" style="animation-delay: ${i * 100}ms">
+                        <div class="story-ring p-[2px] rounded-full group-hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 rounded-full bg-vbk-card border-2 border-vbk-navy overflow-hidden">
+                                <img src="https://placehold.co/100x100/1c2136/ffffff?text=${cat[0]}" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-medium text-gray-300 group-hover:text-white">${cat}</span>
+                    </div>
                 `).join('');
-
-                const subcategories = [...new Set(store.products.map(p => p.sub))].sort();
-                document.getElementById('subcategory-filters').innerHTML = subcategories.map(sub => `
-                    <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
-                        <input type="checkbox" value="${sub}" onchange="app.toggleSubcategoryFilter('${sub}')"
-                            class="w-4 h-4 rounded border-gray-600 bg-vbk-navy text-vbk-gold focus:ring-vbk-gold">
-                        <span class="text-sm">${sub}</span>
-                    </label>
-                `).join('');
-
-                const priceMin = document.getElementById('price-min');
-                const priceMax = document.getElementById('price-max');
-                const updatePrice = () => {
-                    if (parseInt(priceMin.value) > parseInt(priceMax.value)) priceMin.value = priceMax.value;
-                    document.getElementById('price-display').textContent = `₹${priceMin.value} - ₹${priceMax.value}`;
-                };
-                priceMin.addEventListener('input', updatePrice);
-                priceMax.addEventListener('input', updatePrice);
             },
 
-            toggleFilters() {
-                const sidebar = document.getElementById('filter-sidebar');
-                const overlay = document.getElementById('filter-overlay');
-                sidebar.classList.toggle('open');
-                overlay.classList.toggle('show');
-            },
-
-            toggleColorFilter(colorName) {
-                const icon = document.querySelector(`[data-color="${colorName}"] i`);
-                const isActive = icon.style.opacity === '1';
-                icon.style.opacity = isActive ? '0' : '1';
-                this.filters.colors = isActive ? this.filters.colors.filter(c => c !== colorName) : [...this.filters.colors, colorName];
-            },
-
-            toggleSubcategoryFilter(sub) {
-                this.filters.subcategories = this.filters.subcategories.includes(sub)
-                    ? this.filters.subcategories.filter(s => s !== sub) : [...this.filters.subcategories, sub];
-            },
-
-            applyFilters() {
-                const priceMin = parseInt(document.getElementById('price-min').value);
-                const priceMax = parseInt(document.getElementById('price-max').value);
-                this.filters.priceMin = priceMin;
-                this.filters.priceMax = priceMax;
-
-                let filtered = store.products.filter(p => {
-                    if (p.price < priceMin || p.price > priceMax) return false;
-                    if (this.filters.subcategories.length > 0 && !this.filters.subcategories.includes(p.sub)) return false;
-                    if (this.filters.colors.length > 0 && !this.filters.colors.some(c => p.title.toLowerCase().includes(c.toLowerCase()))) return false;
-                    return true;
-                });
-
-                filtered = this.sortProducts(filtered, this.filters.sortBy);
-                this.currentProducts = filtered;
-                this.renderFilteredResults(filtered);
-                this.toggleFilters();
-                this.toast(`Found ${filtered.length} products`, 'info');
-            },
-
-            resetFilters() {
-                this.filters = { priceMin: 0, priceMax: 10000, colors: [], subcategories: [], sortBy: '' };
-                document.getElementById('price-min').value = 0;
-                document.getElementById('price-max').value = 10000;
-                document.getElementById('price-display').textContent = '₹0 - ₹10000';
-                document.querySelectorAll('.color-filter-btn i').forEach(i => i.style.opacity = '0');
-                document.querySelectorAll('#subcategory-filters input').forEach(cb => cb.checked = false);
-                document.getElementById('global-sort').value = '';
-                this.currentProducts = [];
-                this.renderAllSections();
-                this.toast('Filters reset', 'info');
-            },
-
-            applySorting() {
-                const sortValue = document.getElementById('global-sort').value;
-                this.filters.sortBy = sortValue;
-                const toSort = this.currentProducts.length > 0 ? this.currentProducts : store.products;
-                const sorted = this.sortProducts(toSort, sortValue);
-                if (this.currentProducts.length > 0) this.currentProducts = sorted;
-                this.renderFilteredResults(sorted);
-            },
-
-            sortProducts(products, sortBy) {
-                const sorted = [...products];
-                if (sortBy === 'price-asc') return sorted.sort((a, b) => a.price - b.price);
-                if (sortBy === 'price-desc') return sorted.sort((a, b) => b.price - a.price);
-                if (sortBy === 'name-asc') return sorted.sort((a, b) => a.title.localeCompare(b.title));
-                if (sortBy === 'name-desc') return sorted.sort((a, b) => b.title.localeCompare(a.title));
-                return sorted;
-            },
-
-            renderFilteredResults(products) {
-                ['top-designs', 'blouses', 'wedding', 'materials', 'Kurthi-designs', 'lehanga-designs',
-                    'frock-designs', 'maggam-designs', 'Saree-Tassels-designs', 'T-Shirt-Embroidery-designs',
-                    'Adduthera-designs', 'God-embroidery'].forEach(cat => {
-                        const filtered = products.filter(p => p.cat === cat);
-                        const container = document.getElementById(`grid-${cat}`);
-                        if (container) {
-                            container.dataset.currentPage = '1';
-                            this.renderGrid(`grid-${cat}`, filtered);
-                        }
-                    });
-            },
-
-            // --- RENDERERS ---
-            renderAllSections() {
-                this.renderGrid('grid-top-designs', store.products.filter(p => p.cat === 'top-designs'));
-                this.renderGrid('grid-blouses', store.products.filter(p => p.cat === 'blouses'));
-                this.renderGrid('grid-wedding', store.products.filter(p => p.cat === 'wedding'));
-                this.renderGrid('grid-materials', store.products.filter(p => p.cat === 'materials'));
-                this.renderGrid('grid-Kurthi-designs', store.products.filter(p => p.cat === 'Kurthi-designs'));
-                this.renderGrid('grid-lehanga-designs', store.products.filter(p => p.cat === 'lehanga-designs'));
-                this.renderGrid('grid-frock-designs', store.products.filter(p => p.cat === 'frock-designs'));
-                this.renderGrid('grid-maggam-designs', store.products.filter(p => p.cat === 'maggam-designs'));
-                this.renderGrid('grid-Saree-Tassels-designs', store.products.filter(p => p.cat === 'Saree-Tassels-designs'));
-                this.renderGrid('grid-T-Shirt-Embroidery-designs', store.products.filter(p => p.cat ===
-                    'T-Shirt-Embroidery-designs'));
-                this.renderGrid('grid-Adduthera-designs', store.products.filter(p => p.cat === 'Adduthera-designs'));
-                this.renderGrid('grid-God-embroidery', store.products.filter(p => p.cat === 'God-embroidery'));
-            },
-
-            renderGrid(containerId, products) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-
-                // Mobile Grid Class
-                container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mobile-grid";
-
-                container.innerHTML = products.map(p => {
-                    const isNew = p.tags && p.tags.includes('new');
-                    const isSale = p.tags && p.tags.includes('sale');
-
-                    return `
-        <div class="product-card bg-vbk-card rounded-lg overflow-hidden relative group h-full flex flex-col">
-            ${isNew ? '<span class="absolute top-2 left-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold px-2 py-1 rounded z-10">NEW</span>' : ''}
-            ${isSale ? '<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded z-10">SALE</span>' : ''}
-            
-            <button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-vbk-purple hover:scale-110 transition z-10 flex items-center justify-center" 
-                onclick="store.toggleWishlist(${p.id})">
-                <i class="${store.wishlist.includes(p.id) ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
-            </button>
-
-            <div class="relative overflow-hidden aspect-[3/4] cursor-pointer" onclick="app.openQuickView(${p.id})">
-                <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 lazy">
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span class="bg-white/90 text-vbk-navy px-4 py-2 rounded-full text-xs font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Quick View</span>
-                </div>
-            </div>
-
-            <div class="p-4 flex flex-col flex-grow">
-                <div class="mb-1">
-                    <span class="text-[10px] text-vbk-gold uppercase tracking-wider">${p.cat}</span>
-                </div>
-                <h3 class="text-white font-serif text-lg mb-1 leading-tight">${p.title}</h3>
-                <p class="text-gray-400 text-xs mb-3 line-clamp-2 flex-grow">${p.sub}</p>
-                
-                <div class="flex items-center justify-between mt-auto">
-                    <span class="text-white font-bold">${CONFIG.currency}${p.price}</span>
-                    <button onclick="app.addToCart(${p.id})" 
-                        class="bg-vbk-card border border-vbk-gold text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy px-4 py-2 rounded-full text-xs font-bold transition flex items-center gap-2 add-btn-mobile">
-                        <span>Add</span> <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        `}).join('');
-            },
-
-            showMore(elementId) {
-                const container = document.getElementById(elementId);
-                const currentPage = parseInt(container.dataset.currentPage || '1');
-                const itemsPerPage = 8;
-
-                // Get all products for this grid
-                const gridMap = {
-                    'grid-top-designs': store.products.filter(p => p.cat === 'top-designs'),
-                    'grid-blouses': store.products.filter(p => p.cat === 'blouses'),
-                    'grid-wedding': store.products.filter(p => p.cat === 'wedding'),
-                    'grid-materials': store.products.filter(p => p.cat === 'materials'),
-                    'grid-Kurthi-designs': store.products.filter(p => p.cat === 'Kurthi-designs'),
-                    'grid-lehanga-designs': store.products.filter(p => p.cat === 'lehanga-designs'),
-                    'grid-frock-designs': store.products.filter(p => p.cat === 'frock-designs'),
-                    'grid-maggam-designs': store.products.filter(p => p.cat === 'maggam-designs'),
-                    'grid-Saree-Tassels-designs': store.products.filter(p => p.cat === 'Saree-Tassels-designs'),
-                    'grid-T-Shirt-Embroidery-designs': store.products.filter(p => p.cat === 'T-Shirt-Embroidery-designs'),
-                    'grid-Adduthera-designs': store.products.filter(p => p.cat === 'Adduthera-designs'),
-                    'grid-God-embroidery': store.products.filter(p => p.cat === 'God-embroidery')
-                };
-
-                const allProducts = gridMap[elementId] || [];
-                const newPage = currentPage + 1;
-                container.dataset.currentPage = newPage;
-
-                // Render with updated page (which will show more items)
-                this.renderGrid(elementId, allProducts);
-
-                // Scroll to first new item smoothly
-                setTimeout(() => {
-                    const newItems = container.querySelectorAll('.product-card');
-                    const firstNewItem = newItems[currentPage * itemsPerPage];
-                    if (firstNewItem) {
-                        firstNewItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
-                }, 100);
-            },
-
-            renderBlouseTabs() {
-                const tabs = ['All', 'V Neck', 'Boat Neck', 'Maggam', 'Back Dori', 'Pot Neck', 'Temple Design', 'U Neck', 'Kutch Work', 'Cutwork', 'Double Shoulder', 'Peacock Design', 'One Side Design'];
-                const container = document.getElementById('blouse-tabs');
-
-                container.innerHTML = tabs.map(tab => `
-            < button onclick = "app.filterBlouses('${tab}')"
-        class="px-6 py-2 rounded-full text-xs uppercase tracking-widest font-bold border transition duration-300 ${store.filters.blouses === tab ? 'bg-vbk-gold text-vbk-navy border-vbk-gold shadow-[0_0_15px_rgba(249,177,122,0.4)]' : 'border-vbk-mid text-gray-400 hover:border-vbk-gold hover:text-vbk-gold'}" >
-            ${tab}
-    </button >
-            `).join('');
-            },
-
-            renderCart() {
-                const container = document.getElementById('cart-items-container');
-                const cart = store.cart;
-
-                document.getElementById('cart-total-count').innerText = cart.length;
-                document.getElementById('cart-total-price').innerText = CONFIG.currency + store.getCartTotal();
-
-                if (cart.length === 0) {
-                    container.innerHTML = `
-            < div class="flex flex-col items-center justify-center h-64 text-gray-500" >
-        <i class="fa-solid fa-bag-shopping text-4xl mb-4 opacity-20"></i>
-        <p class="text-xs uppercase tracking-widest">Your bag is empty</p>
-        <button onclick="app.toggleCart(false)" class="mt-4 text-vbk-gold underline text-xs">Continue Shopping</button>
-    </div > `;
-                    return;
-                }
-
-                container.innerHTML = cart.map(item => `
-            < div
-        class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up" >
-            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
-                <div class="flex-grow">
-                    <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
-                    <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
-                    <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
-                </div>
-                <button onclick="store.removeFromCart('${item.id}')"
-                    class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
-                    <i class="fa-solid fa-trash-can text-xs"></i>
-                </button>
-            </div>
-        `).join('');
-            },
-
-            // --- ACTIONS ---
-
-            toggleCart(forceOpen = null) {
-                const sidebar = document.getElementById('cart-sidebar');
-                const overlay = document.getElementById('cart-overlay');
-                const isOpen = !sidebar.classList.contains('translate-x-full');
-                const shouldOpen = forceOpen !== null ? forceOpen : !isOpen;
-
-                if (shouldOpen) {
-                    sidebar.classList.remove('translate-x-full');
-                    overlay.classList.remove('hidden');
-                    this.renderCart();
-                    document.body.classList.add('cart-open');
-                } else {
-                    sidebar.classList.add('translate-x-full');
-                    overlay.classList.add('hidden');
-                    document.body.classList.remove('cart-open');
-                }
-            },
-
-            renderWishlist() {
-                const grid = document.getElementById('wishlist-grid');
-                const empty = document.getElementById('wishlist-empty');
-
-                if (store.wishlist.length === 0) {
-                    grid.classList.add('hidden');
-                    empty.classList.remove('hidden');
-                    return;
-                }
-
-                grid.classList.remove('hidden');
-                empty.classList.add('hidden');
-
-                grid.innerHTML = store.wishlist.map(p => `
-            < div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col" >
-                        <div class="relative overflow-hidden h-72">
-                            <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="store.toggleWishlist('${p.id}')" 
-                                class="absolute top-3 right-3 w-10 h-10 bg-pink-500/90 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-red-500 transition"
-                                title="Remove from Wishlist">
-                                <i class="fa-solid fa-trash text-sm"></i>
+            renderGrid() {
+                const container = document.getElementById('product-grid');
+                container.innerHTML = store.products.map((p, i) => `
+                    <div class="bg-vbk-card rounded-xl overflow-hidden group relative animate-slide-up" style="animation-delay: ${i * 50}ms" onclick="app.openProduct('${p.id}')">
+                        <div class="aspect-[3/4] overflow-hidden relative">
+                            <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+                            <button class="absolute bottom-2 right-2 w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition" onclick="event.stopPropagation(); store.addToCart({id: '${p.id}', title: '${p.title}', price: ${p.price}, img: '${p.img}'})">
+                                <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
-                        <div class="p-4 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-1">
-                                <h3 class="text-white font-serif font-bold text-lg leading-tight flex-1">${p.title}</h3>
-                            </div>
-                            <p class="text-gray-500 text-xs uppercase mb-2">${p.sub}</p>
-                            <div class="mt-auto pt-3">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-2xl font-bold text-vbk-gold">${CONFIG.currency}${p.price}</span>
-                                </div>
-                                <button onclick="store.addToCart('${p.id}')" 
-                                    class="w-full mt-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
-                                </button>
-                            </div>
+                        <div class="p-3">
+                            <h3 class="text-sm font-serif font-bold truncate text-white">${p.title}</h3>
+                            <p class="text-xs text-gray-400 mb-1">${p.cat}</p>
+                            <span class="text-vbk-gold font-bold text-sm">₹${p.price}</span>
                         </div>
-                    </div >
-            `).join('');
-            },
-
-            toggleMobileMenu() {
-                const menu = document.getElementById('mobile-menu');
-                const isOpen = !menu.classList.contains('-translate-y-full');
-
-                if (isOpen) {
-                    menu.classList.add('-translate-y-full');
-                } else {
-                    menu.classList.remove('-translate-y-full');
-                }
-            },
-
-            filterBlouses(category) {
-                store.filters.blouses = category;
-                this.renderBlouseTabs();
-
-                let products = store.products.filter(p => p.cat === 'blouses');
-                if (category !== 'All') {
-                    products = products.filter(p => p.sub === category);
-                }
-
-                // Animate transition
-                const grid = document.getElementById('grid-blouses');
-                grid.classList.add('opacity-0');
-                setTimeout(() => {
-                    this.renderGrid('grid-blouses', products);
-                    grid.classList.remove('opacity-0');
-                }, 200);
-            },
-
-            filterCategory(section, type) {
-                let products = store.products.filter(p => p.cat === section);
-                if (type !== 'all') {
-                    // Simple logic for 'heavy' vs 'simple' using price as proxy for demo
-                    if (type === 'heavy') products = products.filter(p => p.price > 10000);
-                    else products = products.filter(p => p.price <= 10000);
-                } this.renderGrid(`grid - ${section} `, products);
-            },
-            sortProducts(section, method) {
-                let products = store.products.filter(p => p.cat === section);
-
-                if (method === 'price-low') products.sort((a, b) => a.price - b.price);
-                else if (method === 'price-high') products.sort((a, b) => b.price - a.price);
-
-                this.renderGrid(`grid - ${section} `, products);
-            },
-
-            openQuickView(id) {
-                const product = store.products.find(p => p.id === id);
-                if (!product) return;
-
-                this.currentProduct = product;
-                this.currentSlide = 0;
-
-                // Ensure images array exists
-                if (!product.images) {
-                    product.images = [product.img, 'https://placehold.co/500x600/2d3250/ffffff?text=Side+View',
-                        'https://placehold.co/500x600/2d3250/ffffff?text=Close+Up'];
-                }
-
-                this.updateCarousel();
-
-                document.getElementById('qv-title').innerText = product.title;
-                document.getElementById('qv-price').innerText = CONFIG.currency + product.price;
-                document.getElementById('qv-category').innerText = product.cat.replace('-', ' ');
-                document.getElementById('qv-desc').innerText = `Exclusive ${product.sub} design.Handcrafted with precision.
-        Available for custom sizing.`;
-
-                // Dynamic Features Logic
-                const features = ['Custom Fit', 'Premium Fabric', 'India Wide Shipping'];
-
-                // Embroidery Logic
-                let embroideryType = 'Machine Embroidery';
-                const isMaggamOrWedding = product.cat === 'wedding' ||
-                    product.cat === 'maggam-designs' ||
-                    (product.sub && (product.sub.toLowerCase().includes('maggam') || product.sub.toLowerCase().includes('heavy')));
-
-                if (isMaggamOrWedding) {
-                    embroideryType = 'Hand Embroidery';
-                }
-
-                // Add embroidery type if it's a relevant category (skip for materials)
-                if (product.cat !== 'materials') {
-                    features.splice(2, 0, embroideryType); // Insert at index 2
-                }
-
-                const featuresContainer = document.getElementById('qv-features');
-                featuresContainer.innerHTML = features.map(f => `
-            < li class= "flex items-center gap-2" > <i class="fa-solid fa-check text-green-500"></i> ${f}</li >
-                `).join('');
-
-                const btn = document.getElementById('qv-add-btn');
-                btn.onclick = () => {
-                    store.addToCart(id);
-                    this.closeModal('quick-view-modal');
-                };
-
-                document.getElementById('quick-view-modal').classList.remove('hidden');
-            },
-
-            nextSlide() {
-                if (!this.currentProduct) return;
-                this.currentSlide = (this.currentSlide + 1) % this.currentProduct.images.length;
-                this.updateCarousel();
-            },
-
-            prevSlide() {
-                if (!this.currentProduct) return;
-                this.currentSlide = (this.currentSlide - 1 + this.currentProduct.images.length) %
-                    this.currentProduct.images.length;
-                this.updateCarousel();
-            },
-
-            updateCarousel() {
-                const img = document.getElementById('qv-img');
-                const dotsContainer = document.getElementById('carousel-dots');
-
-                // Animate opacity for transition effect
-                img.style.opacity = '0.5';
-                setTimeout(() => {
-                    img.src = this.currentProduct.images[this.currentSlide];
-                    img.style.opacity = '1';
-                }, 200);
-
-                // Update dots
-                dotsContainer.innerHTML = this.currentProduct.images.map((_, i) => `
-                < div
-        class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}" >
-        </div >
-            `).join('');
-            },
-
-            openConsultation() {
-                const msg = "Hi VBK Designs, I would like to book a consultation for Bridal wear.";
-                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
-            },
-
-            openCheckoutModal() {
-                if (store.cart.length === 0) return;
-                document.getElementById('checkout-modal').classList.remove('hidden');
-            },
-
-            processWhatsApp(e) {
-                e.preventDefault();
-                const name = document.getElementById('cust-name').value;
-                const city = document.getElementById('cust-city').value;
-                const note = document.getElementById('cust-note').value;
-
-                let msg = `*New Inquiry from VBK Website*\n\n`;
-                msg += `*Name:* ${name}\n`;
-                msg += `*City:* ${city}\n`;
-                if (note) msg += `*Note:* ${note}\n`;
-                msg += `\n*Selected Items:*\n`;
-
-                store.cart.forEach((item, i) => {
-                    msg += `${i + 1}. ${item.title} (${CONFIG.currency}${item.price})\n`;
-                });
-
-                msg += `\n*Est. Total:* ${CONFIG.currency}${store.getCartTotal()}\n`;
-                msg += `\nPlease confirm availability and stitching time.`;
-
-                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
-                this.closeModal('checkout-modal');
-                this.toggleCart(false);
-            },
-
-            closeModal(id) {
-                document.getElementById(id).classList.add('hidden');
-            },
-
-            updateCartBadge() {
-                const badge = document.getElementById('cart-count');
-                const mobileBadge = document.getElementById('mobile-cart-count');
-                const count = store.cart.length;
-
-                // Update Desktop Badge
-                badge.textContent = count;
-                if (count > 0) {
-                    badge.classList.remove('scale-0');
-                    badge.classList.add('scale-100');
-                } else {
-                    badge.classList.remove('scale-100');
-                    badge.classList.add('scale-0');
-                }
-
-                // Update Mobile Badge
-                if (mobileBadge) {
-                    mobileBadge.textContent = count;
-                    if (count > 0) {
-                        mobileBadge.classList.remove('opacity-0');
-                    } else {
-                        mobileBadge.classList.add('opacity-0');
-                    }
-                }
-            },
-
-            updateWishlistBadge() {
-                const badge = document.getElementById('wishlist-badge');
-                const count = store.wishlist.length;
-                badge.textContent = count;
-                if (count > 0) {
-                    badge.style.opacity = '1';
-                } else {
-                    badge.style.opacity = '0';
-                }
-            },
-
-            toast(msg, type = 'success') {
-                const container = document.getElementById('toast-container');
-                const el = document.createElement('div');
-                const colorClass = type === 'success' ? 'border-green-500 text-green-400' : 'border-blue-500 text-blue-400';
-
-                el.className = `toast bg-vbk-card border-l-4 ${colorClass} p-4 rounded shadow-2xl flex items-center gap-3
-        min-w-[250px] backdrop-blur-md border-y border-r border-white/5`;
-                el.innerHTML = `
-        <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
-        <span class="text-xs font-bold text-white tracking-wide">${msg}</span>
-        `;
-
-                container.appendChild(el);
-                requestAnimationFrame(() => el.classList.add('show'));
-                setTimeout(() => {
-                    el.classList.remove('show');
-                    setTimeout(() => el.remove(), 400);
-                }, 3000);
-            },
-
-            flyToCart(sourceImg) {
-                const cartIcon = window.innerWidth < 768 ?
-                    document.querySelector('#bottom-nav .fa-bag-shopping') :
-                    document.querySelector('#navbar .fa-bag-shopping');
-
-                if (!cartIcon || !sourceImg) {
-                    this.toast('Item added to cart!');
-                    return;
-                }
-
-                const flyImg = sourceImg.cloneNode();
-                flyImg.classList.add('fly-img');
-
-                const startRect = sourceImg.getBoundingClientRect();
-                const endRect = cartIcon.getBoundingClientRect();
-
-                flyImg.style.top = `${startRect.top}px`;
-                flyImg.style.left = `${startRect.left}px`;
-                flyImg.style.width = `${startRect.width}px`;
-                flyImg.style.height = `${startRect.height}px`;
-
-                document.body.appendChild(flyImg);
-
-                // Force reflow
-                void flyImg.offsetWidth;
-
-                flyImg.style.top = `${endRect.top + 10}px`;
-                flyImg.style.left = `${endRect.left + 10}px`;
-                flyImg.style.width = '20px';
-                flyImg.style.height = '20px';
-                flyImg.style.opacity = '0';
-
-                setTimeout(() => {
-                    flyImg.remove();
-                    this.toast('Item added to cart!');
-
-                    // Shake the cart icon
-                    cartIcon.parentElement.classList.add('animate-bounce');
-                    setTimeout(() => cartIcon.parentElement.classList.remove('animate-bounce'), 500);
-
-                }, 800);
-            }
-        };
-
-        // Helper: Search Toggle
-        function toggleSearch() {
-            const bar = document.getElementById('search-bar');
-            const isOpen = !bar.classList.contains('opacity-0');
-
-            if (isOpen) {
-                bar.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
-            } else {
-                bar.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
-                document.getElementById('global-search').focus();
-            }
-        }
-
-        // Scroll to Section Function
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                const navHeight = 80;
-                const targetPosition = section.offsetTop - navHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // Global Search Logic
-        document.getElementById('global-search').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            if (val.length < 2) {
-                app.renderAllSections();
-                return;
-            }
-
-            // Filter everything
-            const allProducts = store.products;
-            const matched = allProducts.filter(p =>
-                p.title.toLowerCase().includes(val) ||
-                p.sub.toLowerCase().includes(val) ||
-                p.cat.toLowerCase().includes(val)
-            );
-
-            // A crude way to show results in Top Designs grid for demo
-            app.renderGrid('grid-top-designs', matched);
-            // Hide others to focus on search results
-            document.getElementById('grid-blouses').innerHTML = '';
-            document.getElementById('grid-wedding').innerHTML = '';
-        });
-
-        // --- INIT ---
-        document.addEventListener('DOMContentLoaded', () => fetchProductData());
-
-    </script>
-    <!-- Mobile Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 w-full bg-vbk-navy/95 backdrop-blur-xl border-t border-white/10 z-50 md:hidden pb-safe transition-transform duration-300"
-        id="bottom-nav">
-        <div class="flex justify-around items-center h-16">
-            <a href="#" onclick="window.scrollTo(0,0)"
-                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
-                <i class="fa-solid fa-house text-xl mb-1 group-hover:animate-bounce"></i>
-                <span class="text-[10px] font-medium">Home</span>
-            </a>
-            <a href="#" onclick="toggleSearch()"
-                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
-                <i class="fa-solid fa-magnifying-glass text-xl mb-1 group-hover:rotate-12 transition-transform"></i>
-                <span class="text-[10px] font-medium">Search</span>
-            </a>
-            <a href="#" onclick="app.toggleCart()"
-                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 relative group">
-                <div class="relative">
-                    <i class="fa-solid fa-bag-shopping text-xl mb-1 group-hover:shake"></i>
-                    <span id="mobile-cart-count"
-                        class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
-                </div>
-                <span class="text-[10px] font-medium">Cart</span>
-            </a>
-            <a href="https://wa.me/919398322622" target="_blank"
-                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
-                <i class="fa-brands fa-whatsapp text-xl mb-1 group-hover:text-green-500 transition-colors"></i>
-                <span class="text-[10px] font-medium">Chat</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Floating Cart Button (FAB) -->
-    <div id="fab-cart" onclick="app.toggleCart()" class="hidden md:flex">
-        <i class="fa-solid fa-bag-shopping text-vbk-navy text-2xl"></i>
-        <span id="fab-count"
-            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
-    </div>
-
-    <script>
-        // Render Sticky Category Bar
-        const categories = [
-            { id: 'top-designs', name: 'Trending', icon: 'fa-fire' },
-            { id: 'blouse-designs', name: 'Blouses', icon: 'fa-scissors' },
-            { id: 'wedding', name: 'Bridal', icon: 'fa-ring' },
-            { id: 'lehanga-designs', name: 'Lehangas', icon: 'fa-person-dress' },
-            { id: 'frock-designs', name: 'Frocks', icon: 'fa-child-dress' },
-            { id: 'maggam-designs', name: 'Maggam', icon: 'fa-gem' },
-            { id: 'materials', name: 'Materials', icon: 'fa-layer-group' }
-        ];
-
-        const catContainer = document.getElementById('cat-scroll-container');
-        if (catContainer) {
-            catContainer.innerHTML = categories.map(c => `
-                <a href="#${c.id}" class="cat-item group" onclick="setActiveCategory(this)">
-                    <div class="cat-icon group-hover:bg-vbk-cardHover">
-                        <i class="fa-solid ${c.icon} text-gray-400 group-hover:text-vbk-gold text-xl"></i>
                     </div>
-                    <span class="text-[10px] text-gray-400 group-hover:text-white font-medium uppercase tracking-wide">${c.name}</span>
-                </a>
-            `).join('');
-        }
+                `).join('');
+            },
 
-        function setActiveCategory(el) {
-            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-        }
+            openProduct(id) {
+                const p = store.products.find(p => p.id === id);
+                if (!p) return;
 
-        // Update FAB count
-        const originalUpdateCartBadge = app.updateCartBadge;
-        app.updateCartBadge = function () {
-            originalUpdateCartBadge.call(app);
-            const fabCount = document.getElementById('fab-count');
-            if (fabCount) fabCount.textContent = store.cart.length;
-        };
+                const modal = document.getElementById('product-modal');
+                const content = document.getElementById('modal-content');
+                const backdrop = document.getElementById('modal-backdrop');
 
-        // Show/Hide Sticky Bar on Scroll
-        // Smart Sticky Navbar & Category Bar
-        const navbar = document.getElementById('navbar');
-        const catBar = document.getElementById('category-bar');
-        let lastScrollY = window.scrollY;
+                content.innerHTML = `
+                    <div class="relative h-[50vh]">
+                        <img src="${p.img}" class="w-full h-full object-cover">
+                        <button onclick="app.closeProduct()" class="absolute top-4 right-4 w-10 h-10 bg-black/30 backdrop-blur rounded-full text-white flex items-center justify-center">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 bg-vbk-card flex-grow flex flex-col">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h2 class="text-2xl font-serif font-bold text-white">${p.title}</h2>
+                                <p class="text-gray-400 text-sm">${p.cat}</p>
+                            </div>
+                            <span class="text-2xl font-bold text-vbk-gold">₹${p.price}</span>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Exquisite craftsmanship meets modern design. This piece is handcrafted with premium materials, perfect for your special occasions.
+                        </p>
+                        <button onclick="store.addToCart({id: '${p.id}', title: '${p.title}', price: ${p.price}, img: '${p.img}'}); app.closeProduct()" class="mt-auto w-full bg-vbk-gold text-vbk-navy py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-white transition">
+                            Add to Bag
+                        </button>
+                    </div>
+                `;
 
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
+                modal.classList.remove('hidden');
+                // Trigger animations
+                requestAnimationFrame(() => {
+                    backdrop.classList.remove('opacity-0');
+                    content.classList.remove('translate-y-full');
+                });
+            },
 
-            if (currentScrollY > 100) {
-                if (currentScrollY > lastScrollY) {
-                    // Scroll Down
-                    navbar.style.transform = 'translateY(-100%)';
-                    if (catBar) catBar.style.top = '0px';
-                } else {
-                    // Scroll Up
-                    navbar.style.transform = 'translateY(0)';
-                    if (catBar) catBar.style.top = '72px';
-                }
-            } else {
-                // At Top
-                navbar.style.transform = 'translateY(0)';
-                if (catBar) catBar.style.top = '72px';
+            closeProduct() {
+                const modal = document.getElementById('product-modal');
+                const content = document.getElementById('modal-content');
+                const backdrop = document.getElementById('modal-backdrop');
+
+                content.classList.add('translate-y-full');
+                backdrop.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            },
+
+            toast(msg) {
+                // Simple toast implementation
+                const div = document.createElement('div');
+                div.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-vbk-card border border-vbk-gold/30 text-white px-6 py-3 rounded-full shadow-xl z-[70] text-xs font-bold uppercase tracking-wider animate-pop';
+                div.innerHTML = `<i class="fa-solid fa-check text-green-400 mr-2"></i> ${msg}`;
+                document.body.appendChild(div);
+                setTimeout(() => div.remove(), 2000);
             }
-            lastScrollY = currentScrollY;
-        });
-
-        // Ensure FAB is visible on mobile too if desired, user said "Floating Cart Button (FAB): Sticky 'Shopping Bag' button".
-        // Usually FAB is for mobile. But we have bottom nav.
-        // User said "Floating Cart Button (FAB): Sticky "Shopping Bag" button".
-        // If bottom nav has cart, FAB might be redundant on mobile.
-        // But user request #6 says "Floating Cart Button (FAB)".
-        // I'll make it visible on desktop (as per my plan) and maybe hide on mobile if bottom nav exists?
-        // Wait, plan said "desktop/tablet".
-        // Let's stick to plan: hidden on mobile (since we have bottom nav), visible on desktop.
-        // Code above has `hidden md:flex`. Correct.
-
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
-        }
-
-        // Hide Bottom Nav on Scroll Down, Show on Scroll Up
-        let lastScrollTop = 0;
-        const bottomNav = document.getElementById('bottom-nav');
-
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                // Scroll Down
-                bottomNav.style.transform = 'translateY(100%)';
-            } else {
-                // Scroll Up
-                bottomNav.style.transform = 'translateY(0)';
-            }
-            lastScrollTop = scrollTop;
-        });
-
-        // Scroll Animations Observer
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Only animate once
-                }
-            });
-        }, observerOptions);
+        // Start App
+        document.addEventListener('DOMContentLoaded', () => app.init());
 
-        // Function to observe new elements (called after rendering grids)
-        function observeElements() {
-            document.querySelectorAll('.product-card, section h2, section p, .filter-section').forEach(el => {
-                el.classList.add('reveal');
-                observer.observe(el);
-            });
-        }
-
-        // Hook into render functions to re-observe
-        const originalRenderGrid = app.renderGrid;
-        app.renderGrid = function (containerId, products) {
-            originalRenderGrid.call(app, containerId, products);
-            setTimeout(observeElements, 100); // Small delay to ensure DOM is ready
-        };
     </script>
 </body>
 
