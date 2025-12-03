@@ -8,6 +8,12 @@
     <meta name="theme-color" content="#0f1424">
     <title>VBK Designs | Exclusive Bridal & Maggam Boutique</title>
 
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f1424">
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -412,6 +418,22 @@
             #filter-sidebar {
                 width: 100%;
                 right: -100%;
+            }
+        }
+
+        /* --- 9. Mobile Bottom Navigation & Touch Optimizations --- */
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        @media (max-width: 768px) {
+            * {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* Adjust body padding for bottom nav */
+            body {
+                padding-bottom: 80px;
             }
         }
     </style>
@@ -2092,7 +2114,10 @@
 
             updateCartBadge() {
                 const badge = document.getElementById('cart-count');
+                const mobileBadge = document.getElementById('mobile-cart-count');
                 const count = store.cart.length;
+
+                // Update Desktop Badge
                 badge.textContent = count;
                 if (count > 0) {
                     badge.classList.remove('scale-0');
@@ -2100,6 +2125,16 @@
                 } else {
                     badge.classList.remove('scale-100');
                     badge.classList.add('scale-0');
+                }
+
+                // Update Mobile Badge
+                if (mobileBadge) {
+                    mobileBadge.textContent = count;
+                    if (count > 0) {
+                        mobileBadge.classList.remove('opacity-0');
+                    } else {
+                        mobileBadge.classList.add('opacity-0');
+                    }
                 }
             },
 
@@ -2187,6 +2222,67 @@
         // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => fetchProductData());
 
+    </script>
+    <!-- Mobile Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 w-full bg-vbk-navy/95 backdrop-blur-xl border-t border-white/10 z-50 md:hidden pb-safe transition-transform duration-300"
+        id="bottom-nav">
+        <div class="flex justify-around items-center h-16">
+            <a href="#" onclick="window.scrollTo(0,0)"
+                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
+                <i class="fa-solid fa-house text-xl mb-1 group-hover:animate-bounce"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </a>
+            <a href="#" onclick="toggleSearch()"
+                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
+                <i class="fa-solid fa-magnifying-glass text-xl mb-1 group-hover:rotate-12 transition-transform"></i>
+                <span class="text-[10px] font-medium">Search</span>
+            </a>
+            <a href="#" onclick="app.toggleCart()"
+                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 relative group">
+                <div class="relative">
+                    <i class="fa-solid fa-bag-shopping text-xl mb-1 group-hover:shake"></i>
+                    <span id="mobile-cart-count"
+                        class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
+                </div>
+                <span class="text-[10px] font-medium">Cart</span>
+            </a>
+            <a href="https://wa.me/919398322622" target="_blank"
+                class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-vbk-gold transition active:scale-95 group">
+                <i class="fa-brands fa-whatsapp text-xl mb-1 group-hover:text-green-500 transition-colors"></i>
+                <span class="text-[10px] font-medium">Chat</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Hide Bottom Nav on Scroll Down, Show on Scroll Up
+        let lastScrollTop = 0;
+        const bottomNav = document.getElementById('bottom-nav');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // Scroll Down
+                bottomNav.style.transform = 'translateY(100%)';
+            } else {
+                // Scroll Up
+                bottomNav.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop;
+        });
     </script>
 </body>
 
