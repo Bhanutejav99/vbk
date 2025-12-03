@@ -461,6 +461,137 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* --- 12. Sticky Category Bar --- */
+        #category-bar {
+            position: sticky;
+            top: 72px;
+            /* Height of navbar */
+            z-index: 40;
+            background: rgba(15, 20, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            padding: 10px 0;
+            transition: top 0.3s;
+        }
+
+        #category-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 12px;
+            opacity: 0.7;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .cat-item.active,
+        .cat-item:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .cat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1c2136, #252b45);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .cat-item.active .cat-icon {
+            border-color: #f9b17a;
+            box-shadow: 0 0 10px rgba(249, 177, 122, 0.3);
+        }
+
+        /* --- 13. Mobile Grid & Compact Cards --- */
+        @media (max-width: 640px) {
+            .mobile-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+
+            .product-card .p-4 {
+                padding: 10px !important;
+            }
+
+            .product-card h3 {
+                font-size: 0.8rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .product-card p {
+                font-size: 0.7rem !important;
+            }
+
+            .add-btn-mobile {
+                width: 30px;
+                height: 30px;
+                padding: 0 !important;
+                border-radius: 50% !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .add-btn-mobile span {
+                display: none;
+            }
+
+            .add-btn-mobile i {
+                margin: 0 !important;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* --- 14. Floating Cart Button (FAB) --- */
+        #fab-cart {
+            position: fixed;
+            bottom: 100px;
+            /* Above bottom nav on mobile */
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #f9b17a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(249, 177, 122, 0.4);
+            z-index: 49;
+            /* Below bottom nav (50) */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        #fab-cart:hover {
+            transform: scale(1.1);
+        }
+
+        #fab-cart:active {
+            transform: scale(0.9);
+        }
+
+        @media (min-width: 768px) {
+            #fab-cart {
+                bottom: 30px;
+            }
+        }
     </style>
 </head>
 
@@ -579,6 +710,14 @@
             </div>
         </div>
     </nav>
+
+    <!-- Sticky Category Bar -->
+    <div id="category-bar" class="hidden md:block">
+        <!-- Initially hidden on mobile, shown via JS logic if needed, or just keep visible -->
+        <div class="container mx-auto px-4 flex items-center overflow-x-auto no-scrollbar" id="cat-scroll-container">
+            <!-- Populated by JS -->
+        </div>
+    </div>
 
     <!-- Breadcrumbs -->
     <div id="breadcrumbs" class="fixed top-[72px] left-0 w-full z-40 py-2 px-4 hidden">
@@ -1733,83 +1872,51 @@
                 this.renderGrid('grid-God-embroidery', store.products.filter(p => p.cat === 'God-embroidery'));
             },
 
-            renderGrid(elementId, products, initialLimit = 8) {
-                const container = document.getElementById(elementId);
+            renderGrid(containerId, products) {
+                const container = document.getElementById(containerId);
                 if (!container) return;
 
-                // Get current page (for batched loading)
-                const currentPage = parseInt(container.dataset.currentPage || '1');
-                const itemsPerPage = initialLimit;
-                const displayCount = currentPage * itemsPerPage;
+                // Mobile Grid Class
+                container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mobile-grid";
 
-                const displayProducts = products.slice(0, displayCount);
-                const hasMore = products.length > displayCount;
+                container.innerHTML = products.map(p => {
+                    const isNew = p.tags && p.tags.includes('new');
+                    const isSale = p.tags && p.tags.includes('sale');
 
-                const productHTML = displayProducts.map((p, index) => `
-    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col opacity-0 animate-fade-in"
-        style="animation-delay: ${index * 50}ms">
-        <div class="relative overflow-hidden h-72">
-            <img data-src="${p.img}" alt="${p.title}" class="lazy w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                <button onclick="app.openQuickView('${p.id}')"
-                    class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-vbk-navy hover:bg-vbk-gold transition transform hover:scale-110"
-                    title="Quick View">
-                    <i class="fa-regular fa-eye"></i>
-                </button>
-                <button onclick="store.toggleWishlist('${p.id}')"
-                    class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
-                    title="Add to Wishlist">
-                    <i class="${store.wishlist.some(w => w.id === '${p.id}') ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-                </button>
-                <button onclick="store.addToCart('${p.id}')"
-                    class="w-10 h-10 bg-vbk-purple rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
-                    title="Add to Bag">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                </button>
+                    return `
+        <div class="product-card bg-vbk-card rounded-lg overflow-hidden relative group h-full flex flex-col">
+            ${isNew ? '<span class="absolute top-2 left-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold px-2 py-1 rounded z-10">NEW</span>' : ''}
+            ${isSale ? '<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded z-10">SALE</span>' : ''}
+            
+            <button class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-vbk-purple hover:scale-110 transition z-10 flex items-center justify-center" 
+                onclick="store.toggleWishlist(${p.id})">
+                <i class="${store.wishlist.includes(p.id) ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
+            </button>
+
+            <div class="relative overflow-hidden aspect-[3/4] cursor-pointer" onclick="app.openQuickView(${p.id})">
+                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 lazy">
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="bg-white/90 text-vbk-navy px-4 py-2 rounded-full text-xs font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Quick View</span>
+                </div>
             </div>
-            <div class="absolute bottom-2 left-2">
-                <span
-                    class="bg-vbk-navy/80 backdrop-blur text-white text-[10px] px-2 py-1 rounded uppercase font-bold border border-white/10">${p.sub}</span>
-            </div>
-        </div>
-        <div class="p-4 flex flex-col flex-grow">
-            <div class="flex justify-between items-start mb-1">
-                <h3 class="text-white font-serif font-bold text-lg leading-tight group-hover:text-vbk-gold transition cursor-pointer"
-                    onclick="app.openQuickView('${p.id}')">${p.title}</h3>
-            </div>
-            <p class="text-gray-400 text-xs mb-3 flex-grow">Custom stitching available</p>
-            <div class="flex justify-between items-center border-t border-white/5 pt-3 mt-auto">
-                <span class="text-vbk-gold font-bold font-mono">${CONFIG.currency}${p.price}</span>
-                <button onclick="store.addToCart('${p.id}')"
-                    class="text-gray-400 text-xs hover:text-white uppercase tracking-wider font-bold transition">Add
-                    +</button>
+
+            <div class="p-4 flex flex-col flex-grow">
+                <div class="mb-1">
+                    <span class="text-[10px] text-vbk-gold uppercase tracking-wider">${p.cat}</span>
+                </div>
+                <h3 class="text-white font-serif text-lg mb-1 leading-tight">${p.title}</h3>
+                <p class="text-gray-400 text-xs mb-3 line-clamp-2 flex-grow">${p.sub}</p>
+                
+                <div class="flex items-center justify-between mt-auto">
+                    <span class="text-white font-bold">${CONFIG.currency}${p.price}</span>
+                    <button onclick="app.addToCart(${p.id})" 
+                        class="bg-vbk-card border border-vbk-gold text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy px-4 py-2 rounded-full text-xs font-bold transition flex items-center gap-2 add-btn-mobile">
+                        <span>Add</span> <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    `).join('');
-
-                container.innerHTML = productHTML;
-
-                // Reinitialize lazy loading for new images
-                if (this.lazyLoadObserver) {
-                    container.querySelectorAll('img.lazy').forEach(img => this.lazyLoadObserver.observe(img));
-                }
-
-                // Add "Show More" button if needed
-                if (hasMore) {
-                    const remaining = products.length - displayCount;
-                    const nextBatch = Math.min(remaining, itemsPerPage);
-                    const buttonWrapper = document.createElement('div');
-                    buttonWrapper.className = 'col-span-full flex justify-center mt-8';
-                    buttonWrapper.innerHTML = `
-                        <button onclick="app.showMore('${elementId}')" 
-                            class="px-8 py-3 bg-vbk-gold text-vbk-navy font-bold uppercase tracking-wider rounded-full hover:bg-white transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            Load More (+${nextBatch} items)
-                        </button>
-                    `;
-                    container.appendChild(buttonWrapper);
-                }
+        `}).join('');
             },
 
             showMore(elementId) {
@@ -1855,11 +1962,11 @@
                 const container = document.getElementById('blouse-tabs');
 
                 container.innerHTML = tabs.map(tab => `
-    <button onclick="app.filterBlouses('${tab}')"
-        class="px-6 py-2 rounded-full text-xs uppercase tracking-widest font-bold border transition duration-300 ${store.filters.blouses === tab ? 'bg-vbk-gold text-vbk-navy border-vbk-gold shadow-[0_0_15px_rgba(249,177,122,0.4)]' : 'border-vbk-mid text-gray-400 hover:border-vbk-gold hover:text-vbk-gold'}">
-        ${tab}
-    </button>
-    `).join('');
+            < button onclick = "app.filterBlouses('${tab}')"
+        class="px-6 py-2 rounded-full text-xs uppercase tracking-widest font-bold border transition duration-300 ${store.filters.blouses === tab ? 'bg-vbk-gold text-vbk-navy border-vbk-gold shadow-[0_0_15px_rgba(249,177,122,0.4)]' : 'border-vbk-mid text-gray-400 hover:border-vbk-gold hover:text-vbk-gold'}" >
+            ${tab}
+    </button >
+            `).join('');
             },
 
             renderCart() {
@@ -1871,29 +1978,29 @@
 
                 if (cart.length === 0) {
                     container.innerHTML = `
-    <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+            < div class="flex flex-col items-center justify-center h-64 text-gray-500" >
         <i class="fa-solid fa-bag-shopping text-4xl mb-4 opacity-20"></i>
         <p class="text-xs uppercase tracking-widest">Your bag is empty</p>
         <button onclick="app.toggleCart(false)" class="mt-4 text-vbk-gold underline text-xs">Continue Shopping</button>
-    </div>`;
+    </div > `;
                     return;
                 }
 
                 container.innerHTML = cart.map(item => `
-    <div
-        class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up">
-        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
-        <div class="flex-grow">
-            <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
-            <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
-            <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
-        </div>
-        <button onclick="store.removeFromCart('${item.id}')"
-            class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
-            <i class="fa-solid fa-trash-can text-xs"></i>
-        </button>
-    </div>
-    `).join('');
+            < div
+        class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up" >
+            <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
+                <div class="flex-grow">
+                    <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
+                    <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
+                    <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
+                </div>
+                <button onclick="store.removeFromCart('${item.id}')"
+                    class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
+                    <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
+            </div>
+        `).join('');
             },
 
             // --- ACTIONS ---
@@ -1930,7 +2037,7 @@
                 empty.classList.add('hidden');
 
                 grid.innerHTML = store.wishlist.map(p => `
-                    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col">
+            < div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col" >
                         <div class="relative overflow-hidden h-72">
                             <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <button onclick="store.toggleWishlist('${p.id}')" 
@@ -1954,8 +2061,8 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    </div >
+            `).join('');
             },
 
             toggleMobileMenu() {
@@ -1993,7 +2100,7 @@
                     // Simple logic for 'heavy' vs 'simple' using price as proxy for demo
                     if (type === 'heavy') products = products.filter(p => p.price > 10000);
                     else products = products.filter(p => p.price <= 10000);
-                } this.renderGrid(`grid-${section}`, products);
+                } this.renderGrid(`grid - ${section} `, products);
             },
             sortProducts(section, method) {
                 let products = store.products.filter(p => p.cat === section);
@@ -2001,7 +2108,7 @@
                 if (method === 'price-low') products.sort((a, b) => a.price - b.price);
                 else if (method === 'price-high') products.sort((a, b) => b.price - a.price);
 
-                this.renderGrid(`grid-${section}`, products);
+                this.renderGrid(`grid - ${section} `, products);
             },
 
             openQuickView(id) {
@@ -2022,7 +2129,7 @@
                 document.getElementById('qv-title').innerText = product.title;
                 document.getElementById('qv-price').innerText = CONFIG.currency + product.price;
                 document.getElementById('qv-category').innerText = product.cat.replace('-', ' ');
-                document.getElementById('qv-desc').innerText = `Exclusive ${product.sub} design. Handcrafted with precision.
+                document.getElementById('qv-desc').innerText = `Exclusive ${product.sub} design.Handcrafted with precision.
         Available for custom sizing.`;
 
                 // Dynamic Features Logic
@@ -2045,8 +2152,8 @@
 
                 const featuresContainer = document.getElementById('qv-features');
                 featuresContainer.innerHTML = features.map(f => `
-        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> ${f}</li>
-        `).join('');
+            < li class= "flex items-center gap-2" > <i class="fa-solid fa-check text-green-500"></i> ${f}</li >
+                `).join('');
 
                 const btn = document.getElementById('qv-add-btn');
                 btn.onclick = () => {
@@ -2083,10 +2190,10 @@
 
                 // Update dots
                 dotsContainer.innerHTML = this.currentProduct.images.map((_, i) => `
-        <div
-            class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}">
-        </div>
-        `).join('');
+                < div
+        class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}" >
+        </div >
+            `).join('');
             },
 
             openConsultation() {
@@ -2312,8 +2419,83 @@
         </div>
     </div>
 
+    <!-- Floating Cart Button (FAB) -->
+    <div id="fab-cart" onclick="app.toggleCart()" class="hidden md:flex">
+        <i class="fa-solid fa-bag-shopping text-vbk-navy text-2xl"></i>
+        <span id="fab-count"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+    </div>
+
     <script>
-        // PWA Service Worker Registration
+        // Render Sticky Category Bar
+        const categories = [
+            { id: 'top-designs', name: 'Trending', icon: 'fa-fire' },
+            { id: 'blouse-designs', name: 'Blouses', icon: 'fa-scissors' },
+            { id: 'wedding', name: 'Bridal', icon: 'fa-ring' },
+            { id: 'lehanga-designs', name: 'Lehangas', icon: 'fa-person-dress' },
+            { id: 'frock-designs', name: 'Frocks', icon: 'fa-child-dress' },
+            { id: 'maggam-designs', name: 'Maggam', icon: 'fa-gem' },
+            { id: 'materials', name: 'Materials', icon: 'fa-layer-group' }
+        ];
+
+        const catContainer = document.getElementById('cat-scroll-container');
+        if (catContainer) {
+            catContainer.innerHTML = categories.map(c => `
+                <a href="#${c.id}" class="cat-item group" onclick="setActiveCategory(this)">
+                    <div class="cat-icon group-hover:bg-vbk-cardHover">
+                        <i class="fa-solid ${c.icon} text-gray-400 group-hover:text-vbk-gold text-xl"></i>
+                    </div>
+                    <span class="text-[10px] text-gray-400 group-hover:text-white font-medium uppercase tracking-wide">${c.name}</span>
+                </a>
+            `).join('');
+        }
+
+        function setActiveCategory(el) {
+            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Update FAB count
+        const originalUpdateCartBadge = app.updateCartBadge;
+        app.updateCartBadge = function () {
+            originalUpdateCartBadge.call(app);
+            const fabCount = document.getElementById('fab-count');
+            if (fabCount) fabCount.textContent = store.cart.length;
+        };
+
+        // Show/Hide Sticky Bar on Scroll
+        const catBar = document.getElementById('category-bar');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                if (window.scrollY > lastScrollY) {
+                    // Scroll Down - Hide
+                    catBar.style.top = '0px'; // Stick to top or hide? User said "Always Visible" but "Refined". Let's keep it sticky below nav or at top.
+                    // Actually, if nav hides, this should move up.
+                    // For now, let's keep it simple: Sticky at top.
+                    catBar.style.top = '0';
+                } else {
+                    // Scroll Up - Show below nav
+                    catBar.style.top = '72px';
+                }
+            } else {
+                catBar.style.top = '72px';
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Ensure FAB is visible on mobile too if desired, user said "Floating Cart Button (FAB): Sticky 'Shopping Bag' button".
+        // Usually FAB is for mobile. But we have bottom nav.
+        // User said "Floating Cart Button (FAB): Sticky "Shopping Bag" button".
+        // If bottom nav has cart, FAB might be redundant on mobile.
+        // But user request #6 says "Floating Cart Button (FAB)".
+        // I'll make it visible on desktop (as per my plan) and maybe hide on mobile if bottom nav exists?
+        // Wait, plan said "desktop/tablet".
+        // Let's stick to plan: hidden on mobile (since we have bottom nav), visible on desktop.
+        // Code above has `hidden md:flex`. Correct.
+
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
