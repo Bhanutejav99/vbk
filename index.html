@@ -211,21 +211,9 @@
     <script>
         // --- CONFIG ---
         const CONFIG = {
-            sheetUrl: '', // User to provide this
-            fallbackData: [
-                { id: 'T1', title: 'Royal Blue Maggam', cat: 'Top Designs', price: 4500, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
-                { id: 'T2', title: 'Emerald Zardosi', cat: 'Top Designs', price: 5200, img: 'https://images.unsplash.com/photo-1583391733958-e004e45d8b60?w=500' },
-                { id: 'T3', title: 'Cutwork Design', cat: 'Top Designs', price: 3800, img: 'https://i.pinimg.com/1200x/7e/9f/95/7e9f95c8b51361b7215b80de1e42c96c.jpg?w=500' },
-                { id: 'B1', title: 'Deep V Velvet', cat: 'Blouses', price: 2800, img: 'https://i.pinimg.com/1200x/c2/ce/5e/c2ce5e3880b5baa996ce5192ce09aa07.jpg?w=500' },
-                { id: 'B2', title: 'Pot Neck Bridal', cat: 'Blouses', price: 8500, img: 'https://i.pinimg.com/736x/8b/9c/7b/8b9c7bd565d8d04c5c66357c2a0d8cd5.jpg?w=500' },
-                { id: 'W1', title: 'Peacock Motif Heavy', cat: 'Wedding', price: 12000, img: 'https://images.unsplash.com/photo-1595514020182-52695528d91f?w=500' },
-                { id: 'W2', title: 'Full Sleeve Stone', cat: 'Wedding', price: 15000, img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' },
-                { id: 'L1', title: 'Bridal Lehanga', cat: 'Lehangas', price: 15000, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Lehanga' },
-                { id: 'F1', title: 'Party Wear Frock', cat: 'Frocks', price: 3500, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Frock' },
-                { id: 'Mag1', title: 'Heavy Maggam Work', cat: 'Maggam', price: 5000, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Maggam' },
-                { id: 'K1', title: 'Designer Kurthi', cat: 'Kurthis', price: 1200, img: 'https://placehold.co/500x600/2d3250/ffffff?text=Kurthi' },
-                { id: 'M1', title: 'Cotton Falls', cat: 'Materials', price: 250, img: 'https://placehold.co/400x400/2d3250/ffffff?text=Falls' }
-            ]
+            // PASTE YOUR GOOGLE SHEET CSV URL HERE
+            sheetUrl: '', // Example: 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/export?format=csv'
+            fallbackData: []
         };
 
         // --- STORE ---
@@ -240,32 +228,50 @@
             },
 
             async fetchProducts() {
+                document.getElementById('loading-indicator')?.classList.remove('hidden');
+
                 try {
                     if (CONFIG.sheetUrl) {
                         const res = await fetch(CONFIG.sheetUrl);
                         const text = await res.text();
                         this.products = this.parseCSV(text);
+                        console.log('✅ Loaded', this.products.length, 'products from Google Sheets');
                     } else {
-                        // Simulate network delay for effect
-                        await new Promise(r => setTimeout(r, 800));
+                        await new Promise(r => setTimeout(r, 1000));
                         this.products = CONFIG.fallbackData;
+                        console.log('ℹ️ Using fallback data. Please add your Google Sheet URL.');
                     }
                     app.renderStories();
                     app.renderGrid();
                 } catch (e) {
-                    console.error('Fetch error:', e);
+                    console.error('❌ Fetch error:', e);
                     this.products = CONFIG.fallbackData;
                     app.renderStories();
                     app.renderGrid();
+                } finally {
+                    document.getElementById('loading-indicator')?.classList.add('hidden');
                 }
             },
 
             parseCSV(csv) {
-                const lines = csv.split('\n').slice(1); // Skip header
+                const lines = csv.trim().split('\n').slice(1);
                 return lines.map(line => {
-                    const [id, title, cat, sub, price, img] = line.split(',');
-                    if (!id) return null;
-                    return { id, title, cat, sub, price: Number(price), img: img?.trim() };
+                    if (!line.trim()) return null;
+                    const parts = line.split('\t'); // Tab-separated from Google Sheets
+                    const [id, title, cat, sub, price, img, images, feat] = parts;
+
+                    if (!id || !title || !img) return null;
+
+                    return {
+                        id: id.trim(),
+                        title: title.trim(),
+                        cat: cat?.trim() || 'Uncategorized',
+                        sub: sub?.trim() || '',
+                        price: Number(price) || 0,
+                        img: img?.trim() || '',
+                        images: images?.split('|').map(i => i.trim()) || [],
+                        featured: feat?.toUpperCase() === 'TRUE'
+                    };
                 }).filter(Boolean);
             },
 
