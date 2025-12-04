@@ -332,7 +332,14 @@
         }
 
         #back-to-top:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
+        }
+
+        /* Move back-to-top button up on mobile to avoid bottom nav */
+        @media (max-width: 1024px) {
+            #back-to-top {
+                bottom: 90px;
+            }
         }
 
         /* === BREADCRUMBS === */
