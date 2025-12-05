@@ -1,0 +1,3858 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="VBK Designs - Premier Maggam Work, Bridal Stitching & Boutique in Hindupuram.">
+    <meta name="theme-color" content="#0f1424">
+    <title>VBK Designs | Exclusive Bridal & Maggam Boutique</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="VBK Designs">
+
+    <!-- Microsoft Tile -->
+    <meta name="msapplication-TileColor" content="#0f1424">
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vbk: {
+                            navy: '#0f1424',
+                            dark: '#050811',
+                            card: '#1c2136',
+                            cardHover: '#252b45',
+                            mid: '#424769',
+                            gold: '#f9b17a',
+                            goldDim: '#c48b5e',
+                            purple: '#6769fd',
+                            purpleDark: '#4f51c9',
+                            light: '#e2e8f0',
+                            danger: '#ef4444',
+                            success: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                        'pulse-gold': 'pulseGold 2s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        pulseGold: {
+                            '0%, 100%': { boxShadow: '0 0 0 0 rgba(249, 177, 122, 0.4)' },
+                            '70%': { boxShadow: '0 0 0 10px rgba(249, 177, 122, 0)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- 1. Reset & Base --- */
+        :root {
+            --cursor-size: 20px;
+            --gold-glow: 0 0 15px rgba(249, 177, 122, 0.3);
+        }
+
+        body {
+            cursor: default;
+            /* Custom cursor is hidden on touch devices via JS */
+            background-color: #0f1424;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050811;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #424769;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f9b17a;
+        }
+
+        /* --- 2. Custom Cursor --- */
+        #cursor-dot,
+        #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: exclusion;
+        }
+
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+        }
+
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover #cursor-outline {
+            opacity: 1;
+        }
+
+        /* Hover State for Cursor */
+        body.hovering #cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+        }
+
+        /* --- 3. Utility Classes --- */
+        .glass {
+            background: rgba(15, 20, 36, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(28, 33, 54, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #f9b17a 0%, #ffffff 50%, #f9b17a 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* --- 4. Component: Product Card --- */
+        .product-card {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-overlay {
+            background: linear-gradient(to top, #0f1424 10%, transparent 100%);
+        }
+
+        /* === MYNTRA-STYLE PRODUCT BADGES === */
+        .product-badge {
+            position: absolute;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .badge-discount {
+            top: 8px;
+            left: 8px;
+            background: linear-gradient(135deg, #ff3f6c 0%, #ff6b8a 100%);
+            color: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(255, 63, 108, 0.4);
+        }
+
+        .badge-bestseller {
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #ffc107 0%, #ffca28 100%);
+            color: #1a1a1a;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+        }
+
+        .badge-new {
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #26a541 0%, #4caf50 100%);
+            color: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(38, 165, 65, 0.4);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* === STAR RATINGS === */
+        .product-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(38, 165, 65, 0.15);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .product-rating .rating-value {
+            color: #26a541;
+        }
+
+        .product-rating i {
+            color: #26a541;
+            font-size: 9px;
+        }
+
+        .product-rating .rating-count {
+            color: #9ca3af;
+            font-size: 10px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 4px;
+            margin-left: 2px;
+        }
+
+        /* === PRICE DISPLAY === */
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .price-current {
+            color: #f9b17a;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .price-discount {
+            color: #ff3f6c;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* === DELIVERY LABEL === */
+        .delivery-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #26a541;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .delivery-label i {
+            font-size: 9px;
+        }
+
+        /* Line clamp for text truncation */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* === SEARCH UI STYLES === */
+        .search-pill {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(103, 105, 253, 0.15);
+            border: 1px solid rgba(103, 105, 253, 0.3);
+            color: #a5a7fc;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-pill:hover {
+            background: #6769fd;
+            color: white;
+            border-color: #6769fd;
+        }
+
+        .category-shortcut {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-shortcut:hover {
+            background: rgba(249, 177, 122, 0.15);
+            border-color: rgba(249, 177, 122, 0.3);
+            color: #f9b17a;
+        }
+
+        .category-shortcut i {
+            font-size: 14px;
+        }
+
+        .search-result-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-result-item img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .search-result-item .info {
+            padding: 8px;
+        }
+
+        .search-result-item .title {
+            font-size: 11px;
+            color: white;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-result-item .price {
+            font-size: 12px;
+            color: #f9b17a;
+            font-weight: 700;
+        }
+
+        /* === CATEGORY FILTER PILLS === */
+        .category-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #9ca3af;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .category-pill:hover {
+            background: rgba(249, 177, 122, 0.15);
+            border-color: rgba(249, 177, 122, 0.4);
+            color: #f9b17a;
+        }
+
+        .category-pill.active {
+            background: #f9b17a;
+            border-color: #f9b17a;
+            color: #0f1424;
+            font-weight: 700;
+        }
+
+        /* Hide scrollbar */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* === IMAGE ZOOM === */
+        .zoom-container {
+            position: relative;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .zoom-container img {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-container:hover img {
+            transform: scale(1.5);
+        }
+
+        .zoom-container.zooming img {
+            transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+        }
+
+        .zoom-lens {
+            position: absolute;
+            border: 2px solid rgba(249, 177, 122, 0.5);
+            background: rgba(249, 177, 122, 0.1);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* === SIZE CHART MODAL === */
+        .size-chart-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(103, 105, 253, 0.15);
+            border: 1px solid rgba(103, 105, 253, 0.3);
+            color: #a5a7fc;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-chart-btn:hover {
+            background: #6769fd;
+            color: white;
+        }
+
+        .size-chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .size-chart-table th,
+        .size-chart-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .size-chart-table th {
+            background: rgba(249, 177, 122, 0.15);
+            color: #f9b17a;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .size-chart-table td {
+            color: #9ca3af;
+        }
+
+        .size-chart-table tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* === SIMILAR PRODUCTS === */
+        .similar-products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .similar-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .similar-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .similar-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .similar-item img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .similar-item .info {
+            padding: 6px;
+        }
+
+        .similar-item .title {
+            font-size: 10px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .similar-item .price {
+            font-size: 11px;
+            color: #f9b17a;
+            font-weight: 600;
+        }
+
+        /* === MOBILE BOTTOM SHEET === */
+        @media (max-width: 768px) {
+            #quick-view-modal .modal-content {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-height: 90vh;
+                border-radius: 20px 20px 0 0;
+                animation: slideUp 0.3s ease;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .bottom-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+
+        /* === OFFERS BANNER === */
+        .offers-banner {
+            background: linear-gradient(90deg, #ff3f6c 0%, #ff6b8a 50%, #ff3f6c 100%);
+            background-size: 200% 100%;
+            animation: bannerGradient 3s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes bannerGradient {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .offers-scroll {
+            display: flex;
+            animation: scrollOffers 20s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scrollOffers {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .offers-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        .offer-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .offer-code {
+            background: white;
+            color: #ff3f6c;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        /* === CUSTOMER REVIEWS === */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: rgba(28, 33, 54, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(249, 177, 122, 0.3);
+        }
+
+        .review-author {
+            flex: 1;
+        }
+
+        .review-name {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .review-stars {
+            color: #ffc107;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(38, 165, 65, 0.15);
+            color: #26a541;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .review-text {
+            color: #d1d5db;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .review-photos {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .review-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .review-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .helpful-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .helpful-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(249, 177, 122, 0.3);
+            color: #f9b17a;
+        }
+
+        /* Review Stats */
+        .review-stats {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 24px;
+            background: rgba(28, 33, 54, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .rating-big {
+            text-align: center;
+        }
+
+        .rating-big .number {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rating-big .stars {
+            color: #ffc107;
+            font-size: 16px;
+        }
+
+        .rating-big .count {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .rating-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .rating-bar .bar-bg {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rating-bar .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+            border-radius: 4px;
+        }
+
+        /* --- 5. Component: Preloader --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #0f1424;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loader-circle {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(249, 177, 122, 0.2);
+            border-top-color: #f9b17a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* --- 6. Component: Toasts --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            pointer-events: auto;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* --- 7. Component: Cart Sidebar --- */
+        .cart-sidebar {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .cart-open {
+            overflow: hidden;
+        }
+
+        /* --- 8. Mobile Responsive Tweaks --- */
+        @media (max-width: 768px) {
+
+            #cursor-dot,
+            #cursor-outline {
+                display: none;
+            }
+
+            .glass-card {
+                backdrop-filter: none;
+                background: #1c2136;
+            }
+        }
+
+        /* === LAZY LOADING === */
+        img.lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        img.lazy.loaded {
+            opacity: 1;
+        }
+
+        img.lazy:not(.loaded) {
+            background: linear-gradient(110deg, #1c2136 8%, #252b44 18%, #1c2136 33%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: -200% 0;
+            }
+        }
+
+        /* === BACK TO TOP BUTTON === */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f9b17a 0%, #f9a066 100%);
+            color: #0f1424;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(249, 177, 122, 0.4);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #back-to-top:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(249, 177, 122, 0.6);
+            transform: scale(1.1);
+        }
+
+        #back-to-top:active {
+            transform: scale(0.9);
+        }
+
+        /* Move back-to-top button up on mobile to avoid bottom nav */
+        @media (max-width: 1024px) {
+            #back-to-top {
+                bottom: 90px;
+            }
+        }
+
+        /* === BREADCRUMBS === */
+        #breadcrumbs {
+            background: rgba(28, 33, 54, 0.4);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .breadcrumb-item {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-item:hover {
+            color: #f9b17a;
+        }
+
+        .breadcrumb-item.active {
+            color: #f9b17a;
+        }
+
+        /* === FILTER SIDEBAR === */
+        #filter-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(15, 20, 36, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s ease-in-out;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-y: auto;
+        }
+
+        #filter-sidebar.open {
+            right: 0;
+        }
+
+        #filter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        #filter-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .filter-section {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Price Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #252b44;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f9b17a;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f9b17a;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            #filter-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* === INSTAGRAM-STYLE CATEGORY HIGHLIGHTS === */
+        .category-highlight {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(45deg, #f9b17a, #6769fd, #f9b17a);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .category-circle.active {
+            background: linear-gradient(45deg, #f9b17a, #ffffff, #f9b17a);
+            box-shadow: 0 0 20px rgba(249, 177, 122, 0.5);
+        }
+
+        .category-circle-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            padding: 2px;
+            background: #0f1424;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .category-circle-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .category-highlight:hover .category-circle {
+            transform: scale(1.1);
+        }
+
+        .category-highlight:hover .category-circle-image {
+            transform: scale(1.15);
+        }
+
+        .category-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            color: #9ca3af;
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .category-highlight:hover .category-label,
+        .category-highlight.active .category-label {
+            color: #f9b17a;
+        }
+
+        @media (max-width: 768px) {
+            .category-circle {
+                width: 70px;
+                height: 70px;
+            }
+
+            .category-label {
+                font-size: 10px;
+                max-width: 75px;
+            }
+        }
+
+        /* === HIDE SCROLLBAR === */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* === STICKY CATEGORY NAV === */
+        .sticky-category-nav {
+            position: sticky;
+            top: 72px;
+            /* Below main header */
+            z-index: 40;
+            background: rgba(15, 20, 36, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin: 0 -1.5rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .sticky-category-nav {
+                top: 64px;
+                padding: 0.75rem 1rem;
+                margin-bottom: 60px;
+                /* Space for bottom nav */
+            }
+        }
+
+        /* === MOBILE BOTTOM NAV SPACING === */
+        @media (max-width: 1024px) {
+            main {
+                padding-bottom: 80px !important;
+            }
+
+            section {
+                padding-bottom: calc(1.5rem + 80px) !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-vbk-gold selection:text-vbk-navy">
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <div id="preloader">
+        <div class="loader-circle mb-4"></div>
+        <div class="text-vbk-gold font-serif tracking-[0.4em] text-xs animate-pulse">VBK DESIGNS</div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to Top">
+        <i class="fa-solid fa-arrow-up text-xl"></i>
+    </button>
+
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex flex-col items-start group z-50" onclick="window.scrollTo(0,0)">
+                <span
+                    class="text-2xl font-serif font-bold tracking-wider text-white group-hover:text-vbk-gold transition duration-300">VBK<span
+                        class="text-vbk-gold">.</span></span>
+                <span
+                    class="text-[10px] uppercase tracking-[0.3em] text-gray-400 group-hover:tracking-[0.4em] transition-all">Designs</span>
+            </a>
+
+            <div
+                class="hidden lg:flex items-center space-x-5 text-[11px] font-bold uppercase tracking-wider text-gray-300">
+                <a href="#top-designs" class="hover:text-vbk-gold transition py-2 nav-link">Top Picks</a>
+                <a href="#blouse-designs" class="hover:text-vbk-gold transition py-2 nav-link">Blouses</a>
+                <a href="#Kurthi-designs" class="hover:text-vbk-gold transition py-2 nav-link">Kurthis</a>
+                <a href="#wedding" class="hover:text-vbk-gold transition py-2 nav-link">Bridal</a>
+                <a href="#lehanga-designs" class="hover:text-vbk-gold transition py-2 nav-link">Lehangas</a>
+                <a href="#frock-designs" class="hover:text-vbk-gold transition py-2 nav-link">Frocks</a>
+                <a href="#maggam-designs" class="hover:text-vbk-gold transition py-2 nav-link">Maggam</a>
+                <a href="#Saree-Tassels-designs" class="hover:text-vbk-gold transition py-2 nav-link">Tassels</a>
+                <a href="#T-Shirt-Embroidery-designs" class="hover:text-vbk-gold transition py-2 nav-link">T Shirt</a>
+                <a href="#Adduthera-designs" class="hover:text-vbk-gold transition py-2 nav-link">Adduthera</a>
+                <a href="#God-embroidery" class="hover:text-vbk-gold transition py-2 nav-link">God Designs</a>
+                <a href="#materials" class="hover:text-vbk-gold transition py-2 nav-link">Materials</a>
+                <a href="#reviews" class="hover:text-vbk-gold transition py-2 nav-link">Reviews</a>
+
+            </div>
+
+            <div class="flex items-center space-x-5 z-50">
+                <!-- Install App Button (PWA) -->
+                <button id="install-app-btn" onclick="installApp()"
+                    class="hidden items-center gap-2 px-4 py-2 bg-vbk-gold text-vbk-navy text-xs font-bold rounded-full hover:bg-white transition"
+                    style="display: none;">
+                    <i class="fa-solid fa-download"></i>
+                    <span class="hidden md:inline">Install App</span>
+                </button>
+
+                <button onclick="toggleSearch()" class="text-gray-300 hover:text-vbk-gold transition relative">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+
+                <button class="text-gray-300 hover:text-vbk-gold transition relative"
+                    onclick="app.toggleWishlistSidebar()">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlist-badge"
+                        class="absolute -top-2 -right-2 w-4 h-4 bg-vbk-purple text-[9px] flex items-center justify-center rounded-full text-white font-bold opacity-0 transition-opacity">0</span>
+                </button>
+
+                <button onclick="app.toggleCart()" class="text-gray-300 hover:text-vbk-gold transition relative group">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cart-count"
+                        class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
+                </button>
+
+                <button onclick="app.toggleMobileMenu()"
+                    class="lg:hidden text-2xl text-white hover:text-vbk-gold transition">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="search-bar"
+            class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
+            <div class="container mx-auto p-4">
+                <!-- Search Input Row -->
+                <div class="relative flex gap-3 items-center">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" id="global-search" placeholder="Search for blouses, maggam, bridal..."
+                        class="w-full bg-vbk-navy border border-vbk-mid text-white placeholder-gray-500 rounded-full px-12 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold focus:border-transparent transition"
+                        autocomplete="off">
+                    <button onclick="clearSearch()"
+                        class="absolute right-24 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-white hidden"
+                        id="clear-search-btn">
+                        <i class="fa-solid fa-times-circle"></i>
+                    </button>
+                    <button onclick="toggleSearch()"
+                        class="flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-vbk-navy rounded-full transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Search Suggestions Dropdown -->
+                <div id="search-suggestions" class="mt-4 hidden">
+                    <!-- Recent Searches -->
+                    <div id="recent-searches-section" class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold">Recent Searches</h4>
+                            <button onclick="clearRecentSearches()"
+                                class="text-gray-500 text-xs hover:text-vbk-gold transition">Clear All</button>
+                        </div>
+                        <div id="recent-searches" class="flex flex-wrap gap-2">
+                            <!-- Recent search pills will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Trending Searches -->
+                    <div class="mb-4">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold mb-2">
+                            <i class="fa-solid fa-fire text-orange-400 mr-1"></i> Trending
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span onclick="searchFor('Maggam Work')" class="search-pill">Maggam Work</span>
+                            <span onclick="searchFor('Bridal Blouse')" class="search-pill">Bridal Blouse</span>
+                            <span onclick="searchFor('V Neck')" class="search-pill">V Neck</span>
+                            <span onclick="searchFor('Boat Neck')" class="search-pill">Boat Neck</span>
+                            <span onclick="searchFor('Lehanga')" class="search-pill">Lehanga</span>
+                            <span onclick="searchFor('Zardosi')" class="search-pill">Zardosi</span>
+                        </div>
+                    </div>
+
+                    <!-- Category Shortcuts -->
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold mb-2">Popular Categories
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <a href="#blouse-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-shirt"></i> Blouses
+                            </a>
+                            <a href="#wedding" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-gem"></i> Bridal
+                            </a>
+                            <a href="#lehanga-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-star"></i> Lehangas
+                            </a>
+                            <a href="#maggam-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Maggam
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Search Results -->
+                <div id="search-results" class="mt-4 hidden">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold">
+                            <span id="search-results-count">0</span> Results
+                        </h4>
+                    </div>
+                    <div id="search-results-grid"
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-h-80 overflow-y-auto">
+                        <!-- Search result items will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-vbk-navy/95 z-[110] transform -translate-y-full transition-transform duration-500 flex flex-col justify-center items-center space-y-6 lg:hidden backdrop-blur-xl overflow-y-auto py-20">
+
+            <!-- Close Button -->
+            <button onclick="app.toggleMobileMenu()"
+                class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-white hover:text-vbk-gold transition-colors rounded-full hover:bg-vbk-card">
+                <i class="fa-solid fa-xmark text-3xl"></i>
+            </button>
+
+            <a href="#top-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Top Picks</a>
+            <a href="#blouse-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Blouses</a>
+            <a href="#Kurthi-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Kurthis</a>
+            <a href="#lehanga-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Lehangas</a>
+            <a href="#frock-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Frocks</a>
+            <a href="#maggam-designs" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Maggam Work</a>
+            <a href="#wedding" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Bridal</a>
+            <a href="#materials" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Materials</a>
+            <a href="#reviews" onclick="app.toggleMobileMenu()"
+                class="text-2xl font-serif text-white hover:text-vbk-gold transition">Reviews</a>
+            <div class="flex gap-6 mt-8">
+                <a href="#"
+                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="#"
+                    class="w-12 h-12 rounded-full bg-vbk-card flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy"><i
+                        class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div id="breadcrumbs" class="fixed top-[72px] left-0 w-full z-40 py-2 px-4 hidden">
+        <div class="container mx-auto">
+            <nav class="flex items-center text-xs space-x-2">
+                <a href="#" onclick="window.scrollTo(0,0)" class="breadcrumb-item hover:text-vbk-gold">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+                <span class="text-gray-600">/</span>
+                <span id="breadcrumb-current" class="breadcrumb-item active"></span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Mobile Section Navigation (Bottom) -->
+    <div id="mobile-section-nav"
+        class="fixed bottom-0 left-0 w-full z-[100] bg-vbk-dark/98 backdrop-blur-lg border-t border-vbk-mid/30 lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+        <div class="flex items-center justify-around py-2 px-2 overflow-x-auto">
+            <a href="#blouse-designs" class="flex flex-col items-center gap-1 px-2 py-1 min-w-[60px]">
+                <i class="fa-solid fa-shirt text-base text-vbk-gold"></i>
+                <span class="text-[9px] font-bold uppercase text-gray-300">Blouses</span>
+            </a>
+            <a href="#Kurthi-designs" class="flex flex-col items-center gap-1 px-2 py-1 min-w-[60px]">
+                <i class="fa-solid fa-vest text-base text-vbk-gold"></i>
+                <span class="text-[9px] font-bold uppercase text-gray-300">Kurthis</span>
+            </a>
+            <a href="#lehanga-designs" class="flex flex-col items-center gap-1 px-2 py-1 min-w-[60px]">
+                <i class="fa-solid fa-user-tie text-base text-vbk-gold"></i>
+                <span class="text-[9px] font-bold uppercase text-gray-300">Lehangas</span>
+            </a>
+            <a href="#frock-designs" class="flex flex-col items-center gap-1 px-2 py-1 min-w-[60px]">
+                <i class="fa-solid fa-hat-wizard text-base text-vbk-gold"></i>
+                <span class="text-[9px] font-bold uppercase text-gray-300">Frocks</span>
+            </a>
+            <a href="#wedding" class="flex flex-col items-center gap-1 px-2 py-1 min-w-[60px]">
+                <i class="fa-solid fa-ring text-base text-vbk-gold"></i>
+                <span class="text-[9px] font-bold uppercase text-gray-300">Bridal</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Filter Sidebar -->
+    <div id="filter-overlay" onclick="app.toggleFilters()"></div>
+    <div id="filter-sidebar">
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-white">Filters</h2>
+                <button onclick="app.toggleFilters()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Price Range -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3 flex items-center justify-between">
+                    <span>Price Range</span>
+                    <span id="price-display" class="text-vbk-gold text-sm">₹0 - ₹10000</span>
+                </h3>
+                <div class="space-y-3">
+                    <input type="range" id="price-min" min="0" max="10000" value="0" step="100">
+                    <input type="range" id="price-max" min="0" max="10000" value="10000" step="100">
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3">Colors</h3>
+                <div class="grid grid-cols-4 gap-2" id="color-filters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Subcategories -->
+            <div class="filter-section py-4">
+                <h3 class="text-white font-bold mb-3">Categories</h3>
+                <div class="space-y-2 max-h-64 overflow-y-auto" id="subcategory-filters">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 mt-6">
+                <button onclick="app.applyFilters()"
+                    class="flex-1 bg-vbk-gold text-vbk-navy py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-white transition">
+                    Apply Filters
+                </button>
+                <button onclick="app.resetFilters()"
+                    class="flex-1 bg-vbk-card text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-vbk-mid transition border border-vbk-mid">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-vbk-navy z-0">
+            <div
+                class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583391733958-e004e45d8b60?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 scale-110 animate-[float_20s_ease-in-out_infinite]">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-vbk-navy via-vbk-navy/60 to-transparent"></div>
+        </div>
+
+        <div
+            class="absolute top-1/4 left-1/4 w-96 h-96 bg-vbk-purple rounded-full blur-[120px] opacity-20 animate-pulse">
+        </div>
+        <div
+            class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-vbk-gold rounded-full blur-[120px] opacity-15 animate-float">
+        </div>
+
+        <div class="container relative z-10 text-center px-4 mt-12">
+            <div
+                class="inline-block border border-vbk-gold/30 rounded-full px-6 py-2 mb-6 bg-vbk-navy/30 backdrop-blur-sm animate-fade-in">
+                <span class="text-vbk-gold text-xs uppercase tracking-[0.3em] font-bold"><i
+                        class="fa-solid fa-star text-[10px] mr-2"></i>Premium Stitching Services</span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-[1.1] animate-slide-up opacity-0"
+                style="animation-delay: 0.5s;">
+                Threads of <br /><span class="text-gradient">Tradition</span>
+            </h1>
+
+            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed animate-slide-up opacity-0"
+                style="animation-delay: 0.9s;">
+                Where intricate Maggam artistry meets contemporary silhouettes.
+                Custom designed, perfectly fitted, and delivered with love.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center animate-slide-up opacity-0"
+                style="animation-delay: 0.6s;">
+                <a href="#top-designs"
+                    class="group relative bg-vbk-gold text-vbk-navy font-bold py-4 px-10 overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(249,177,122,0.4)] rounded-sm">
+                    <div
+                        class="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full opacity-20">
+                    </div>
+                    <span class="relative uppercase tracking-widest text-xs flex items-center gap-2">Explore Designs <i
+                            class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="#wedding"
+                    class="px-10 py-4 border border-gray-600 text-gray-300 uppercase tracking-widest text-xs font-bold hover:border-vbk-gold hover:text-vbk-gold transition rounded-sm">
+                    Bridal Collection
+                </a>
+            </div>
+        </div>
+
+        <a href="#stats"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500 hover:text-vbk-gold transition">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </header>
+
+    <section id="stats" class="py-12 border-y border-vbk-mid/20 bg-[#0a0e1a]">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-vbk-mid/20">
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">17+</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Years Experience</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">700+</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Happy Customers</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">48h</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Express Delivery</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-4xl font-serif text-vbk-gold font-bold mb-1">100%</div>
+                    <div class="text-[10px] uppercase tracking-widest text-gray-500">Fitting Guarantee</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+
+        <!-- Offers Banner -->
+        <div class="offers-banner py-2 text-white">
+            <div class="offers-scroll">
+                <span class="offer-item">
+                    <i class="fa-solid fa-tag"></i>
+                    Use code <span class="offer-code">VBK20</span> for 20% OFF on first order!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-truck"></i>
+                    FREE Shipping on orders above ₹999
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-gift"></i>
+                    Use code <span class="offer-code">BRIDAL30</span> for 30% OFF on Bridal wear!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-percent"></i>
+                    FLAT 15% OFF on Maggam Work - Use <span class="offer-code">MAGGAM15</span>
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-heart"></i>
+                    Handcrafted with love 💕 New designs added weekly!
+                </span>
+                <!-- Duplicate for seamless loop -->
+                <span class="offer-item">
+                    <i class="fa-solid fa-tag"></i>
+                    Use code <span class="offer-code">VBK20</span> for 20% OFF on first order!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-truck"></i>
+                    FREE Shipping on orders above ₹999
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-gift"></i>
+                    Use code <span class="offer-code">BRIDAL30</span> for 30% OFF on Bridal wear!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-percent"></i>
+                    FLAT 15% OFF on Maggam Work - Use <span class="offer-code">MAGGAM15</span>
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-heart"></i>
+                    Handcrafted with love 💕 New designs added weekly!
+                </span>
+            </div>
+        </div>
+
+        <!-- Sticky Category Filter Pills -->
+        <div id="category-pills"
+            class="sticky top-[72px] z-30 bg-vbk-navy/95 backdrop-blur-lg border-b border-vbk-mid/20 py-3 shadow-lg">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+                    <!-- Filter & Sort Buttons -->
+                    <button onclick="toggleSearch()"
+                        class="flex-shrink-0 px-4 py-2 bg-vbk-purple text-white rounded-full text-xs font-bold flex items-center gap-2 hover:bg-vbk-gold hover:text-vbk-navy transition">
+                        <i class="fa-solid fa-sliders"></i> Filter
+                    </button>
+                    <select id="global-sort" onchange="app.applySorting()"
+                        class="flex-shrink-0 bg-vbk-card border border-vbk-mid text-white rounded-full px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-vbk-gold">
+                        <option value="">Sort</option>
+                        <option value="price-asc">Price ↑</option>
+                        <option value="price-desc">Price ↓</option>
+                        <option value="name-asc">A-Z</option>
+                    </select>
+
+                    <!-- Divider -->
+                    <div class="w-px h-6 bg-vbk-mid/30 flex-shrink-0"></div>
+
+                    <!-- Category Pills -->
+                    <a href="#top-designs" class="category-pill active">All</a>
+                    <a href="#blouse-designs" class="category-pill">Blouses</a>
+                    <a href="#wedding" class="category-pill">Bridal</a>
+                    <a href="#lehanga-designs" class="category-pill">Lehangas</a>
+                    <a href="#maggam-designs" class="category-pill">Maggam</a>
+                    <a href="#Kurthi-designs" class="category-pill">Kurthis</a>
+                    <a href="#frock-designs" class="category-pill">Frocks</a>
+                    <a href="#materials" class="category-pill">Materials</a>
+                    <a href="#Saree-Tassels-designs" class="category-pill">Tassels</a>
+                </div>
+            </div>
+        </div>
+
+        <section id="top-designs" class="py-24 bg-vbk-navy relative">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div>
+                        <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">Handpicked
+                            For You</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-white">Trending Now</h2>
+                    </div>
+                    <div class="flex items-center gap-4 mt-4 md:mt-0">
+                        <select id="sort-top" onchange="app.sortProducts('top-designs', this.value)"
+                            class="bg-vbk-card border border-vbk-mid text-gray-300 text-xs py-2 px-4 rounded focus:outline-none focus:border-vbk-gold">
+                            <option value="default">Sort By: Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="grid-top-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                </div>
+
+                <div class="mt-12 text-center">
+                    <button
+                        class="border-b border-vbk-gold text-vbk-gold pb-1 text-xs uppercase tracking-widest hover:text-white hover:border-white transition">View
+                        All Trending</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="blouse-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <i class="fa-solid fa-scissors text-vbk-gold text-2xl mb-4"></i>
+                    <h2 class="text-4xl font-serif text-white mb-4">Designer Blouses</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">From simple cuts to heavy Maggam masterpieces. Choose your
+                        style.</p>
+                </div>
+
+                <div class="sticky-category-nav">
+                    <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" id="blouse-tabs"
+                        style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
+                    </div>
+                </div>
+
+                <div id="grid-blouses" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mt-6">
+                </div>
+            </div>
+        </section>
+
+        <section id="Kurthi-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Designer Kurthis</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Elegant and comfortable Kurthis for every occasion.</p>
+                </div>
+                <div id="grid-Kurthi-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="lehanga-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Lehangas</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Traditional and contemporary Lehangas.</p>
+                </div>
+                <div id="grid-lehanga-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="frock-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Frocks</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Beautiful Frocks for kids and adults.</p>
+                </div>
+                <div id="grid-frock-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="maggam-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Maggam Works</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Intricate Maggam designs on various outfits.</p>
+                </div>
+                <div id="grid-maggam-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="Saree-Tassels-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Saree Tassels</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Custom handmade tassels for your sarees.</p>
+                </div>
+                <div id="grid-Saree-Tassels-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="T-Shirt-Embroidery-designs" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">T-Shirt Embroidery</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Personalized embroidery on T-Shirts.</p>
+                </div>
+                <div id="grid-T-Shirt-Embroidery-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="Adduthera-designs" class="py-24 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">Adduthera</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Traditional Adduthera designs.</p>
+                </div>
+                <div id="grid-Adduthera-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="God-embroidery" class="py-24 bg-vbk-card/20 border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif text-white mb-4">God Embroidery</h2>
+                    <p class="text-gray-400 max-w-md mx-auto">Divine embroidery designs.</p>
+                </div>
+                <div id="grid-God-embroidery" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+            </div>
+        </section>
+
+        <section id="wedding" class="py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-black/40 z-0"></div>
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-embroidery.png')] opacity-20 z-0">
+            </div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
+                    <div class="lg:col-span-5">
+                        <span class="text-vbk-gold font-bold uppercase tracking-widest text-xs mb-2 block">The Bridal
+                            Edit</span>
+                        <h2 class="text-5xl md:text-6xl font-serif text-white mb-6 leading-tight">Royal <br />Collection
+                        </h2>
+                        <p class="text-gray-300 mb-8 text-lg font-light leading-relaxed">
+                            Make your special day unforgettable with our exclusive heavy Zardosi, Stone work, and
+                            Cutwork designs. We coordinate Bride & Groom outfits to perfection.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="document.getElementById('grid-wedding').scrollIntoView()"
+                                class="bg-vbk-purple text-white font-bold py-3 px-8 hover:bg-vbk-purpleDark transition uppercase tracking-widest text-sm rounded-sm">
+                                Shop Bridal
+                            </button>
+                            <button onclick="app.openConsultation()"
+                                class="border border-white text-white font-bold py-3 px-8 hover:bg-white hover:text-vbk-navy transition uppercase tracking-widest text-sm rounded-sm">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 grid grid-cols-2 gap-4">
+                        <div class="space-y-4 mt-8">
+                            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop"
+                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
+                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-gold">
+                                <div class="text-2xl font-serif font-bold text-white">15+</div>
+                                <div class="text-xs text-gray-400 uppercase">Artisans per piece</div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-vbk-card/80 backdrop-blur p-4 rounded-lg border-l-4 border-vbk-purple">
+                                <div class="text-2xl font-serif font-bold text-white">Pure</div>
+                                <div class="text-xs text-gray-400 uppercase">Silk & Gold Zari</div>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1595514020182-52695528d91f?q=80&w=800&auto=format&fit=crop"
+                                class="rounded-lg shadow-2xl border border-vbk-mid/30 hover:scale-[1.02] transition duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+                    <h3 class="text-2xl font-serif text-white">Bridal Catalog</h3>
+                    <select onchange="app.filterCategory('wedding', this.value)"
+                        class="bg-transparent border border-white/20 text-white text-xs py-2 px-4 rounded focus:bg-vbk-card">
+                        <option value="all">All Bridal</option>
+                        <option value="heavy">Heavy Work</option>
+                        <option value="simple">Reception Wear</option>
+                    </select>
+                </div>
+
+                <div id="grid-wedding" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="py-20 bg-vbk-navy border-t border-vbk-mid/20">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                    <div>
+                        <span class="text-gray-500 uppercase text-xs font-bold tracking-widest">DIY & Boutique
+                            Supplies</span>
+                        <h2 class="text-3xl font-serif text-white mt-1">Tailoring Essentials</h2>
+                    </div>
+                    <a href="#"
+                        class="text-xs uppercase tracking-widest text-vbk-gold border-b border-vbk-gold pb-1 hover:text-white hover:border-white transition">View
+                        Bulk Rates</a>
+                </div>
+
+                <div id="grid-materials" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews" class="py-24 bg-vbk-card relative">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">Real
+                        Reviews</span>
+                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">What Our Customers Say</h2>
+                    <div class="w-24 h-1 bg-vbk-gold mx-auto"></div>
+                </div>
+
+                <!-- Rating Stats Dashboard -->
+                <div class="review-stats mb-12 max-w-2xl mx-auto">
+                    <div class="rating-big">
+                        <div class="number">4.8</div>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <div class="count">Based on 2,847 reviews</div>
+                    </div>
+                    <div class="rating-bars">
+                        <div class="rating-bar">
+                            <span>5 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 78%"></div>
+                            </div>
+                            <span>78%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>4 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 15%"></div>
+                            </div>
+                            <span>15%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>3 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 5%"></div>
+                            </div>
+                            <span>5%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>2 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 1%"></div>
+                            </div>
+                            <span>1%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>1 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 1%"></div>
+                            </div>
+                            <span>1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Reviews Grid -->
+                <div class="reviews-grid">
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sneha"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Sneha Reddy</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>2 weeks ago</span>
+                                </div>
+                            </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"The fitting was absolutely perfect on the first try! The Maggam work
+                            details are so intricate - every thread looks perfectly placed. VBK is now my go-to boutique
+                            for all occasions. The delivery was also super fast!"</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1610030469668-7a5795a7c0e3?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 24</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Priya Krishnamurthy</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>1 month ago</span>
+                                </div>
+                            </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"Ordered customized latkans and lining material for my boutique. The
+                            quality is top-notch compared to local markets. My customers loved the designs! Will
+                            definitely order again."</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 18</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Lakshmi"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Lakshmi Menon</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>3 weeks ago</span>
+                                </div>
+                            </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"Designed my entire wedding trousseau here. They were very patient with
+                            my changes and the final output was stunning. Everyone at my wedding complimented the blouse
+                            designs. Thank you VBK!"</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 42</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View All Reviews Button -->
+                <div class="text-center mt-12">
+                    <button
+                        class="px-8 py-3 border border-vbk-gold text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy font-bold uppercase tracking-wider text-xs rounded-full transition">
+                        View All 2,847 Reviews <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist" class="py-24 bg-vbk-navy relative">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-serif text-white mb-4 font-bold">
+                        My Wishlist <i class="fa-solid fa-heart text-pink-500"></i>
+                    </h2>
+                    <p class="text-gray-400 text-lg">Your saved favorites</p>
+                </div>
+
+                <div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Wishlist items will be rendered here -->
+                </div>
+
+                <div id="wishlist-empty" class="text-center py-16 hidden">
+                    <i class="fa-regular fa-heart text-6xl text-gray-600 mb-4"></i>
+                    <h3 class="text-2xl text-gray-400 mb-2">Your wishlist is empty</h3>
+                    <p class="text-gray-500">Start adding products you love!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black py-16 border-t border-vbk-mid/30 text-sm">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-1">
+                    <h3 class="text-3xl font-serif font-bold text-white mb-4">VBK<span class="text-vbk-gold">.</span>
+                    </h3>
+                    <p class="text-gray-500 mb-6 leading-relaxed text-xs">
+                        Elevating traditional stitching to an art form. Your trusted partner for all bespoke tailoring
+                        needs.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded bg-vbk-card flex items-center justify-center text-gray-400 hover:bg-vbk-gold hover:text-vbk-navy transition"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Shop</h4>
+                    <ul class="space-y-3 text-gray-500 text-xs">
+                        <li><a href="#" class="hover:text-vbk-gold transition">Bridal Wear</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Casual Blouses</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Lehengas</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Materials</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Company</h4>
+                    <ul class="space-y-3 text-gray-500 text-xs">
+                        <li><a href="#" class="hover:text-vbk-gold transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Pricing Guide</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Measurement Guide</a></li>
+                        <li><a href="#" class="hover:text-vbk-gold transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-widest mb-6 text-xs">Contact</h4>
+                    <ul class="space-y-4 text-gray-500 text-xs">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-vbk-gold"></i>
+                            <span>Hindupuram, Andhra Pradesh,<br>India - 515201</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone mt-1 text-vbk-gold"></i>
+                            <span>+91 73822 03777</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-envelope mt-1 text-vbk-gold"></i>
+                            <span>vbkdesigns.embro@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-600 uppercase tracking-widest">
+                &copy; 2025 VBK Designs. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-overlay" class="fixed inset-0 bg-black/70 z-[60] hidden transition-opacity backdrop-blur-sm"
+        onclick="app.toggleCart(false)"></div>
+    <div id="cart-sidebar"
+        class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-vbk-navy z-[70] shadow-2xl flex flex-col transform translate-x-full cart-sidebar border-l border-vbk-mid/30">
+        <div class="p-6 border-b border-vbk-mid/30 flex justify-between items-center bg-vbk-card">
+            <div>
+                <h2 class="text-xl font-serif font-bold text-white">Your Inquiry Bag</h2>
+                <p class="text-xs text-gray-400">Items to discuss on WhatsApp</p>
+            </div>
+            <button onclick="app.toggleCart(false)"
+                class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded hover:bg-white/10"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </div>
+
+        <div class="p-6 border-t border-vbk-mid/30 bg-vbk-card z-20">
+            <div class="flex justify-between mb-2 text-gray-300 text-sm">
+                <span>Total Items:</span>
+                <span id="cart-total-count" class="font-bold text-white">0</span>
+            </div>
+            <div class="flex justify-between mb-4 text-gray-300 text-sm">
+                <span>Est. Material Cost:</span>
+                <span id="cart-total-price" class="font-bold text-vbk-gold">₹0</span>
+            </div>
+            <button onclick="app.openCheckoutModal()"
+                class="w-full bg-green-600 text-white py-4 font-bold shadow-lg hover:bg-green-500 transition flex items-center justify-center gap-3 uppercase tracking-widest text-sm rounded-sm hover:-translate-y-1 duration-200">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Send Inquiry
+            </button>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div id="wishlist-overlay" class="fixed inset-0 bg-black/70 z-[60] hidden transition-opacity backdrop-blur-sm"
+        onclick="app.toggleWishlistSidebar(false)"></div>
+    <div id="wishlist-sidebar"
+        class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-vbk-navy z-[70] shadow-2xl flex flex-col transform translate-x-full cart-sidebar border-l border-vbk-mid/30">
+        <div class="p-6 border-b border-vbk-mid/30 flex justify-between items-center bg-vbk-card">
+            <div>
+                <h2 class="text-xl font-serif font-bold text-white">Your Wishlist</h2>
+                <p class="text-xs text-gray-400">Saved items for later</p>
+            </div>
+            <button onclick="app.toggleWishlistSidebar(false)"
+                class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded hover:bg-white/10"><i
+                    class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <div id="wishlist-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
+        </div>
+
+        <div class="p-6 border-t border-vbk-mid/30 bg-vbk-card z-20">
+            <div class="flex justify-between mb-4 text-gray-300 text-sm">
+                <span>Total Items:</span>
+                <span id="wishlist-total-count" class="font-bold text-white">0</span>
+            </div>
+            <button onclick="app.moveAllToCart()"
+                class="w-full bg-vbk-gold text-vbk-navy py-4 font-bold shadow-lg hover:bg-white transition flex items-center justify-center gap-3 uppercase tracking-widest text-sm rounded-sm hover:-translate-y-1 duration-200">
+                <i class="fa-solid fa-bag-shopping text-lg"></i> Add All to Cart
+            </button>
+        </div>
+    </div>
+
+    <div id="quick-view-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+            onclick="app.closeModal('quick-view-modal')"></div>
+
+        <div
+            class="modal-content bg-vbk-card w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden relative z-10 flex flex-col md:flex-row animate-fade-in border border-vbk-mid/30 max-h-[90vh]">
+
+            <!-- Mobile Bottom Sheet Handle -->
+            <div class="bottom-sheet-handle md:hidden"></div>
+
+            <button onclick="app.closeModal('quick-view-modal')"
+                class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 text-white rounded-full hover:bg-vbk-gold hover:text-vbk-navy transition flex items-center justify-center"><i
+                    class="fa-solid fa-xmark"></i></button>
+
+            <!-- Image Section with Zoom -->
+            <div class="md:w-1/2 bg-black relative h-64 md:h-auto group overflow-hidden">
+                <div class="zoom-container w-full h-full" id="qv-zoom-container">
+                    <img id="qv-img" src="" class="w-full h-full object-cover opacity-90">
+                </div>
+
+                <!-- Carousel Controls -->
+                <button onclick="app.prevSlide()"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-vbk-gold hover:text-vbk-navy transition z-20">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="app.nextSlide()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-vbk-gold hover:text-vbk-navy transition z-20">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20" id="carousel-dots">
+                    <!-- Dots will be injected here -->
+                </div>
+
+                <!-- Zoom Hint -->
+                <div
+                    class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full z-10 hidden md:flex items-center gap-1">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i> Hover to zoom
+                </div>
+
+                <div class="absolute bottom-4 left-4 z-10">
+                    <span id="qv-tag"
+                        class="bg-vbk-purple text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest">New
+                        Arrival</span>
+                </div>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="md:w-1/2 p-6 md:p-8 flex flex-col bg-vbk-navy overflow-y-auto">
+                <div class="mb-auto">
+                    <!-- Category & Price Row -->
+                    <div class="flex justify-between items-start mb-2">
+                        <span id="qv-category"
+                            class="text-vbk-gold text-xs font-bold uppercase tracking-widest">Category</span>
+                        <div class="text-right">
+                            <div id="qv-badge" class="text-xs text-white bg-pink-500/80 px-2 py-0.5 rounded mb-1">30%
+                                OFF</div>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <h2 id="qv-title" class="text-2xl md:text-3xl font-serif font-bold text-white mb-3 leading-tight">
+                        Product Title</h2>
+
+                    <!-- Rating -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="product-rating">
+                            <span class="rating-value" id="qv-rating">4.2</span>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="rating-count" id="qv-reviews">1.2k</span>
+                        </div>
+                        <span class="text-gray-500 text-xs">|</span>
+                        <span class="text-gray-400 text-xs" id="qv-sold">500+ sold</span>
+                    </div>
+
+                    <!-- Price Section -->
+                    <div class="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+                        <span id="qv-price" class="text-2xl font-bold text-vbk-gold">₹0</span>
+                        <span id="qv-original-price" class="text-gray-500 line-through text-sm">₹0</span>
+                        <span id="qv-discount" class="text-pink-400 text-sm font-semibold">(30% OFF)</span>
+                    </div>
+
+                    <!-- Size Chart Button -->
+                    <div class="mb-4">
+                        <button onclick="toggleSizeChart()" class="size-chart-btn">
+                            <i class="fa-solid fa-ruler"></i> Size Chart
+                        </button>
+                    </div>
+
+                    <!-- Size Chart (Hidden by default) -->
+                    <div id="size-chart" class="hidden mb-4 bg-vbk-card/50 rounded-lg p-4 border border-vbk-mid/30">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Size Guide</h4>
+                        <table class="size-chart-table">
+                            <tr>
+                                <th>Size</th>
+                                <th>Bust</th>
+                                <th>Waist</th>
+                                <th>Length</th>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>32"</td>
+                                <td>26"</td>
+                                <td>14"</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>34"</td>
+                                <td>28"</td>
+                                <td>15"</td>
+                            </tr>
+                            <tr>
+                                <td>L</td>
+                                <td>36"</td>
+                                <td>30"</td>
+                                <td>16"</td>
+                            </tr>
+                            <tr>
+                                <td>XL</td>
+                                <td>38"</td>
+                                <td>32"</td>
+                                <td>17"</td>
+                            </tr>
+                            <tr>
+                                <td>XXL</td>
+                                <td>40"</td>
+                                <td>34"</td>
+                                <td>18"</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Delivery Info -->
+                    <div class="bg-vbk-card/30 rounded-lg p-3 mb-4 border border-vbk-mid/20">
+                        <div class="flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-truck text-green-400"></i>
+                            <span class="text-gray-400">Free Delivery by</span>
+                            <span class="text-white font-semibold" id="qv-delivery-date">Dec 12</span>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="bg-vbk-card/50 p-4 rounded border border-vbk-mid/30 mb-4">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Features</h4>
+                        <ul id="qv-features" class="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                            <!-- Features will be injected dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Similar Products -->
+                    <div class="mb-4">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Similar Products</h4>
+                        <div id="qv-similar" class="similar-products-grid">
+                            <!-- Similar products will be injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mt-4 pt-4 border-t border-white/10">
+                    <button onclick="store.toggleWishlist(currentProductId)"
+                        class="w-12 h-12 flex items-center justify-center border border-pink-500/50 text-pink-400 rounded-lg hover:bg-pink-500 hover:text-white transition">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                    <button id="qv-add-btn"
+                        class="flex-1 bg-vbk-gold text-vbk-navy font-bold py-3 px-6 rounded-lg hover:bg-white transition uppercase tracking-wider text-xs shadow-[0_0_20px_rgba(249,177,122,0.3)] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Chart Overlay Modal -->
+    <div id="size-chart-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/80" onclick="toggleSizeChart()"></div>
+        <div class="bg-vbk-card w-full max-w-md p-6 rounded-lg relative z-10 border border-vbk-mid/30">
+            <button onclick="toggleSizeChart()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-ruler text-vbk-gold"></i> Blouse Size Chart
+            </h3>
+            <table class="size-chart-table">
+                <tr>
+                    <th>Size</th>
+                    <th>Bust</th>
+                    <th>Waist</th>
+                    <th>Length</th>
+                </tr>
+                <tr>
+                    <td>S (32-34)</td>
+                    <td>32-34"</td>
+                    <td>26-28"</td>
+                    <td>14"</td>
+                </tr>
+                <tr>
+                    <td>M (34-36)</td>
+                    <td>34-36"</td>
+                    <td>28-30"</td>
+                    <td>15"</td>
+                </tr>
+                <tr>
+                    <td>L (36-38)</td>
+                    <td>36-38"</td>
+                    <td>30-32"</td>
+                    <td>16"</td>
+                </tr>
+                <tr>
+                    <td>XL (38-40)</td>
+                    <td>38-40"</td>
+                    <td>32-34"</td>
+                    <td>17"</td>
+                </tr>
+                <tr>
+                    <td>XXL (40-42)</td>
+                    <td>40-42"</td>
+                    <td>34-36"</td>
+                    <td>18"</td>
+                </tr>
+            </table>
+            <p class="text-gray-500 text-xs mt-4 text-center">
+                <i class="fa-solid fa-info-circle mr-1"></i> Custom sizes available on request
+            </p>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="app.closeModal('checkout-modal')"></div>
+        <div
+            class="bg-vbk-card w-full max-w-md p-8 rounded-lg shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up">
+            <div class="text-center mb-6">
+                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-4"></i>
+                <h3 class="text-2xl font-serif text-white font-bold">Final Step</h3>
+                <p class="text-xs text-gray-400 mt-2">Help us personalize your inquiry</p>
+            </div>
+
+            <form onsubmit="app.processWhatsApp(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">Your Name</label>
+                    <input type="text" id="cust-name" required
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
+                        placeholder="e.g., Ananya">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">City / Location</label>
+                    <input type="text" id="cust-city" required
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
+                        placeholder="e.g., Bangalore">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1">Additional Notes (Optional)</label>
+                    <textarea id="cust-note"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition h-24"
+                        placeholder="Specific fabric or date requirement?"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-green-600 text-white font-bold py-3 rounded hover:bg-green-500 transition mt-4">
+                    Start WhatsApp Chat <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- CONSTANTS & DATABASE ---
+        const CONFIG = {
+            currency: '₹',
+            phone: '917382203777', // Your number
+            animationDuration: 300
+        };
+
+    </script>
+    <script>
+        // Google Sheet CSV URL
+        // Google Sheet CSV URL (using allorigins JSON API to avoid 403s)
+        const SHEET_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
+
+        let DB = [];
+
+        async function fetchProductData() {
+            try {
+                console.log('Fetching data from:', SHEET_URL);
+                const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const json = await response.json();
+                let data = json.contents; // Content is in .contents field
+
+                if (!data) throw new Error('No data received from proxy');
+
+                // Handle Base64 encoded data (data:text/csv;base64,...)
+                if (data.startsWith('data:')) {
+                    const base64Part = data.split(',')[1];
+                    if (base64Part) {
+                        // Decode Base64 (handling UTF-8 chars correctly)
+                        data = new TextDecoder().decode(Uint8Array.from(atob(base64Part), c => c.charCodeAt(0)));
+                    }
+                }
+
+                console.log('Data received (first 50 chars):', data.substring(0, 50));
+
+                DB = parseCSV(data);
+                console.log('Products loaded from Sheet:', DB.length);
+
+                // Update store with new data
+                if (typeof store !== 'undefined') {
+                    store.products = DB;
+                } else {
+                    console.error('Store not defined!');
+                }
+
+                app.init();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                alert(`Failed to load product data: ${error.message}. Check console for details.`);
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            // Normalize headers: remove BOM, trim, remove quotes, lowercase
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').replace(/^\ufeff/, '').toLowerCase());
+
+            const products = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (!currentLine) continue;
+
+                // Regex to handle quoted fields correctly
+                // This regex is more robust for CSV parsing, but the manual loop below is also present.
+                // For this change, we'll keep the manual loop as it was already there and just update headers.
+                // const values = currentLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+
+                const row = {};
+                let col = 0;
+                let inQuote = false;
+                let val = '';
+
+                for (let char of currentLine + ',') { // append comma to flush last value
+                    if (char === '"') {
+                        inQuote = !inQuote;
+                    } else if (char === ',' && !inQuote) {
+                        const header = headers[col];
+                        if (header) {
+                            row[header] = val.trim().replace(/^"|"$/g, ''); // remove surrounding quotes
+                        }
+                        val = '';
+                        col++;
+                    } else {
+                        val += char;
+                    }
+                }
+
+                // Post-process fields
+                if (row.id) {
+                    // Handle images array (split by |)
+                    if (row.images) {
+                        row.images = row.images.split('|').map(url => url.trim());
+                    } else {
+                        row.images = [row.img];
+                    }
+
+                    // Handle price (number)
+                    row.price = parseInt(row.price) || 0;
+
+                    // Handle boolean
+                    if (row.feat === 'true') row.feat = true;
+                    else if (row.feat === 'false') row.feat = false;
+                    else delete row.feat; // undefined if empty
+
+                    products.push(row);
+                }
+            }
+            return products;
+        }
+    </script>
+    <script>
+
+        // --- STATE MANAGEMENT (Store) ---
+        class Store {
+            constructor() {
+                this.cart = JSON.parse(localStorage.getItem('vbk_cart')) || [];
+                this.wishlist = JSON.parse(localStorage.getItem('vbk_wishlist')) || [];
+                this.products = DB;
+                this.filters = {
+                    blouses: 'All',
+                    wedding: 'all'
+                };
+            }
+
+            save() {
+                localStorage.setItem('vbk_cart', JSON.stringify(this.cart));
+                localStorage.setItem('vbk_wishlist', JSON.stringify(this.wishlist));
+                app.updateCartBadge();
+            }
+
+            addToCart(id) {
+                const product = this.products.find(p => p.id === id);
+                if (!product) return;
+
+                const exists = this.cart.find(i => i.id === id);
+                if (exists) {
+                    app.toast('Item already in cart', 'info');
+                } else {
+                    this.cart.push(product);
+                    this.save();
+                    app.toast(`Added ${product.title} to bag`, 'success');
+                    app.renderCart();
+
+                    // Animate cart icon
+                    const icon = document.querySelector('.fa-bag-shopping');
+                    icon.classList.add('animate-bounce');
+                    setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
+                }
+                // Cart will only open when user clicks the cart button
+            }
+
+            removeFromCart(id) {
+                this.cart = this.cart.filter(i => i.id !== id);
+                this.save();
+                app.renderCart();
+            }
+
+            getCartTotal() {
+                return this.cart.reduce((sum, item) => sum + item.price, 0);
+            }
+
+            toggleWishlist(id) {
+                const product = this.products.find(p => p.id === id);
+                if (!product) return;
+
+                const index = this.wishlist.findIndex(w => w.id === id);
+                if (index > -1) {
+                    // Remove from wishlist
+                    this.wishlist.splice(index, 1);
+                    app.toast(`Removed from wishlist`, 'info');
+                } else {
+                    // Add to wishlist
+                    this.wishlist.push(product);
+                    app.toast(`Added ${product.title} to wishlist`, 'success');
+                }
+
+                this.save();
+                app.updateWishlistBadge();
+
+                // Re-render the grid to update heart icons
+                app.renderAllSections();
+
+                // Re-render wishlist section
+                app.renderWishlist();
+            }
+        }
+
+        const store = new Store();
+
+        // --- APPLICATION LOGIC (App) ---
+        const app = {
+            currentSlide: 0,
+            currentProduct: null,
+            filters: {
+                priceMin: 0,
+                priceMax: 10000,
+                colors: [],
+                subcategories: [],
+                sortBy: ''
+            },
+            currentProducts: [],
+
+            init() {
+                this.removeLoader();
+                this.initCursor();
+                this.renderAllSections();
+                this.updateCartBadge();
+                this.updateWishlistBadge();
+                this.renderWishlist();
+
+                // Render initial filters
+                this.renderBlouseTabs();
+
+                // Initialize scroll spy for navigation
+                this.initScrollSpy();
+
+                // Initialize lazy loading for images
+                this.initLazyLoading();
+
+                // Initialize back to top button
+                this.initBackToTop();
+
+                // Initialize breadcrumbs
+                this.initBreadcrumbs();
+
+                // Initialize filter sidebar
+                this.initFilterSidebar();
+            },
+
+            removeLoader() {
+                setTimeout(() => {
+                    const loader = document.getElementById('preloader');
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 600);
+                }, 1000);
+            },
+
+            initCursor() {
+                const dot = document.getElementById('cursor-dot');
+                const outline = document.getElementById('cursor-outline');
+
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+
+                    dot.style.left = `${posX}px`;
+                    dot.style.top = `${posY}px`;
+
+                    outline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+
+                document.querySelectorAll('a, button, .product-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                });
+            },
+
+            initScrollSpy() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link');
+
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '-20% 0px -70% 0px',
+                    threshold: 0
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            navLinks.forEach(link => {
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('text-vbk-gold');
+                                    link.classList.remove('text-gray-300');
+                                } else {
+                                    link.classList.remove('text-vbk-gold');
+                                    link.classList.add('text-gray-300');
+                                }
+                            });
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(section => observer.observe(section));
+            },
+
+            initLazyLoading() {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            const src = img.getAttribute('data-src');
+                            if (src) {
+                                img.src = src;
+                                img.classList.add('loaded');
+                                img.classList.remove('lazy');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('img.lazy').forEach(img => imageObserver.observe(img));
+
+                // Re-observe new images when they're added
+                this.lazyLoadObserver = imageObserver;
+            },
+
+            initBackToTop() {
+                const backToTopBtn = document.getElementById('back-to-top');
+
+                // Show/hide based on scroll position
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                // Smooth scroll to top
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            },
+
+            initBreadcrumbs() {
+                const sections = document.querySelectorAll('section[id]');
+                const breadcrumbs = document.getElementById('breadcrumbs');
+                const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            const title = this.getSectionTitle(id);
+                            if (title) {
+                                breadcrumbCurrent.textContent = title;
+                                breadcrumbs.classList.remove('hidden');
+                            } else {
+                                breadcrumbs.classList.add('hidden');
+                            }
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                sections.forEach(section => observer.observe(section));
+            },
+
+            getSectionTitle(id) {
+                const titles = {
+                    'top-designs': 'Top Picks', 'blouse-designs': 'Blouse Designs',
+                    'Kurthi-designs': 'Kurthis', 'wedding': 'Bridal Collection',
+                    'lehanga-designs': 'Lehangas', 'frock-designs': 'Frocks',
+                    'maggam-designs': 'Maggam Work', 'Saree-Tassels-designs': 'Saree Tassels',
+                    'T-Shirt-Embroidery-designs': 'T-Shirt Embroidery', 'Adduthera-designs': 'Adduthera',
+                    'God-embroidery': 'God Embroidery', 'materials': 'Materials',
+                    'reviews': 'Reviews', 'wishlist': 'Wishlist'
+                };
+                return titles[id] || '';
+            },
+
+            initFilterSidebar() {
+                const colors = [
+                    { name: 'Red', value: '#ef4444' }, { name: 'Pink', value: '#ec4899' },
+                    { name: 'Purple', value: '#a855f7' }, { name: 'Blue', value: '#3b82f6' },
+                    { name: 'Green', value: '#22c55e' }, { name: 'Yellow', value: '#eab308' },
+                    { name: 'Orange', value: '#f97316' }, { name: 'Gold', value: '#f9b17a' },
+                    { name: 'Black', value: '#000000' }, { name: 'White', value: '#ffffff' },
+                    { name: 'Brown', value: '#92400e' }, { name: 'Gray', value: '#6b7280' }
+                ];
+
+                document.getElementById('color-filters').innerHTML = colors.map(color => `
+                    <button onclick="app.toggleColorFilter('${color.name}')" data-color="${color.name}"
+                        class="color-filter-btn w-12 h-12 rounded-full border-2 border-gray-600 hover:border-vbk-gold transition flex items-center justify-center"
+                        style="background: ${color.value};${color.name === 'White' ? 'border-color: #4b5563;' : ''}">
+                        <i class="fa-solid fa-check text-white opacity-0 text-sm drop-shadow-lg"></i>
+                    </button>
+                `).join('');
+
+                const subcategories = [...new Set(store.products.map(p => p.sub))].sort();
+                document.getElementById('subcategory-filters').innerHTML = subcategories.map(sub => `
+                    <label class="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer">
+                        <input type="checkbox" value="${sub}" onchange="app.toggleSubcategoryFilter('${sub}')"
+                            class="w-4 h-4 rounded border-gray-600 bg-vbk-navy text-vbk-gold focus:ring-vbk-gold">
+                        <span class="text-sm">${sub}</span>
+                    </label>
+                `).join('');
+
+                const priceMin = document.getElementById('price-min');
+                const priceMax = document.getElementById('price-max');
+                const updatePrice = () => {
+                    if (parseInt(priceMin.value) > parseInt(priceMax.value)) priceMin.value = priceMax.value;
+                    document.getElementById('price-display').textContent = `₹${priceMin.value} - ₹${priceMax.value}`;
+                };
+                priceMin.addEventListener('input', updatePrice);
+                priceMax.addEventListener('input', updatePrice);
+            },
+
+            toggleFilters() {
+                const sidebar = document.getElementById('filter-sidebar');
+                const overlay = document.getElementById('filter-overlay');
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('show');
+            },
+
+            toggleColorFilter(colorName) {
+                const icon = document.querySelector(`[data-color="${colorName}"] i`);
+                const isActive = icon.style.opacity === '1';
+                icon.style.opacity = isActive ? '0' : '1';
+                this.filters.colors = isActive ? this.filters.colors.filter(c => c !== colorName) : [...this.filters.colors, colorName];
+            },
+
+            toggleSubcategoryFilter(sub) {
+                this.filters.subcategories = this.filters.subcategories.includes(sub)
+                    ? this.filters.subcategories.filter(s => s !== sub) : [...this.filters.subcategories, sub];
+            },
+
+            applyFilters() {
+                const priceMin = parseInt(document.getElementById('price-min').value);
+                const priceMax = parseInt(document.getElementById('price-max').value);
+                this.filters.priceMin = priceMin;
+                this.filters.priceMax = priceMax;
+
+                let filtered = store.products.filter(p => {
+                    if (p.price < priceMin || p.price > priceMax) return false;
+                    if (this.filters.subcategories.length > 0 && !this.filters.subcategories.includes(p.sub)) return false;
+                    if (this.filters.colors.length > 0 && !this.filters.colors.some(c => p.title.toLowerCase().includes(c.toLowerCase()))) return false;
+                    return true;
+                });
+
+                filtered = this.sortProducts(filtered, this.filters.sortBy);
+                this.currentProducts = filtered;
+                this.renderFilteredResults(filtered);
+                this.toggleFilters();
+                this.toast(`Found ${filtered.length} products`, 'info');
+            },
+
+            resetFilters() {
+                this.filters = { priceMin: 0, priceMax: 10000, colors: [], subcategories: [], sortBy: '' };
+                document.getElementById('price-min').value = 0;
+                document.getElementById('price-max').value = 10000;
+                document.getElementById('price-display').textContent = '₹0 - ₹10000';
+                document.querySelectorAll('.color-filter-btn i').forEach(i => i.style.opacity = '0');
+                document.querySelectorAll('#subcategory-filters input').forEach(cb => cb.checked = false);
+                document.getElementById('global-sort').value = '';
+                this.currentProducts = [];
+                this.renderAllSections();
+                this.toast('Filters reset', 'info');
+            },
+
+            applySorting() {
+                const sortValue = document.getElementById('global-sort').value;
+                this.filters.sortBy = sortValue;
+                const toSort = this.currentProducts.length > 0 ? this.currentProducts : store.products;
+                const sorted = this.sortProducts(toSort, sortValue);
+                if (this.currentProducts.length > 0) this.currentProducts = sorted;
+                this.renderFilteredResults(sorted);
+            },
+
+            sortProducts(products, sortBy) {
+                const sorted = [...products];
+                if (sortBy === 'price-asc') return sorted.sort((a, b) => a.price - b.price);
+                if (sortBy === 'price-desc') return sorted.sort((a, b) => b.price - a.price);
+                if (sortBy === 'name-asc') return sorted.sort((a, b) => a.title.localeCompare(b.title));
+                if (sortBy === 'name-desc') return sorted.sort((a, b) => b.title.localeCompare(a.title));
+                return sorted;
+            },
+
+            renderFilteredResults(products) {
+                ['top-designs', 'blouses', 'wedding', 'materials', 'Kurthi-designs', 'lehanga-designs',
+                    'frock-designs', 'maggam-designs', 'Saree-Tassels-designs', 'T-Shirt-Embroidery-designs',
+                    'Adduthera-designs', 'God-embroidery'].forEach(cat => {
+                        const filtered = products.filter(p => p.cat === cat);
+                        const container = document.getElementById(`grid-${cat}`);
+                        if (container) {
+                            container.dataset.currentPage = '1';
+                            this.renderGrid(`grid-${cat}`, filtered);
+                        }
+                    });
+            },
+
+            // --- RENDERERS ---
+            renderAllSections() {
+                this.renderGrid('grid-top-designs', store.products.filter(p => p.cat === 'top-designs'));
+                this.renderGrid('grid-blouses', store.products.filter(p => p.cat === 'blouses'));
+                this.renderGrid('grid-wedding', store.products.filter(p => p.cat === 'wedding'));
+                this.renderGrid('grid-materials', store.products.filter(p => p.cat === 'materials'));
+                this.renderGrid('grid-Kurthi-designs', store.products.filter(p => p.cat === 'Kurthi-designs'));
+                this.renderGrid('grid-lehanga-designs', store.products.filter(p => p.cat === 'lehanga-designs'));
+                this.renderGrid('grid-frock-designs', store.products.filter(p => p.cat === 'frock-designs'));
+                this.renderGrid('grid-maggam-designs', store.products.filter(p => p.cat === 'maggam-designs'));
+                this.renderGrid('grid-Saree-Tassels-designs', store.products.filter(p => p.cat === 'Saree-Tassels-designs'));
+                this.renderGrid('grid-T-Shirt-Embroidery-designs', store.products.filter(p => p.cat ===
+                    'T-Shirt-Embroidery-designs'));
+                this.renderGrid('grid-Adduthera-designs', store.products.filter(p => p.cat === 'Adduthera-designs'));
+                this.renderGrid('grid-God-embroidery', store.products.filter(p => p.cat === 'God-embroidery'));
+            },
+
+            renderGrid(elementId, products, initialLimit = 8) {
+                const container = document.getElementById(elementId);
+                if (!container) return;
+
+                // Get current page (for batched loading)
+                const currentPage = parseInt(container.dataset.currentPage || '1');
+                const itemsPerPage = initialLimit;
+                const displayCount = currentPage * itemsPerPage;
+
+                const displayProducts = products.slice(0, displayCount);
+                const hasMore = products.length > displayCount;
+
+                // Helper functions for Myntra-style data
+                const getDiscount = (price) => {
+                    const discounts = [10, 15, 20, 25, 30, 35, 40];
+                    return discounts[Math.floor(Math.abs(price * 7) % discounts.length)];
+                };
+
+                const getOriginalPrice = (price, discount) => {
+                    return Math.round(price / (1 - discount / 100));
+                };
+
+                const getRating = (id) => {
+                    const hash = id.charCodeAt(0) + (id.charCodeAt(1) || 0);
+                    return (3.5 + (hash % 15) / 10).toFixed(1);
+                };
+
+                const getReviewCount = (id) => {
+                    const hash = (id.charCodeAt(0) || 0) * (id.charCodeAt(1) || 1);
+                    const count = 50 + (hash % 2000);
+                    return count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
+                };
+
+                const getBadgeType = (index, price) => {
+                    if (index < 3) return 'bestseller';
+                    if (price > 5000) return 'new';
+                    if (index % 5 === 0) return 'new';
+                    return null;
+                };
+
+                const productHTML = displayProducts.map((p, index) => {
+                    const discount = getDiscount(p.price);
+                    const originalPrice = getOriginalPrice(p.price, discount);
+                    const rating = getRating(p.id);
+                    const reviewCount = getReviewCount(p.id);
+                    const badgeType = getBadgeType(index, p.price);
+                    const showFreeDelivery = p.price >= 499;
+
+                    return `
+    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col opacity-0 animate-fade-in"
+        style="animation-delay: ${index * 50}ms">
+        <div class="relative overflow-hidden h-72">
+            <!-- Discount Badge -->
+            <span class="product-badge badge-discount">${discount}% OFF</span>
+            
+            <!-- Bestseller/New Badge -->
+            ${badgeType === 'bestseller' ? '<span class="product-badge badge-bestseller">Bestseller</span>' : ''}
+            ${badgeType === 'new' ? '<span class="product-badge badge-new">New</span>' : ''}
+            
+            <img data-src="${p.img}" alt="${p.title}" class="lazy w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                <button onclick="app.openQuickView('${p.id}')"
+                    class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-vbk-navy hover:bg-vbk-gold transition transform hover:scale-110"
+                    title="Quick View">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button onclick="store.toggleWishlist('${p.id}')"
+                    class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
+                    title="Add to Wishlist">
+                    <i class="${store.wishlist.some(w => w.id === p.id) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                </button>
+                <button onclick="store.addToCart('${p.id}')"
+                    class="w-10 h-10 bg-vbk-purple rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
+                    title="Add to Bag">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </button>
+            </div>
+            <div class="absolute bottom-2 left-2">
+                <span
+                    class="bg-vbk-navy/80 backdrop-blur text-white text-[10px] px-2 py-1 rounded uppercase font-bold border border-white/10">${p.sub}</span>
+            </div>
+        </div>
+        <div class="p-4 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-1">
+                <h3 class="text-white font-serif font-bold text-base leading-tight group-hover:text-vbk-gold transition cursor-pointer line-clamp-2"
+                    onclick="app.openQuickView('${p.id}')">${p.title}</h3>
+            </div>
+            
+            <!-- Star Rating -->
+            <div class="flex items-center gap-2 mb-2">
+                <div class="product-rating">
+                    <span class="rating-value">${rating}</span>
+                    <i class="fa-solid fa-star"></i>
+                    <span class="rating-count">${reviewCount}</span>
+                </div>
+            </div>
+            
+            <!-- Price Section -->
+            <div class="price-container mt-auto">
+                <div class="price-row">
+                    <span class="price-current">${CONFIG.currency}${p.price}</span>
+                    <span class="price-original">${CONFIG.currency}${originalPrice}</span>
+                    <span class="price-discount">(${discount}% OFF)</span>
+                </div>
+                ${showFreeDelivery ? '<span class="delivery-label"><i class="fa-solid fa-truck"></i> Free Delivery</span>' : ''}
+            </div>
+            
+            <!-- Add Button -->
+            <button onclick="store.addToCart('${p.id}')"
+                class="w-full mt-3 bg-vbk-purple/20 border border-vbk-purple text-vbk-purple hover:bg-vbk-purple hover:text-white py-2 rounded text-xs uppercase tracking-wider font-bold transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-[10px]"></i> Add to Bag
+            </button>
+        </div>
+    </div>
+    `;
+                }).join('');
+
+                container.innerHTML = productHTML;
+
+                // Reinitialize lazy loading for new images
+                if (this.lazyLoadObserver) {
+                    container.querySelectorAll('img.lazy').forEach(img => this.lazyLoadObserver.observe(img));
+                }
+
+                // Add "Show More" button if needed
+                if (hasMore) {
+                    const remaining = products.length - displayCount;
+                    const nextBatch = Math.min(remaining, itemsPerPage);
+                    const buttonWrapper = document.createElement('div');
+                    buttonWrapper.className = 'col-span-full flex justify-center mt-8';
+                    buttonWrapper.innerHTML = `
+                        <button onclick="app.showMore('${elementId}')" 
+                            class="px-8 py-3 bg-vbk-gold text-vbk-navy font-bold uppercase tracking-wider rounded-full hover:bg-white transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            Load More (+${nextBatch} items)
+                        </button>
+                    `;
+                    container.appendChild(buttonWrapper);
+                }
+            },
+
+            showMore(elementId) {
+                const container = document.getElementById(elementId);
+                const currentPage = parseInt(container.dataset.currentPage || '1');
+                const itemsPerPage = 8;
+
+                // Get all products for this grid
+                const gridMap = {
+                    'grid-top-designs': store.products.filter(p => p.cat === 'top-designs'),
+                    'grid-blouses': store.products.filter(p => p.cat === 'blouses'),
+                    'grid-wedding': store.products.filter(p => p.cat === 'wedding'),
+                    'grid-materials': store.products.filter(p => p.cat === 'materials'),
+                    'grid-Kurthi-designs': store.products.filter(p => p.cat === 'Kurthi-designs'),
+                    'grid-lehanga-designs': store.products.filter(p => p.cat === 'lehanga-designs'),
+                    'grid-frock-designs': store.products.filter(p => p.cat === 'frock-designs'),
+                    'grid-maggam-designs': store.products.filter(p => p.cat === 'maggam-designs'),
+                    'grid-Saree-Tassels-designs': store.products.filter(p => p.cat === 'Saree-Tassels-designs'),
+                    'grid-T-Shirt-Embroidery-designs': store.products.filter(p => p.cat === 'T-Shirt-Embroidery-designs'),
+                    'grid-Adduthera-designs': store.products.filter(p => p.cat === 'Adduthera-designs'),
+                    'grid-God-embroidery': store.products.filter(p => p.cat === 'God-embroidery')
+                };
+
+                const allProducts = gridMap[elementId] || [];
+                const newPage = currentPage + 1;
+                container.dataset.currentPage = newPage;
+
+                // Render with updated page (which will show more items)
+                this.renderGrid(elementId, allProducts);
+
+                // Scroll to first new item smoothly
+                setTimeout(() => {
+                    const newItems = container.querySelectorAll('.product-card');
+                    const firstNewItem = newItems[currentPage * itemsPerPage];
+                    if (firstNewItem) {
+                        firstNewItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 100);
+            },
+
+            renderBlouseTabs() {
+                const tabs = [
+                    { name: 'All', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_all_category_1764803871450.png' },
+                    { name: 'V Neck', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_vneck_category_1764803770949.png' },
+                    { name: 'Boat Neck', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_boatneck_category_1764803788578.png' },
+                    { name: 'Maggam', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_maggam_category_1764803802472.png' },
+                    { name: 'Back Dori', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_backdori_category_1764803818362.png' },
+                    { name: 'Pot Neck', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_potneck_category_1764803831906.png' },
+                    { name: 'Temple Design', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_temple_category_1764803846526.png' },
+                    { name: 'U Neck', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_uneck_category_1764803871450.png' },
+                    { name: 'Kutch Work', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400' },
+                    { name: 'Cutwork', image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=400' },
+                    { name: 'Double Shoulder', image: 'https://images.unsplash.com/photo-1583391733981-e2e8b0b8b7e8?w=400' },
+                    { name: 'Peacock Design', image: '/Users/bhanuteja/.gemini/antigravity/brain/022e0392-8c0c-452d-a347-5bf1b3d960a4/blouse_vneck_category_1764803770949.png' },
+                    { name: 'One Side Design', image: 'https://images.unsplash.com/photo-1610030469757-9eb12a4e4d74?w=400' }
+                ];
+                const container = document.getElementById('blouse-tabs');
+
+                container.innerHTML = tabs.map(tab => `
+    <div class="category-highlight ${store.filters.blouses === tab.name ? 'active' : ''}" 
+         onclick="app.filterBlouses('${tab.name}')">
+        <div class="category-circle ${store.filters.blouses === tab.name ? 'active' : ''}">
+            <div class="category-circle-inner">
+                <img src="${tab.image}" alt="${tab.name}" class="category-circle-image" 
+                     onerror="this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400'">
+            </div>
+        </div>
+        <span class="category-label">${tab.name}</span>
+    </div>
+    `).join('');
+            },
+
+
+            renderCart() {
+                const container = document.getElementById('cart-items-container');
+                const cart = store.cart;
+
+                document.getElementById('cart-total-count').innerText = cart.length;
+                document.getElementById('cart-total-price').innerText = CONFIG.currency + store.getCartTotal();
+
+                if (cart.length === 0) {
+                    container.innerHTML = `
+    <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+        <i class="fa-solid fa-bag-shopping text-4xl mb-4 opacity-20"></i>
+        <p class="text-xs uppercase tracking-widest">Your bag is empty</p>
+        <button onclick="app.toggleCart(false)" class="mt-4 text-vbk-gold underline text-xs">Continue Shopping</button>
+    </div>`;
+                    return;
+                }
+
+                container.innerHTML = cart.map(item => `
+    <div
+        class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up">
+        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
+        <div class="flex-grow">
+            <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
+            <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
+            <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
+        </div>
+        <button onclick="store.removeFromCart('${item.id}')"
+            class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
+            <i class="fa-solid fa-trash-can text-xs"></i>
+        </button>
+    </div>
+    `).join('');
+            },
+
+            // --- ACTIONS ---
+
+            toggleCart(forceOpen = null) {
+                const sidebar = document.getElementById('cart-sidebar');
+                const overlay = document.getElementById('cart-overlay');
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                const shouldOpen = forceOpen !== null ? forceOpen : !isOpen;
+
+                if (shouldOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    this.renderCart();
+                    document.body.classList.add('cart-open');
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('cart-open');
+                }
+            },
+
+            toggleWishlistSidebar(forceOpen = null) {
+                const sidebar = document.getElementById('wishlist-sidebar');
+                const overlay = document.getElementById('wishlist-overlay');
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                const shouldOpen = forceOpen !== null ? forceOpen : !isOpen;
+
+                if (shouldOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    this.renderWishlistSidebar();
+                    document.body.classList.add('cart-open');
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('cart-open');
+                }
+            },
+
+            renderWishlistSidebar() {
+                const container = document.getElementById('wishlist-items-container');
+                const wishlist = store.wishlist;
+
+                document.getElementById('wishlist-total-count').innerText = wishlist.length;
+
+                if (wishlist.length === 0) {
+                    container.innerHTML = `
+    <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+        <i class="fa-regular fa-heart text-4xl mb-4 opacity-20"></i>
+        <p class="text-xs uppercase tracking-widest">Your wishlist is empty</p>
+        <button onclick="app.toggleWishlistSidebar(false)" class="mt-4 text-vbk-gold underline text-xs">Continue Shopping</button>
+    </div>`;
+                    return;
+                }
+
+                container.innerHTML = wishlist.map(item => `
+    <div
+        class="flex gap-4 bg-vbk-card p-3 rounded border border-vbk-mid/30 group hover:border-vbk-gold/30 transition relative animate-slide-up">
+        <img src="${item.img}" class="w-16 h-20 object-cover rounded bg-vbk-navy">
+        <div class="flex-grow">
+            <h4 class="text-white font-bold font-serif text-sm">${item.title}</h4>
+            <p class="text-[10px] text-gray-400 uppercase mt-1">${item.sub}</p>
+            <div class="text-vbk-gold text-xs font-bold mt-2">${CONFIG.currency}${item.price}</div>
+            <button onclick="store.addToCart('${item.id}')" 
+                class="mt-2 text-xs bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white px-3 py-1 rounded-full transition">
+                <i class="fa-solid fa-bag-shopping text-[10px] mr-1"></i> Add to Cart
+            </button>
+        </div>
+        <button onclick="store.toggleWishlist('${item.id}')"
+            class="absolute top-3 right-3 text-gray-600 hover:text-red-400 transition">
+            <i class="fa-solid fa-heart text-sm"></i>
+        </button>
+    </div>
+    `).join('');
+            },
+
+            moveAllToCart() {
+                const wishlist = [...store.wishlist];
+                if (wishlist.length === 0) {
+                    this.toast('Wishlist is empty', 'info');
+                    return;
+                }
+
+                wishlist.forEach(item => {
+                    store.addToCart(item.id);
+                });
+
+                this.toast(`Added ${wishlist.length} items to cart`, 'success');
+                this.toggleWishlistSidebar(false);
+                this.toggleCart(true);
+            },
+
+            renderWishlist() {
+                const grid = document.getElementById('wishlist-grid');
+                const empty = document.getElementById('wishlist-empty');
+
+                if (store.wishlist.length === 0) {
+                    grid.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+
+                grid.classList.remove('hidden');
+                empty.classList.add('hidden');
+
+                grid.innerHTML = store.wishlist.map(p => `
+                    <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col">
+                        <div class="relative overflow-hidden h-72">
+                            <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <button onclick="store.toggleWishlist('${p.id}')" 
+                                class="absolute top-3 right-3 w-10 h-10 bg-pink-500/90 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-red-500 transition"
+                                title="Remove from Wishlist">
+                                <i class="fa-solid fa-trash text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-white font-serif font-bold text-lg leading-tight flex-1">${p.title}</h3>
+                            </div>
+                            <p class="text-gray-500 text-xs uppercase mb-2">${p.sub}</p>
+                            <div class="mt-auto pt-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-vbk-gold">${CONFIG.currency}${p.price}</span>
+                                </div>
+                                <button onclick="store.addToCart('${p.id}')" 
+                                    class="w-full mt-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white py-3 rounded-full font-bold uppercase text-xs tracking-wider transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            toggleMobileMenu() {
+                const menu = document.getElementById('mobile-menu');
+                const isOpen = !menu.classList.contains('-translate-y-full');
+
+                if (isOpen) {
+                    menu.classList.add('-translate-y-full');
+                } else {
+                    menu.classList.remove('-translate-y-full');
+                }
+            },
+
+            filterBlouses(category) {
+                store.filters.blouses = category;
+                this.renderBlouseTabs();
+
+                let products = store.products.filter(p => p.cat === 'blouses');
+                if (category !== 'All') {
+                    products = products.filter(p => p.sub === category);
+                }
+
+                // Animate transition
+                const grid = document.getElementById('grid-blouses');
+                grid.classList.add('opacity-0');
+                setTimeout(() => {
+                    this.renderGrid('grid-blouses', products);
+                    grid.classList.remove('opacity-0');
+                }, 200);
+            },
+
+            filterCategory(section, type) {
+                let products = store.products.filter(p => p.cat === section);
+                if (type !== 'all') {
+                    // Simple logic for 'heavy' vs 'simple' using price as proxy for demo
+                    if (type === 'heavy') products = products.filter(p => p.price > 10000);
+                    else products = products.filter(p => p.price <= 10000);
+                } this.renderGrid(`grid-${section}`, products);
+            },
+            sortProducts(section, method) {
+                let products = store.products.filter(p => p.cat === section);
+
+                if (method === 'price-low') products.sort((a, b) => a.price - b.price);
+                else if (method === 'price-high') products.sort((a, b) => b.price - a.price);
+
+                this.renderGrid(`grid-${section}`, products);
+            },
+
+            openQuickView(id) {
+                const product = store.products.find(p => p.id === id);
+                if (!product) return;
+
+                this.currentProduct = product;
+                this.currentSlide = 0;
+                currentProductId = id; // For wishlist button
+
+                // Ensure images array exists
+                if (!product.images) {
+                    product.images = [product.img, 'https://placehold.co/500x600/2d3250/ffffff?text=Side+View',
+                        'https://placehold.co/500x600/2d3250/ffffff?text=Close+Up'];
+                }
+
+                this.updateCarousel();
+
+                // Basic info
+                document.getElementById('qv-title').innerText = product.title;
+                document.getElementById('qv-category').innerText = product.cat.replace(/-/g, ' ');
+
+                // Price calculation with discount
+                const getDiscount = (price) => [10, 15, 20, 25, 30, 35, 40][Math.floor(Math.abs(price * 7) % 7)];
+                const discount = getDiscount(product.price);
+                const originalPrice = Math.round(product.price / (1 - discount / 100));
+
+                document.getElementById('qv-price').innerText = CONFIG.currency + product.price;
+                document.getElementById('qv-original-price').innerText = CONFIG.currency + originalPrice;
+                document.getElementById('qv-discount').innerText = `(${discount}% OFF)`;
+                document.getElementById('qv-badge').innerText = `${discount}% OFF`;
+
+                // Rating
+                const hash = id.charCodeAt(0) + (id.charCodeAt(1) || 0);
+                const rating = (3.5 + (hash % 15) / 10).toFixed(1);
+                const reviewCount = 50 + (hash % 2000);
+                const reviewDisplay = reviewCount > 999 ? (reviewCount / 1000).toFixed(1) + 'k' : reviewCount;
+
+                document.getElementById('qv-rating').innerText = rating;
+                document.getElementById('qv-reviews').innerText = reviewDisplay;
+                document.getElementById('qv-sold').innerText = `${Math.floor(50 + (hash % 500))}+ sold`;
+
+                // Delivery date (7 days from now)
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + 7);
+                document.getElementById('qv-delivery-date').innerText = deliveryDate.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+
+                // Dynamic Features
+                const features = ['Custom Fit', 'Premium Fabric', 'India Wide Shipping'];
+                const isMaggamOrWedding = product.cat === 'wedding' || product.cat === 'maggam-designs' ||
+                    (product.sub && (product.sub.toLowerCase().includes('maggam') || product.sub.toLowerCase().includes('heavy')));
+                if (product.cat !== 'materials') {
+                    features.splice(2, 0, isMaggamOrWedding ? 'Hand Embroidery' : 'Machine Embroidery');
+                }
+
+                document.getElementById('qv-features').innerHTML = features.map(f => `
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> ${f}</li>
+                `).join('');
+
+                // Similar Products
+                const similarProducts = store.products
+                    .filter(p => p.cat === product.cat && p.id !== id)
+                    .slice(0, 4);
+
+                document.getElementById('qv-similar').innerHTML = similarProducts.map(p => `
+                    <div class="similar-item" onclick="app.openQuickView('${p.id}')">
+                        <img src="${p.img}" alt="${p.title}">
+                        <div class="info">
+                            <div class="title">${p.title}</div>
+                            <div class="price">${CONFIG.currency}${p.price}</div>
+                        </div>
+                    </div>
+                `).join('') || '<p class="text-gray-500 text-xs col-span-full">No similar products</p>';
+
+                // Add to bag button
+                document.getElementById('qv-add-btn').onclick = () => {
+                    store.addToCart(id);
+                    this.closeModal('quick-view-modal');
+                };
+
+                // Hide size chart when opening
+                document.getElementById('size-chart').classList.add('hidden');
+
+                document.getElementById('quick-view-modal').classList.remove('hidden');
+            },
+
+            nextSlide() {
+                if (!this.currentProduct) return;
+                this.currentSlide = (this.currentSlide + 1) % this.currentProduct.images.length;
+                this.updateCarousel();
+            },
+
+            prevSlide() {
+                if (!this.currentProduct) return;
+                this.currentSlide = (this.currentSlide - 1 + this.currentProduct.images.length) %
+                    this.currentProduct.images.length;
+                this.updateCarousel();
+            },
+
+            updateCarousel() {
+                const img = document.getElementById('qv-img');
+                const dotsContainer = document.getElementById('carousel-dots');
+
+                // Animate opacity for transition effect
+                img.style.opacity = '0.5';
+                setTimeout(() => {
+                    img.src = this.currentProduct.images[this.currentSlide];
+                    img.style.opacity = '1';
+                }, 200);
+
+                // Update dots
+                dotsContainer.innerHTML = this.currentProduct.images.map((_, i) => `
+        <div
+            class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}">
+        </div>
+        `).join('');
+            },
+
+            openConsultation() {
+                const msg = "Hi VBK Designs, I would like to book a consultation for Bridal wear.";
+                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+            },
+
+            openCheckoutModal() {
+                if (store.cart.length === 0) return;
+                document.getElementById('checkout-modal').classList.remove('hidden');
+            },
+
+            processWhatsApp(e) {
+                e.preventDefault();
+                const name = document.getElementById('cust-name').value;
+                const city = document.getElementById('cust-city').value;
+                const note = document.getElementById('cust-note').value;
+
+                let msg = `*New Inquiry from VBK Website*\n\n`;
+                msg += `*Name:* ${name}\n`;
+                msg += `*City:* ${city}\n`;
+                if (note) msg += `*Note:* ${note}\n`;
+                msg += `\n*Selected Items:*\n`;
+
+                store.cart.forEach((item, i) => {
+                    msg += `${i + 1}. ${item.title} (${CONFIG.currency}${item.price})\n`;
+                });
+
+                msg += `\n*Est. Total:* ${CONFIG.currency}${store.getCartTotal()}\n`;
+                msg += `\nPlease confirm availability and stitching time.`;
+
+                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+                this.closeModal('checkout-modal');
+                this.toggleCart(false);
+            },
+
+            closeModal(id) {
+                document.getElementById(id).classList.add('hidden');
+            },
+
+            updateCartBadge() {
+                const badge = document.getElementById('cart-count');
+                const count = store.cart.length;
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.classList.remove('scale-0');
+                    badge.classList.add('scale-100');
+                } else {
+                    badge.classList.remove('scale-100');
+                    badge.classList.add('scale-0');
+                }
+            },
+
+            updateWishlistBadge() {
+                const badge = document.getElementById('wishlist-badge');
+                const count = store.wishlist.length;
+                badge.textContent = count;
+                if (count > 0) {
+                    badge.style.opacity = '1';
+                } else {
+                    badge.style.opacity = '0';
+                }
+            },
+
+            toast(msg, type = 'success') {
+                const container = document.getElementById('toast-container');
+                const el = document.createElement('div');
+                const colorClass = type === 'success' ? 'border-green-500 text-green-400' : 'border-blue-500 text-blue-400';
+
+                el.className = `toast bg-vbk-card border-l-4 ${colorClass} p-4 rounded shadow-2xl flex items-center gap-3
+        min-w-[250px] backdrop-blur-md border-y border-r border-white/5`;
+                el.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+        <span class="text-xs font-bold text-white tracking-wide">${msg}</span>
+        `;
+
+                container.appendChild(el);
+                requestAnimationFrame(() => el.classList.add('show'));
+                setTimeout(() => {
+                    el.classList.remove('show');
+                    setTimeout(() => el.remove(), 400);
+                }, 3000);
+            }
+        };
+
+        // === ENHANCED SEARCH SYSTEM ===
+        let recentSearches = JSON.parse(localStorage.getItem('vbk_recent_searches')) || [];
+
+        function toggleSearch() {
+            const bar = document.getElementById('search-bar');
+            const isOpen = !bar.classList.contains('opacity-0');
+
+            if (isOpen) {
+                bar.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                document.getElementById('search-suggestions').classList.add('hidden');
+                document.getElementById('search-results').classList.add('hidden');
+            } else {
+                bar.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+                document.getElementById('global-search').focus();
+                showSearchSuggestions();
+            }
+        }
+
+        function showSearchSuggestions() {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            const resultsEl = document.getElementById('search-results');
+            const recentSection = document.getElementById('recent-searches-section');
+            const recentContainer = document.getElementById('recent-searches');
+
+            suggestionsEl.classList.remove('hidden');
+            resultsEl.classList.add('hidden');
+
+            // Render recent searches
+            if (recentSearches.length > 0) {
+                recentSection.classList.remove('hidden');
+                recentContainer.innerHTML = recentSearches.slice(0, 5).map(term => `
+                    <span onclick="searchFor('${term}')" class="search-pill">
+                        <i class="fa-solid fa-clock-rotate-left mr-1 text-gray-500"></i>${term}
+                    </span>
+                `).join('');
+            } else {
+                recentSection.classList.add('hidden');
+            }
+        }
+
+        function searchFor(term) {
+            document.getElementById('global-search').value = term;
+            performSearch(term);
+            addToRecentSearches(term);
+        }
+
+        function addToRecentSearches(term) {
+            if (!term || term.length < 2) return;
+            recentSearches = recentSearches.filter(t => t.toLowerCase() !== term.toLowerCase());
+            recentSearches.unshift(term);
+            recentSearches = recentSearches.slice(0, 10);
+            localStorage.setItem('vbk_recent_searches', JSON.stringify(recentSearches));
+        }
+
+        function clearRecentSearches() {
+            recentSearches = [];
+            localStorage.removeItem('vbk_recent_searches');
+            showSearchSuggestions();
+            app.toast('Search history cleared', 'info');
+        }
+
+        function clearSearch() {
+            document.getElementById('global-search').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            showSearchSuggestions();
+            app.renderAllSections();
+        }
+
+        function performSearch(val) {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            const resultsEl = document.getElementById('search-results');
+            const resultsGrid = document.getElementById('search-results-grid');
+            const resultsCount = document.getElementById('search-results-count');
+            const clearBtn = document.getElementById('clear-search-btn');
+
+            if (val.length < 2) {
+                showSearchSuggestions();
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+            suggestionsEl.classList.add('hidden');
+            resultsEl.classList.remove('hidden');
+
+            // Filter products
+            const lowerVal = val.toLowerCase();
+            const matched = store.products.filter(p =>
+                p.title.toLowerCase().includes(lowerVal) ||
+                p.sub.toLowerCase().includes(lowerVal) ||
+                p.cat.toLowerCase().includes(lowerVal)
+            ).slice(0, 12);
+
+            resultsCount.textContent = matched.length;
+
+            if (matched.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <i class="fa-solid fa-search text-3xl mb-2 opacity-30"></i>
+                        <p class="text-sm">No results for "${val}"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsGrid.innerHTML = matched.map(p => `
+                <div class="search-result-item" onclick="app.openQuickView('${p.id}'); toggleSearch();">
+                    <img src="${p.img}" alt="${p.title}">
+                    <div class="info">
+                        <div class="title">${p.title}</div>
+                        <div class="price">${CONFIG.currency}${p.price}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Scroll to Section Function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const navHeight = 80;
+                const targetPosition = section.offsetTop - navHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Global Search Logic with debounce
+        let searchTimeout;
+        document.getElementById('global-search').addEventListener('input', (e) => {
+            const val = e.target.value;
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(val);
+                if (val.length >= 2) {
+                    addToRecentSearches(val);
+                }
+            }, 150);
+        });
+
+        // === SIZE CHART & ZOOM HELPERS ===
+        let currentProductId = null;
+
+        function toggleSizeChart() {
+            const inlineChart = document.getElementById('size-chart');
+            inlineChart.classList.toggle('hidden');
+        }
+
+        // Image zoom functionality
+        const zoomContainer = document.getElementById('qv-zoom-container');
+        if (zoomContainer) {
+            zoomContainer.addEventListener('mousemove', (e) => {
+                const rect = zoomContainer.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                zoomContainer.style.setProperty('--zoom-x', x + '%');
+                zoomContainer.style.setProperty('--zoom-y', y + '%');
+                zoomContainer.classList.add('zooming');
+            });
+            zoomContainer.addEventListener('mouseleave', () => {
+                zoomContainer.classList.remove('zooming');
+            });
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => fetchProductData());
+
+        // --- PWA INSTALL ---
+        let deferredPrompt;
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed:', err);
+                    });
+            });
+        }
+
+        // Capture install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Show install button
+            const installBtn = document.getElementById('install-app-btn');
+            if (installBtn) {
+                installBtn.style.display = 'flex';
+            }
+        });
+
+        // Install app function
+        window.installApp = function () {
+            const installBtn = document.getElementById('install-app-btn');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installed');
+                        app.toast('App installed successfully!', 'success');
+                    }
+                    deferredPrompt = null;
+                    if (installBtn) {
+                        installBtn.style.display = 'none';
+                    }
+                });
+            }
+        };
+
+        // Hide install button if already installed
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            const installBtn = document.getElementById('install-app-btn');
+            if (installBtn) {
+                installBtn.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+
+</html>
