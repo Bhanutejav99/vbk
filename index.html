@@ -2588,19 +2588,38 @@
     <!-- Profile Modal -->
     <div id="profile-modal" class="fixed inset-0 z-[95] hidden">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeProfileModal()"></div>
-        <div class="absolute inset-x-0 bottom-0 top-16 bg-vbk-navy rounded-t-3xl overflow-hidden animate-slide-up">
-            <!-- Header -->
-            <div
-                class="sticky top-0 bg-vbk-card border-b border-vbk-mid/30 px-6 py-4 flex items-center justify-between z-10">
-                <h2 class="text-xl font-bold">My Account</h2>
-                <button onclick="closeProfileModal()"
-                    class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
+        <div
+            class="absolute inset-x-0 bottom-0 top-0 md:top-16 bg-vbk-navy md:rounded-t-3xl overflow-hidden animate-slide-up">
+            <!-- Header with Navigation -->
+            <div class="sticky top-0 bg-vbk-card border-b border-vbk-mid/30 px-4 py-3 z-10">
+                <div class="flex items-center justify-between">
+                    <!-- Left: Back/Home buttons -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="closeProfileModal()"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-vbk-mid/50 hover:bg-vbk-mid text-white transition">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span class="text-sm">Back</span>
+                        </button>
+                        <a href="index.html"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-vbk-gold/20 hover:bg-vbk-gold/30 text-vbk-gold transition">
+                            <i class="fa-solid fa-home"></i>
+                            <span class="text-sm hidden sm:inline">Shop</span>
+                        </a>
+                    </div>
+
+                    <!-- Center: Title -->
+                    <h2 class="text-lg font-bold text-white absolute left-1/2 -translate-x-1/2">My Account</h2>
+
+                    <!-- Right: Close button -->
+                    <button onclick="closeProfileModal()"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-white transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Tabs -->
-            <div class="flex border-b border-vbk-mid/30 bg-vbk-card">
+            <div class="flex border-b border-vbk-mid/30 bg-vbk-card/80">
                 <button onclick="switchProfileTab('orders')" id="tab-orders"
                     class="profile-tab flex-1 py-3 text-center font-semibold text-vbk-gold border-b-2 border-vbk-gold">
                     <i class="fa-solid fa-box mr-2"></i>My Orders
@@ -2612,12 +2631,12 @@
             </div>
 
             <!-- Content -->
-            <div class="overflow-y-auto" style="height: calc(100% - 120px);">
+            <div class="overflow-y-auto" style="height: calc(100% - 130px);">
                 <!-- Orders Tab -->
                 <div id="content-orders" class="profile-content p-6">
                     <div id="orders-list" class="space-y-4">
                         <!-- Orders will be loaded here -->
-                        <div class="text-center py-12 text-gray-500">
+                        <div class="text-center py-12 text-gray-400">
                             <i class="fa-solid fa-spinner fa-spin text-3xl mb-4"></i>
                             <p>Loading orders...</p>
                         </div>
@@ -2627,7 +2646,7 @@
                 <!-- Addresses Tab -->
                 <div id="content-addresses" class="profile-content hidden p-6">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-semibold">Saved Addresses</h3>
+                        <h3 class="font-semibold text-white text-lg">Saved Addresses</h3>
                         <button onclick="openAddAddressModal()"
                             class="px-4 py-2 bg-vbk-gold text-vbk-navy text-sm font-bold rounded-lg hover:bg-white transition">
                             <i class="fa-solid fa-plus mr-1"></i> Add New
@@ -2638,6 +2657,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
