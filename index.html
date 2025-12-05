@@ -3769,74 +3769,87 @@
             },
 
             async openCheckoutModal() {
+                console.log('openCheckoutModal called, cart length:', store.cart.length);
                 if (store.cart.length === 0) return;
 
-                // Check if user is logged in
-                const { data: { session } } = await supabase.auth.getSession();
+                try {
+                    // Check if user is logged in
+                    const { data: { session } } = await supabase.auth.getSession();
+                    console.log('Session:', session ? 'logged in' : 'not logged in');
 
-                if (!session) {
-                    // Not logged in - show login prompt
-                    this.showLoginPrompt();
-                    return;
-                }
-
-                // User is logged in - proceed to checkout
-                document.getElementById('checkout-modal').classList.remove('hidden');
-
-                // Update order summary
-                document.getElementById('checkout-item-count').textContent = store.cart.length;
-                document.getElementById('checkout-total').textContent = '₹' + store.getCartTotal();
-
-                // Pre-fill email from session
-                document.getElementById('cust-email').value = session.user.email || '';
-
-                // Try to get customer data
-                const { data: customer } = await supabase
-                    .from('customers')
-                    .select('name, phone, city')
-                    .eq('id', session.user.id)
-                    .single();
-
-                if (customer) {
-                    if (customer.name) document.getElementById('cust-name').value = customer.name;
-                    if (customer.phone) document.getElementById('cust-phone').value = customer.phone;
-                    if (customer.city) document.getElementById('cust-city').value = customer.city;
-                } else {
-                    // Customer record doesn't exist - create one
-                    const userName = session.user.user_metadata?.name || session.user.user_metadata?.full_name || '';
-                    await supabase.from('customers').upsert({
-                        id: session.user.id,
-                        email: session.user.email,
-                        name: userName
-                    });
-                    if (userName) document.getElementById('cust-name').value = userName;
-                }
-
-                // Load saved addresses
-                const { data: addresses } = await supabase
-                    .from('addresses')
-                    .select('*')
-                    .eq('customer_id', session.user.id)
-                    .order('is_default', { ascending: false });
-
-                if (addresses && addresses.length > 0) {
-                    document.getElementById('saved-addresses-section').classList.remove('hidden');
-                    const select = document.getElementById('saved-address-select');
-                    select.innerHTML = '<option value="">-- Enter New Address --</option>' +
-                        addresses.map(addr => `
-                            <option value="${addr.id}" data-name="${addr.name}" data-phone="${addr.phone}" 
-                                data-city="${addr.city}" ${addr.is_default ? 'selected' : ''}>
-                                ${addr.label}: ${addr.name}, ${addr.city}
-                            </option>
-                        `).join('');
-
-                    // Auto-fill if default address exists
-                    const defaultAddr = addresses.find(a => a.is_default);
-                    if (defaultAddr) {
-                        fillAddressFromSaved(defaultAddr);
+                    if (!session) {
+                        // Not logged in - show login prompt
+                        this.showLoginPrompt();
+                        return;
                     }
-                } else {
-                    document.getElementById('saved-addresses-section').classList.add('hidden');
+
+                    // Open modal immediately
+                    document.getElementById('checkout-modal').classList.remove('hidden');
+
+                    // Update order summary
+                    document.getElementById('checkout-item-count').textContent = store.cart.length;
+                    document.getElementById('checkout-total').textContent = '₹' + store.getCartTotal();
+
+                    // Pre-fill email from session
+                    const emailField = document.getElementById('cust-email');
+                    if (emailField) emailField.value = session.user.email || '';
+
+                    // Pre-fill name from Google metadata if available
+                    const nameFromGoogle = session.user.user_metadata?.name || session.user.user_metadata?.full_name || '';
+                    const nameField = document.getElementById('cust-name');
+                    if (nameField && nameFromGoogle) nameField.value = nameFromGoogle;
+
+                    // Try to get customer data (non-blocking)
+                    try {
+                        const { data: customer } = await supabase
+                            .from('customers')
+                            .select('name, phone, city')
+                            .eq('id', session.user.id)
+                            .single();
+
+                        if (customer) {
+                            if (customer.name && nameField) nameField.value = customer.name;
+                            if (customer.phone) document.getElementById('cust-phone').value = customer.phone;
+                            if (customer.city) document.getElementById('cust-city').value = customer.city;
+                        }
+                    } catch (customerErr) {
+                        console.log('Customer fetch failed (may not exist yet):', customerErr);
+                    }
+
+                    // Try to load saved addresses (non-blocking)
+                    try {
+                        const { data: addresses } = await supabase
+                            .from('addresses')
+                            .select('*')
+                            .eq('customer_id', session.user.id)
+                            .order('is_default', { ascending: false });
+
+                        if (addresses && addresses.length > 0) {
+                            document.getElementById('saved-addresses-section').classList.remove('hidden');
+                            const select = document.getElementById('saved-address-select');
+                            select.innerHTML = '<option value="">-- Enter New Address --</option>' +
+                                addresses.map(addr => `
+                                    <option value="${addr.id}" data-name="${addr.name}" data-phone="${addr.phone}" 
+                                        data-city="${addr.city}" ${addr.is_default ? 'selected' : ''}>
+                                        ${addr.label}: ${addr.name}, ${addr.city}
+                                    </option>
+                                `).join('');
+
+                            const defaultAddr = addresses.find(a => a.is_default);
+                            if (defaultAddr) {
+                                fillAddressFromSaved(defaultAddr);
+                            }
+                        } else {
+                            document.getElementById('saved-addresses-section').classList.add('hidden');
+                        }
+                    } catch (addrErr) {
+                        console.log('Addresses fetch failed:', addrErr);
+                        document.getElementById('saved-addresses-section').classList.add('hidden');
+                    }
+
+                } catch (err) {
+                    console.error('openCheckoutModal error:', err);
+                    alert('Error opening checkout. Please try again.');
                 }
             },
 
@@ -3868,11 +3881,15 @@
 
             async processWhatsApp(e) {
                 e.preventDefault();
+                console.log('processWhatsApp called');
+
                 const name = document.getElementById('cust-name').value;
                 const email = document.getElementById('cust-email').value;
                 const city = document.getElementById('cust-city').value;
                 const note = document.getElementById('cust-note').value;
                 const phone = document.getElementById('cust-phone')?.value || '';
+
+                console.log('Form values:', { name, email, city, phone });
 
                 // Prepare order items
                 const orderItems = store.cart.map(item => ({
@@ -3884,6 +3901,7 @@
                 }));
 
                 const totalAmount = store.getCartTotal();
+                console.log('Total amount:', totalAmount, 'Items:', orderItems.length);
 
                 // Save order to database (user must be logged in at this point)
                 let orderNumber = null;
@@ -3891,6 +3909,7 @@
                     const { data: { session } } = await supabase.auth.getSession();
 
                     if (session?.user) {
+                        console.log('Saving order for user:', session.user.id);
                         const { data: orderData, error } = await supabase
                             .from('orders')
                             .insert([{
@@ -3904,11 +3923,14 @@
                             .select('order_number')
                             .single();
 
-                        if (!error && orderData) {
+                        if (error) {
+                            console.error('Order save error:', error);
+                        } else if (orderData) {
                             orderNumber = orderData.order_number;
+                            console.log('Order saved with number:', orderNumber);
 
-                            // Update customer orders count
-                            await supabase.rpc('increment_orders_count', { user_id: session.user.id });
+                            // Update customer orders count (non-blocking)
+                            supabase.rpc('increment_orders_count', { user_id: session.user.id }).catch(console.error);
                         }
                     }
                 } catch (err) {
@@ -3934,12 +3956,17 @@
                 msg += `\n*Est. Total:* ${CONFIG.currency}${totalAmount}\n`;
                 msg += `\nPlease confirm availability and stitching time.`;
 
-                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+                console.log('Opening WhatsApp with message');
+                const waUrl = `https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`;
+                console.log('WhatsApp URL:', waUrl);
+                window.open(waUrl, '_blank');
 
                 // Show confirmation
                 if (orderNumber) {
                     this.showOrderConfirmation(orderNumber, totalAmount);
                 } else {
+                    // Still show a success message even if order wasn't saved
+                    alert('Your inquiry will open in WhatsApp!');
                     this.closeModal('checkout-modal');
                 }
 
