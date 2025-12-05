@@ -2510,42 +2510,75 @@
     <div id="checkout-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="app.closeModal('checkout-modal')"></div>
         <div
-            class="bg-vbk-card w-full max-w-md p-8 rounded-lg shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up">
+            class="bg-vbk-card w-full max-w-md p-6 rounded-2xl shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up max-h-[90vh] overflow-y-auto">
             <div class="text-center mb-6">
-                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-2xl font-serif text-white font-bold">Final Step</h3>
-                <p class="text-xs text-gray-400 mt-2">Help us personalize your inquiry</p>
+                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-3"></i>
+                <h3 class="text-xl font-serif text-white font-bold">Complete Your Inquiry</h3>
+                <p class="text-xs text-gray-400 mt-1">We'll contact you on WhatsApp</p>
             </div>
 
             <form onsubmit="app.processWhatsApp(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Your Name</label>
-                    <input type="text" id="cust-name" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Ananya">
+                <!-- Saved Addresses -->
+                <div id="saved-addresses-section" class="hidden">
+                    <label class="block text-xs uppercase text-gray-500 mb-2">Select Saved Address</label>
+                    <select id="saved-address-select" onchange="fillAddressFromSaved()"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                        <option value="">-- Enter New Address --</option>
+                    </select>
                 </div>
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">City / Location</label>
-                    <input type="text" id="cust-city" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Bangalore">
+
+                <div id="address-fields">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="col-span-2">
+                            <label class="block text-xs uppercase text-gray-500 mb-1">Full Name *</label>
+                            <input type="text" id="cust-name" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="Your full name">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-gray-500 mb-1">Email *</label>
+                            <input type="email" id="cust-email" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-gray-500 mb-1">Phone *</label>
+                            <input type="tel" id="cust-phone" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="9876543210">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs uppercase text-gray-500 mb-1">City / Location *</label>
+                            <input type="text" id="cust-city" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="e.g., Hyderabad">
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Phone Number</label>
-                    <input type="tel" id="cust-phone"
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., 9876543210">
-                </div>
+
                 <div>
                     <label class="block text-xs uppercase text-gray-500 mb-1">Additional Notes (Optional)</label>
-                    <textarea id="cust-note"
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition h-20"
-                        placeholder="Specific fabric or date requirement?"></textarea>
+                    <textarea id="cust-note" rows="2"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                        placeholder="Specific fabric, design, or date requirement?"></textarea>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-vbk-navy/50 rounded-lg p-4 border border-vbk-mid/30">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-400">Items in Bag</span>
+                        <span id="checkout-item-count" class="font-bold">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Estimated Total</span>
+                        <span id="checkout-total" class="text-lg font-bold text-vbk-gold">₹0</span>
+                    </div>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-green-600 text-white font-bold py-3 rounded hover:bg-green-500 transition mt-4">
-                    Start WhatsApp Chat <i class="fa-solid fa-paper-plane ml-2"></i>
+                    class="w-full bg-green-600 text-white font-bold py-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Send Inquiry via WhatsApp
                 </button>
             </form>
         </div>
@@ -3750,7 +3783,14 @@
                 // User is logged in - proceed to checkout
                 document.getElementById('checkout-modal').classList.remove('hidden');
 
-                // Pre-fill form with user data if available
+                // Update order summary
+                document.getElementById('checkout-item-count').textContent = store.cart.length;
+                document.getElementById('checkout-total').textContent = '₹' + store.getCartTotal();
+
+                // Pre-fill email from session
+                document.getElementById('cust-email').value = session.user.email || '';
+
+                // Try to get customer data
                 const { data: customer } = await supabase
                     .from('customers')
                     .select('name, phone, city')
@@ -3761,6 +3801,42 @@
                     if (customer.name) document.getElementById('cust-name').value = customer.name;
                     if (customer.phone) document.getElementById('cust-phone').value = customer.phone;
                     if (customer.city) document.getElementById('cust-city').value = customer.city;
+                } else {
+                    // Customer record doesn't exist - create one
+                    const userName = session.user.user_metadata?.name || session.user.user_metadata?.full_name || '';
+                    await supabase.from('customers').upsert({
+                        id: session.user.id,
+                        email: session.user.email,
+                        name: userName
+                    });
+                    if (userName) document.getElementById('cust-name').value = userName;
+                }
+
+                // Load saved addresses
+                const { data: addresses } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .eq('customer_id', session.user.id)
+                    .order('is_default', { ascending: false });
+
+                if (addresses && addresses.length > 0) {
+                    document.getElementById('saved-addresses-section').classList.remove('hidden');
+                    const select = document.getElementById('saved-address-select');
+                    select.innerHTML = '<option value="">-- Enter New Address --</option>' +
+                        addresses.map(addr => `
+                            <option value="${addr.id}" data-name="${addr.name}" data-phone="${addr.phone}" 
+                                data-city="${addr.city}" ${addr.is_default ? 'selected' : ''}>
+                                ${addr.label}: ${addr.name}, ${addr.city}
+                            </option>
+                        `).join('');
+
+                    // Auto-fill if default address exists
+                    const defaultAddr = addresses.find(a => a.is_default);
+                    if (defaultAddr) {
+                        fillAddressFromSaved(defaultAddr);
+                    }
+                } else {
+                    document.getElementById('saved-addresses-section').classList.add('hidden');
                 }
             },
 
@@ -3793,6 +3869,7 @@
             async processWhatsApp(e) {
                 e.preventDefault();
                 const name = document.getElementById('cust-name').value;
+                const email = document.getElementById('cust-email').value;
                 const city = document.getElementById('cust-city').value;
                 const note = document.getElementById('cust-note').value;
                 const phone = document.getElementById('cust-phone')?.value || '';
@@ -3822,7 +3899,7 @@
                                 total_amount: totalAmount,
                                 status: 'pending',
                                 customer_notes: note || null,
-                                shipping_address: { name, city, phone }
+                                shipping_address: { name, email, city, phone }
                             }])
                             .select('order_number')
                             .single();
@@ -3843,8 +3920,10 @@
                 let msg = `*New Inquiry from VBK Website*\n\n`;
                 if (orderNumber) msg += `*Order #:* ${orderNumber}\n`;
                 msg += `*Name:* ${name}\n`;
+                msg += `*Email:* ${email}\n`;
                 msg += `*City:* ${city}\n`;
                 if (phone) msg += `*Phone:* ${phone}\n`;
+
                 if (note) msg += `*Note:* ${note}\n`;
                 msg += `\n*Selected Items:*\n`;
 
@@ -4241,6 +4320,25 @@
 
         function closeProfileModal() {
             document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        // Fill checkout form from saved address
+        function fillAddressFromSaved(addr = null) {
+            if (!addr) {
+                const select = document.getElementById('saved-address-select');
+                const selectedOption = select.options[select.selectedIndex];
+                if (!selectedOption || !selectedOption.value) return;
+
+                addr = {
+                    name: selectedOption.dataset.name,
+                    phone: selectedOption.dataset.phone,
+                    city: selectedOption.dataset.city
+                };
+            }
+
+            if (addr.name) document.getElementById('cust-name').value = addr.name;
+            if (addr.phone) document.getElementById('cust-phone').value = addr.phone;
+            if (addr.city) document.getElementById('cust-city').value = addr.city;
         }
 
         function switchProfileTab(tab) {
