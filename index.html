@@ -2567,8 +2567,9 @@
                 <div class="bg-vbk-navy/50 rounded-lg p-4 border border-vbk-mid/30">
                     <div class="flex justify-between text-sm mb-2">
                         <span class="text-gray-400">Items in Bag</span>
-                        <span id="checkout-item-count" class="font-bold">0</span>
+                        <span id="checkout-item-count" class="font-bold text-white">0</span>
                     </div>
+
                     <div class="flex justify-between">
                         <span class="text-gray-400">Estimated Total</span>
                         <span id="checkout-total" class="text-lg font-bold text-vbk-gold">₹0</span>
@@ -4472,12 +4473,13 @@
                                     <p class="font-bold text-vbk-gold">₹${order.total_amount}</p>
                                 </div>
                                 ${order.tracking_number ? `
-                                    <div class="mt-3 p-3 bg-vbk-navy rounded-lg">
-                                        <p class="text-xs text-gray-500 mb-1">Tracking</p>
-                                        <p class="text-sm">${order.shipping_carrier || 'Carrier'}: ${order.tracking_number}</p>
-                                        ${order.estimated_delivery ? `<p class="text-xs text-gray-500 mt-1">Est. Delivery: ${new Date(order.estimated_delivery).toLocaleDateString()}</p>` : ''}
+                                    <div class="mt-3 p-3 bg-vbk-navy/80 rounded-lg border border-vbk-mid/30">
+                                        <p class="text-xs text-gray-400 mb-1">Tracking</p>
+                                        <p class="text-sm text-white font-medium">${order.shipping_carrier || 'Carrier'}: ${order.tracking_number}</p>
+                                        ${order.estimated_delivery ? `<p class="text-xs text-vbk-gold mt-1">Est. Delivery: ${new Date(order.estimated_delivery).toLocaleDateString()}</p>` : ''}
                                     </div>
                                 ` : ''}
+
                             </div>
                         </div>
                     `;
@@ -4530,7 +4532,8 @@
                                 </button>
                             </div>
                         </div>
-                        <p class="font-medium">${addr.name}</p>
+                        <p class="font-medium text-white">${addr.name}</p>
+
                         <p class="text-sm text-gray-400">${addr.phone}</p>
                         <p class="text-sm text-gray-400 mt-1">${addr.address_line1}${addr.address_line2 ? ', ' + addr.address_line2 : ''}</p>
                         <p class="text-sm text-gray-400">${addr.city}, ${addr.state} - ${addr.pincode}</p>
