@@ -4244,11 +4244,13 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnZWt2cmx4bXd4bnBjeHBudmRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDM5ODUsImV4cCI6MjA4MDUxOTk4NX0.lCXjqFD7Mlcawa2G481wJmliJ4JSxNJbaXgewylvIc8';
 
         let supabaseClient = null;
+        let supabase = null; // Global alias
         let currentUser = null;
 
         // Initialize Supabase
         if (window.supabase) {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            supabase = supabaseClient; // Set global alias
 
             // Check for existing session
             supabaseClient.auth.getSession().then(({ data: { session } }) => {
