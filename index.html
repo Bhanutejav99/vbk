@@ -1718,17 +1718,14 @@
                     <!-- Divider -->
                     <div class="w-px h-6 bg-vbk-mid/30 flex-shrink-0"></div>
 
-                    <!-- Category Pills -->
-                    <a href="#top-designs" class="category-pill active">All</a>
-                    <a href="#blouse-designs" class="category-pill">Blouses</a>
-                    <a href="#wedding" class="category-pill">Bridal</a>
-                    <a href="#lehanga-designs" class="category-pill">Lehangas</a>
-                    <a href="#maggam-designs" class="category-pill">Maggam</a>
-                    <a href="#Kurthi-designs" class="category-pill">Kurthis</a>
-                    <a href="#frock-designs" class="category-pill">Frocks</a>
-                    <a href="#materials" class="category-pill">Materials</a>
-                    <a href="#Saree-Tassels-designs" class="category-pill">Tassels</a>
+                    <!-- Dynamic Category Pills - Loaded from Supabase -->
+                    <div id="category-pills-container" class="flex gap-2">
+                        <a href="#" class="category-pill active" data-category="all"
+                            onclick="filterByCategory('all', event)">All</a>
+                        <!-- More pills will be loaded dynamically -->
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -2314,6 +2311,12 @@
                     <!-- Dots will be injected here -->
                 </div>
 
+                <!-- Thumbnail Strip -->
+                <div class="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-2 z-20 bg-black/60 p-2 rounded-lg"
+                    id="carousel-thumbs">
+                    <!-- Thumbnails will be injected here -->
+                </div>
+
                 <!-- Zoom Hint -->
                 <div
                     class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full z-10 hidden md:flex items-center gap-1">
@@ -2798,6 +2801,7 @@
                     }
 
                     app.init();
+                    loadCategories(); // Load categories after products
                     return; // Success - exit function
 
                 } catch (error) {
@@ -2809,6 +2813,83 @@
             // All proxies failed
             console.error('All proxies failed:', lastError);
             alert('Failed to load products. Please refresh the page or try again later.');
+        }
+
+        // Load categories from Supabase and render pills
+        async function loadCategories() {
+            const container = document.getElementById('category-pills-container');
+            if (!container || !supabase) return;
+
+            try {
+                const { data: categories, error } = await supabase
+                    .from('categories')
+                    .select('id, name')
+                    .order('name');
+
+                if (error) {
+                    console.warn('Could not load categories from Supabase:', error);
+                    // Fallback: Extract unique categories from products
+                    const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                    renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+                    return;
+                }
+
+                if (categories && categories.length > 0) {
+                    renderCategoryPills(categories);
+                } else {
+                    // Fallback: Extract from product data
+                    const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                    renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+                }
+            } catch (err) {
+                console.error('Error loading categories:', err);
+                // Fallback
+                const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+            }
+        }
+
+        function renderCategoryPills(categories) {
+            const container = document.getElementById('category-pills-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <a href="#" class="category-pill active" data-category="all" onclick="filterByCategory('all', event)">All</a>
+                ${categories.map(cat => `
+                    <a href="#" class="category-pill" data-category="${cat.name}" onclick="filterByCategory('${cat.name}', event)">${cat.name}</a>
+                `).join('')}
+            `;
+        }
+
+        let currentCategory = 'all';
+
+        function filterByCategory(category, event) {
+            if (event) event.preventDefault();
+
+            currentCategory = category;
+
+            // Update active pill
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.category === category);
+            });
+
+            // Filter products
+            let filteredProducts;
+            if (category === 'all') {
+                filteredProducts = DB;
+            } else {
+                filteredProducts = DB.filter(p =>
+                    p.cat?.toLowerCase() === category.toLowerCase() ||
+                    p.sub?.toLowerCase() === category.toLowerCase()
+                );
+            }
+
+            // Update store and re-render
+            store.products = filteredProducts;
+            app.renderGrid(filteredProducts);
+
+            // Scroll to products section
+            document.getElementById('top-designs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function parseCSV(csvText) {
@@ -3791,6 +3872,7 @@
             updateCarousel() {
                 const img = document.getElementById('qv-img');
                 const dotsContainer = document.getElementById('carousel-dots');
+                const thumbsContainer = document.getElementById('carousel-thumbs');
 
                 // Animate opacity for transition effect
                 img.style.opacity = '0.5';
@@ -3801,10 +3883,28 @@
 
                 // Update dots
                 dotsContainer.innerHTML = this.currentProduct.images.map((_, i) => `
-        <div
-            class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}">
-        </div>
-        `).join('');
+                    <div onclick="app.goToSlide(${i})" 
+                        class="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50 hover:bg-white/80'}">
+                    </div>
+                `).join('');
+
+                // Update thumbnails
+                if (this.currentProduct.images.length > 1) {
+                    thumbsContainer.classList.remove('hidden');
+                    thumbsContainer.innerHTML = this.currentProduct.images.map((imgUrl, i) => `
+                        <img src="${imgUrl}" onclick="app.goToSlide(${i})" 
+                            class="w-10 h-10 rounded object-cover cursor-pointer border-2 transition-all ${i === this.currentSlide ? 'border-vbk-gold opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}"
+                            onerror="this.style.display='none'">
+                    `).join('');
+                } else {
+                    thumbsContainer.classList.add('hidden');
+                }
+            },
+
+            goToSlide(index) {
+                if (!this.currentProduct || !this.currentProduct.images) return;
+                this.currentSlide = index;
+                this.updateCarousel();
             },
 
             openConsultation() {
@@ -4658,7 +4758,34 @@
 
 
         // --- INIT ---
-        document.addEventListener('DOMContentLoaded', () => fetchProductData());
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProductData();
+
+            // Add swipe support for carousel
+            const carouselArea = document.getElementById('qv-zoom-container');
+            if (carouselArea) {
+                let touchStartX = 0;
+                let touchEndX = 0;
+
+                carouselArea.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                carouselArea.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    const swipeThreshold = 50;
+                    const diff = touchStartX - touchEndX;
+
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            app.nextSlide(); // Swipe left = next
+                        } else {
+                            app.prevSlide(); // Swipe right = previous
+                        }
+                    }
+                }, { passive: true });
+            }
+        });
 
         // --- PWA INSTALL ---
         let deferredPrompt;
