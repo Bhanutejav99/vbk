@@ -230,6 +230,35 @@
             </div>
         </div>
 
+        <!-- Forgot Password Modal -->
+        <div id="forgot-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeForgotModal()"></div>
+            <div class="auth-card bg-vbk-card w-full max-w-sm rounded-2xl border border-vbk-mid/30 p-8 relative z-10">
+                <div class="text-center mb-6">
+                    <i class="fa-solid fa-lock text-4xl text-vbk-gold mb-4"></i>
+                    <h3 class="text-xl font-bold">Forgot Password?</h3>
+                    <p class="text-sm text-gray-400 mt-2">Enter your email and we'll send you a reset link</p>
+                </div>
+                <form id="forgot-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Email Address</label>
+                        <input type="email" id="forgot-email" required
+                            class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                            placeholder="your@email.com">
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-vbk-gold text-vbk-navy font-bold py-3 rounded-lg hover:bg-white transition">
+                        Send Reset Link
+                    </button>
+                    <button type="button" onclick="closeForgotModal()"
+                        class="w-full py-3 text-gray-400 hover:text-white transition">
+                        Back to Login
+                    </button>
+                </form>
+                <p id="forgot-message" class="text-sm text-center mt-4 hidden"></p>
+            </div>
+        </div>
+
         <!-- Back to Store -->
         <div class="text-center mt-6">
             <a href="index.html" class="text-gray-500 hover:text-white text-sm">
@@ -368,21 +397,37 @@
         });
 
         // === FORGOT PASSWORD ===
-        async function showForgotPassword() {
-            const email = prompt('Enter your email to reset password:');
-            if (!email) return;
+        function showForgotPassword() {
+            document.getElementById('forgot-modal').classList.remove('hidden');
+            document.getElementById('forgot-email').value = document.getElementById('login-email').value || '';
+            document.getElementById('forgot-message').classList.add('hidden');
+        }
+
+        function closeForgotModal() {
+            document.getElementById('forgot-modal').classList.add('hidden');
+        }
+
+        document.getElementById('forgot-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            const msgEl = document.getElementById('forgot-message');
 
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: window.location.origin + '/reset-password.html'
             });
 
             if (error) {
-                showMessage(error.message, true);
+                msgEl.textContent = error.message;
+                msgEl.className = 'text-sm text-center mt-4 text-red-400';
             } else {
-                showMessage('Password reset email sent! Check your inbox.');
+                msgEl.textContent = '✓ Reset link sent! Check your email inbox.';
+                msgEl.className = 'text-sm text-center mt-4 text-green-400';
+                setTimeout(() => closeForgotModal(), 3000);
             }
-        }
+            msgEl.classList.remove('hidden');
+        });
     </script>
+
 </body>
 
 </html>
