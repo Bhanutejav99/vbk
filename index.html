@@ -456,6 +456,54 @@
             font-weight: 700;
         }
 
+        /* === SKELETON LOADERS === */
+        .skeleton {
+            background: linear-gradient(90deg, #1a1f35 25%, #2d3250 50%, #1a1f35 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-card {
+            background: #1a1f35;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .skeleton-image {
+            height: 200px;
+            background: linear-gradient(90deg, #2d3250 25%, #3d4260 50%, #2d3250 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .skeleton-text {
+            height: 12px;
+            margin: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .skeleton-text-short {
+            width: 60%;
+        }
+
+        .skeleton-price {
+            height: 20px;
+            width: 40%;
+            margin: 12px;
+            border-radius: 4px;
+        }
+
         /* Hide scrollbar */
         .scrollbar-hide {
             -ms-overflow-style: none;
@@ -1748,6 +1796,31 @@
                 </div>
 
                 <div id="grid-top-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                    <!-- Skeleton placeholders shown during loading -->
+                    <div class="skeleton-card" id="skeleton-loader">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
                 </div>
 
                 <div class="mt-12 text-center">
@@ -2802,7 +2875,9 @@
 
                     app.init();
                     loadCategories(); // Load categories after products
+                    setTimeout(initLazyLoading, 100); // Initialize lazy loading after DOM updates
                     return; // Success - exit function
+
 
                 } catch (error) {
                     console.warn('Proxy failed:', proxy.url, error.message);
@@ -4786,6 +4861,53 @@
                 }, { passive: true });
             }
         });
+
+        // === LAZY LOADING IMAGES ===
+        function initLazyLoading() {
+            const lazyImages = document.querySelectorAll('img.lazy');
+
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy');
+                                img.classList.add('loaded');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                }, { rootMargin: '100px' });
+
+                lazyImages.forEach(img => imageObserver.observe(img));
+            } else {
+                // Fallback for browsers without IntersectionObserver
+                lazyImages.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                    }
+                });
+            }
+        }
+
+        // === SEARCH DEBOUNCE ===
+        let lazySearchTimeout = null;
+        function debounceSearch(callback, delay = 300) {
+            return function (...args) {
+                clearTimeout(lazySearchTimeout);
+                lazySearchTimeout = setTimeout(() => callback.apply(this, args), delay);
+            };
+        }
+
+        // Enhanced search with debounce
+        const debouncedSearch = debounceSearch((query) => {
+            if (typeof app !== 'undefined' && app.performSearch) {
+                app.performSearch(query);
+            }
+        }, 300);
 
         // --- PWA INSTALL ---
         let deferredPrompt;
