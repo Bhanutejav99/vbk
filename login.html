@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | VBK Designs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vbk-navy': '#0f1424',
+                        'vbk-card': '#1c2136',
+                        'vbk-mid': '#2d3250',
+                        'vbk-gold': '#f9b17a',
+                        'vbk-purple': '#6769fd',
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .auth-card {
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .google-btn {
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .google-btn:hover {
+            background: #f5f5f5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .input-field {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #f9b17a;
+            box-shadow: 0 0 0 3px rgba(249, 177, 122, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-vbk-navy min-h-screen flex items-center justify-center p-4">
+
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-5">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg xmlns=\"
+            http://www.w3.org/2000/svg\" viewBox=\"0 0 80 80\">
+            <path d=\"M0 0h80v80H0z\" fill=\"none\" />
+            <path d=\"M40 0v80M0 40h80\" stroke=\"white\" stroke-width=\"0.5\" /></svg>'); background-size: 80px 80px;">
+        </div>
+    </div>
+
+    <div class="w-full max-w-md relative z-10">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-block">
+                <h1 class="text-3xl font-serif font-bold text-vbk-gold">VBK Designs</h1>
+                <p class="text-gray-500 text-sm mt-1">Premium Boutique Collection</p>
+            </a>
+        </div>
+
+        <!-- Auth Card -->
+        <div class="auth-card bg-vbk-card rounded-2xl border border-vbk-mid/30 shadow-2xl overflow-hidden">
+
+            <!-- Tabs -->
+            <div class="flex border-b border-vbk-mid/30">
+                <button id="tab-login" onclick="showTab('login')"
+                    class="flex-1 py-4 text-sm font-semibold text-vbk-gold border-b-2 border-vbk-gold">
+                    Login
+                </button>
+                <button id="tab-signup" onclick="showTab('signup')"
+                    class="flex-1 py-4 text-sm font-semibold text-gray-500 hover:text-white transition">
+                    Create Account
+                </button>
+            </div>
+
+            <div class="p-8">
+                <!-- Google Login Button -->
+                <button onclick="loginWithGoogle()"
+                    class="google-btn w-full flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-medium text-gray-700">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="divider my-6 text-gray-500 text-xs">OR</div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Email Address</label>
+                        <input type="email" id="login-email" required
+                            class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                            placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" id="login-password" required
+                                class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 pr-12 text-white focus:outline-none"
+                                placeholder="••••••••">
+                            <button type="button" onclick="togglePassword('login-password')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-4 h-4 accent-vbk-gold">
+                            <span class="text-gray-400">Remember me</span>
+                        </label>
+                        <a href="#" onclick="showForgotPassword()" class="text-vbk-gold hover:underline">Forgot
+                            password?</a>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-vbk-gold text-vbk-navy font-bold py-3 rounded-lg hover:bg-white transition mt-2">
+                        Login
+                    </button>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Full Name *</label>
+                        <input type="text" id="signup-name" required
+                            class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                            placeholder="Your full name">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Email Address *</label>
+                        <input type="email" id="signup-email" required
+                            class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                            placeholder="your@email.com">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase text-gray-500 mb-2">Phone</label>
+                            <input type="tel" id="signup-phone"
+                                class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                                placeholder="+91 98765...">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-gray-500 mb-2">City</label>
+                            <input type="text" id="signup-city"
+                                class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                                placeholder="Hyderabad">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Password *</label>
+                        <div class="relative">
+                            <input type="password" id="signup-password" required minlength="6"
+                                class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 pr-12 text-white focus:outline-none"
+                                placeholder="Min 6 characters">
+                            <button type="button" onclick="togglePassword('signup-password')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        By creating an account, you agree to our
+                        <a href="#" class="text-vbk-gold hover:underline">Terms</a> &
+                        <a href="#" class="text-vbk-gold hover:underline">Privacy Policy</a>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-vbk-gold text-vbk-navy font-bold py-3 rounded-lg hover:bg-white transition">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Error/Success Messages -->
+                <p id="auth-message" class="text-sm text-center mt-4 hidden"></p>
+            </div>
+        </div>
+
+        <!-- Forgot Password Modal -->
+        <div id="forgot-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeForgotModal()"></div>
+            <div class="auth-card bg-vbk-card w-full max-w-sm rounded-2xl border border-vbk-mid/30 p-8 relative z-10">
+                <div class="text-center mb-6">
+                    <i class="fa-solid fa-lock text-4xl text-vbk-gold mb-4"></i>
+                    <h3 class="text-xl font-bold">Forgot Password?</h3>
+                    <p class="text-sm text-gray-400 mt-2">Enter your email and we'll send you a reset link</p>
+                </div>
+                <form id="forgot-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase text-gray-500 mb-2">Email Address</label>
+                        <input type="email" id="forgot-email" required
+                            class="input-field w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:outline-none"
+                            placeholder="your@email.com">
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-vbk-gold text-vbk-navy font-bold py-3 rounded-lg hover:bg-white transition">
+                        Send Reset Link
+                    </button>
+                    <button type="button" onclick="closeForgotModal()"
+                        class="w-full py-3 text-gray-400 hover:text-white transition">
+                        Back to Login
+                    </button>
+                </form>
+                <p id="forgot-message" class="text-sm text-center mt-4 hidden"></p>
+            </div>
+        </div>
+
+        <!-- Back to Store -->
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-gray-500 hover:text-white text-sm">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Store
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // === SUPABASE CONFIG ===
+        const SUPABASE_URL = 'https://rgekvrlxmwxnpcxpnvdn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnZWt2cmx4bXd4bnBjeHBudmRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDM5ODUsImV4cCI6MjA4MDUxOTk4NX0.lCXjqFD7Mlcawa2G481wJmliJ4JSxNJbaXgewylvIc8';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Check if already logged in
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // === TAB SWITCHING ===
+        function showTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const message = document.getElementById('auth-message');
+
+            message.classList.add('hidden');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.classList.add('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+                tabLogin.classList.remove('text-gray-500');
+                tabSignup.classList.remove('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+                tabSignup.classList.add('text-gray-500');
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabSignup.classList.add('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+                tabSignup.classList.remove('text-gray-500');
+                tabLogin.classList.remove('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+                tabLogin.classList.add('text-gray-500');
+            }
+        }
+
+        // === PASSWORD TOGGLE ===
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // === SHOW MESSAGE ===
+        function showMessage(text, isError = false) {
+            const msg = document.getElementById('auth-message');
+            msg.textContent = text;
+            msg.className = `text-sm text-center mt-4 ${isError ? 'text-red-400' : 'text-green-400'}`;
+            msg.classList.remove('hidden');
+        }
+
+        // === GOOGLE LOGIN ===
+        async function loginWithGoogle() {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + '/index.html'
+                }
+            });
+            if (error) {
+                showMessage(error.message, true);
+            }
+        }
+
+        // === EMAIL LOGIN ===
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                showMessage(error.message, true);
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // === EMAIL SIGNUP ===
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const city = document.getElementById('signup-city').value;
+            const password = document.getElementById('signup-password').value;
+
+            // Sign up with Supabase Auth
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { name, phone, city }
+                }
+            });
+
+            if (error) {
+                showMessage(error.message, true);
+                return;
+            }
+
+            // Create customer record
+            if (data.user) {
+                await supabase.from('customers').upsert({
+                    id: data.user.id,
+                    email: email,
+                    name: name,
+                    phone: phone || null,
+                    city: city || null
+                });
+            }
+
+            showMessage('Account created! Please check your email to verify.');
+        });
+
+        // === FORGOT PASSWORD ===
+        function showForgotPassword() {
+            document.getElementById('forgot-modal').classList.remove('hidden');
+            document.getElementById('forgot-email').value = document.getElementById('login-email').value || '';
+            document.getElementById('forgot-message').classList.add('hidden');
+        }
+
+        function closeForgotModal() {
+            document.getElementById('forgot-modal').classList.add('hidden');
+        }
+
+        document.getElementById('forgot-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            const msgEl = document.getElementById('forgot-message');
+
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/reset-password.html'
+            });
+
+            if (error) {
+                msgEl.textContent = error.message;
+                msgEl.className = 'text-sm text-center mt-4 text-red-400';
+            } else {
+                msgEl.textContent = '✓ Reset link sent! Check your email inbox.';
+                msgEl.className = 'text-sm text-center mt-4 text-green-400';
+                setTimeout(() => closeForgotModal(), 3000);
+            }
+            msgEl.classList.remove('hidden');
+        });
+    </script>
+
+</body>
+
+</html>

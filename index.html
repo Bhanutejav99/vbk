@@ -22,6 +22,7 @@
     <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -207,6 +208,714 @@
 
         .product-overlay {
             background: linear-gradient(to top, #0f1424 10%, transparent 100%);
+        }
+
+        /* === MYNTRA-STYLE PRODUCT BADGES === */
+        .product-badge {
+            position: absolute;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .badge-discount {
+            top: 8px;
+            left: 8px;
+            background: linear-gradient(135deg, #ff3f6c 0%, #ff6b8a 100%);
+            color: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(255, 63, 108, 0.4);
+        }
+
+        .badge-bestseller {
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #ffc107 0%, #ffca28 100%);
+            color: #1a1a1a;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
+        }
+
+        .badge-new {
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #26a541 0%, #4caf50 100%);
+            color: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(38, 165, 65, 0.4);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* === STAR RATINGS === */
+        .product-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(38, 165, 65, 0.15);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .product-rating .rating-value {
+            color: #26a541;
+        }
+
+        .product-rating i {
+            color: #26a541;
+            font-size: 9px;
+        }
+
+        .product-rating .rating-count {
+            color: #9ca3af;
+            font-size: 10px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 4px;
+            margin-left: 2px;
+        }
+
+        /* === PRICE DISPLAY === */
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .price-current {
+            color: #f9b17a;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .price-discount {
+            color: #ff3f6c;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* === DELIVERY LABEL === */
+        .delivery-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #26a541;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .delivery-label i {
+            font-size: 9px;
+        }
+
+        /* Line clamp for text truncation */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* === SEARCH UI STYLES === */
+        .search-pill {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(103, 105, 253, 0.15);
+            border: 1px solid rgba(103, 105, 253, 0.3);
+            color: #a5a7fc;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-pill:hover {
+            background: #6769fd;
+            color: white;
+            border-color: #6769fd;
+        }
+
+        .category-shortcut {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-shortcut:hover {
+            background: rgba(249, 177, 122, 0.15);
+            border-color: rgba(249, 177, 122, 0.3);
+            color: #f9b17a;
+        }
+
+        .category-shortcut i {
+            font-size: 14px;
+        }
+
+        .search-result-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-result-item img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .search-result-item .info {
+            padding: 8px;
+        }
+
+        .search-result-item .title {
+            font-size: 11px;
+            color: white;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-result-item .price {
+            font-size: 12px;
+            color: #f9b17a;
+            font-weight: 700;
+        }
+
+        /* === CATEGORY FILTER PILLS === */
+        .category-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #9ca3af;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .category-pill:hover {
+            background: rgba(249, 177, 122, 0.15);
+            border-color: rgba(249, 177, 122, 0.4);
+            color: #f9b17a;
+        }
+
+        .category-pill.active {
+            background: #f9b17a;
+            border-color: #f9b17a;
+            color: #0f1424;
+            font-weight: 700;
+        }
+
+        /* === SKELETON LOADERS === */
+        .skeleton {
+            background: linear-gradient(90deg, #1a1f35 25%, #2d3250 50%, #1a1f35 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-card {
+            background: #1a1f35;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .skeleton-image {
+            height: 200px;
+            background: linear-gradient(90deg, #2d3250 25%, #3d4260 50%, #2d3250 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .skeleton-text {
+            height: 12px;
+            margin: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .skeleton-text-short {
+            width: 60%;
+        }
+
+        .skeleton-price {
+            height: 20px;
+            width: 40%;
+            margin: 12px;
+            border-radius: 4px;
+        }
+
+        /* Hide scrollbar */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* === IMAGE ZOOM === */
+        .zoom-container {
+            position: relative;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .zoom-container img {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-container:hover img {
+            transform: scale(1.5);
+        }
+
+        .zoom-container.zooming img {
+            transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+        }
+
+        .zoom-lens {
+            position: absolute;
+            border: 2px solid rgba(249, 177, 122, 0.5);
+            background: rgba(249, 177, 122, 0.1);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* === SIZE CHART MODAL === */
+        .size-chart-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(103, 105, 253, 0.15);
+            border: 1px solid rgba(103, 105, 253, 0.3);
+            color: #a5a7fc;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-chart-btn:hover {
+            background: #6769fd;
+            color: white;
+        }
+
+        .size-chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .size-chart-table th,
+        .size-chart-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .size-chart-table th {
+            background: rgba(249, 177, 122, 0.15);
+            color: #f9b17a;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .size-chart-table td {
+            color: #9ca3af;
+        }
+
+        .size-chart-table tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* === SIMILAR PRODUCTS === */
+        .similar-products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .similar-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .similar-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .similar-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .similar-item img {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .similar-item .info {
+            padding: 6px;
+        }
+
+        .similar-item .title {
+            font-size: 10px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .similar-item .price {
+            font-size: 11px;
+            color: #f9b17a;
+            font-weight: 600;
+        }
+
+        /* === MOBILE BOTTOM SHEET === */
+        @media (max-width: 768px) {
+            #quick-view-modal .modal-content {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-height: 90vh;
+                border-radius: 20px 20px 0 0;
+                animation: slideUp 0.3s ease;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .bottom-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin: 12px auto;
+        }
+
+        /* === OFFERS BANNER === */
+        .offers-banner {
+            background: linear-gradient(90deg, #ff3f6c 0%, #ff6b8a 50%, #ff3f6c 100%);
+            background-size: 200% 100%;
+            animation: bannerGradient 3s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes bannerGradient {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .offers-scroll {
+            display: flex;
+            animation: scrollOffers 20s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scrollOffers {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .offers-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        .offer-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .offer-code {
+            background: white;
+            color: #ff3f6c;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        /* === CUSTOMER REVIEWS === */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: rgba(28, 33, 54, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            border-color: rgba(249, 177, 122, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(249, 177, 122, 0.3);
+        }
+
+        .review-author {
+            flex: 1;
+        }
+
+        .review-name {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .review-stars {
+            color: #ffc107;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(38, 165, 65, 0.15);
+            color: #26a541;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .review-text {
+            color: #d1d5db;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .review-photos {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .review-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .review-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .helpful-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .helpful-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(249, 177, 122, 0.3);
+            color: #f9b17a;
+        }
+
+        /* Review Stats */
+        .review-stats {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 24px;
+            background: rgba(28, 33, 54, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .rating-big {
+            text-align: center;
+        }
+
+        .rating-big .number {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rating-big .stars {
+            color: #ffc107;
+            font-size: 16px;
+        }
+
+        .rating-big .count {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .rating-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .rating-bar .bar-bg {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rating-bar .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+            border-radius: 4px;
         }
 
         /* --- 5. Component: Preloader --- */
@@ -635,35 +1344,144 @@
                         class="absolute -top-2 -right-2 bg-vbk-gold text-vbk-navy text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center transform scale-0 transition-transform duration-300">0</span>
                 </button>
 
+                <!-- User Profile / Login -->
+                <div class="relative" id="user-menu-container">
+                    <!-- Not logged in - Show Login Button -->
+                    <a href="login.html" id="login-btn-header" class="text-gray-300 hover:text-vbk-gold transition">
+                        <i class="fa-regular fa-user text-lg"></i>
+                    </a>
+
+                    <!-- Logged in - Show User Menu -->
+                    <div id="user-menu" class="hidden">
+                        <button onclick="toggleUserDropdown()"
+                            class="flex items-center gap-2 text-gray-300 hover:text-vbk-gold transition">
+                            <img id="user-avatar" src="" alt="User"
+                                class="w-8 h-8 rounded-full border-2 border-vbk-gold object-cover hidden">
+                            <i id="user-icon" class="fa-solid fa-user-circle text-xl text-vbk-gold"></i>
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div id="user-dropdown"
+                            class="hidden absolute right-0 top-full mt-2 w-56 bg-vbk-card border border-vbk-mid/30 rounded-xl shadow-2xl overflow-hidden z-50">
+                            <div class="p-4 border-b border-vbk-mid/30">
+                                <p id="user-name" class="font-semibold text-white text-sm">User</p>
+                                <p id="user-email" class="text-xs text-gray-500 truncate">email@example.com</p>
+                            </div>
+                            <div class="py-2">
+                                <a href="#wishlist" onclick="closeUserDropdown()"
+                                    class="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-vbk-mid/30 hover:text-white transition">
+                                    <i class="fa-regular fa-heart w-5"></i> My Wishlist
+                                </a>
+                                <a href="#" onclick="showOrders()"
+                                    class="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-vbk-mid/30 hover:text-white transition">
+                                    <i class="fa-solid fa-box w-5"></i> My Orders
+                                </a>
+                                <a href="#" onclick="showAddresses()"
+                                    class="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-vbk-mid/30 hover:text-white transition">
+                                    <i class="fa-solid fa-location-dot w-5"></i> Addresses
+                                </a>
+                            </div>
+                            <div class="border-t border-vbk-mid/30 py-2">
+                                <button onclick="logoutUser()"
+                                    class="w-full flex items-center gap-3 px-4 py-2 text-red-400 hover:bg-red-500/10 transition">
+                                    <i class="fa-solid fa-right-from-bracket w-5"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <button onclick="app.toggleMobileMenu()"
                     class="lg:hidden text-2xl text-white hover:text-vbk-gold transition">
                     <i class="fa-solid fa-bars-staggered"></i>
                 </button>
+
             </div>
         </div>
 
         <div id="search-bar"
-            class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 p-4 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
-            <div class="container mx-auto relative flex gap-3 items-center">
-                <i
-                    class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                <input type="text" id="global-search" placeholder="Search for velvet, maggam, zari..."
-                    class="w-full bg-vbk-navy border border-vbk-mid text-white placeholder-gray-500 rounded-full px-12 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold focus:border-transparent transition">
-                <button onclick="app.toggleFilters()"
-                    class="flex-shrink-0 px-6 py-3 bg-vbk-purple hover:bg-vbk-gold hover:text-vbk-navy text-white rounded-full transition font-bold uppercase text-xs tracking-wider">
-                    <i class="fa-solid fa-sliders mr-2"></i>Filters
-                </button>
-                <select id="global-sort" onchange="app.applySorting()"
-                    class="flex-shrink-0 bg-vbk-navy border border-vbk-mid text-white rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold transition">
-                    <option value="">Sort By</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="name-asc">Name: A to Z</option>
-                    <option value="name-desc">Name: Z to A</option>
-                </select>
-                <button onclick="toggleSearch()"
-                    class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"><i
-                        class="fa-solid fa-xmark"></i></button>
+            class="absolute top-full left-0 w-full bg-vbk-card border-b border-vbk-mid/30 transform -translate-y-full transition-transform duration-300 opacity-0 pointer-events-none z-40 shadow-2xl">
+            <div class="container mx-auto p-4">
+                <!-- Search Input Row -->
+                <div class="relative flex gap-3 items-center">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" id="global-search" placeholder="Search for blouses, maggam, bridal..."
+                        class="w-full bg-vbk-navy border border-vbk-mid text-white placeholder-gray-500 rounded-full px-12 py-3 focus:outline-none focus:ring-2 focus:ring-vbk-gold focus:border-transparent transition"
+                        autocomplete="off">
+                    <button onclick="clearSearch()"
+                        class="absolute right-24 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-white hidden"
+                        id="clear-search-btn">
+                        <i class="fa-solid fa-times-circle"></i>
+                    </button>
+                    <button onclick="toggleSearch()"
+                        class="flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-vbk-navy rounded-full transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Search Suggestions Dropdown -->
+                <div id="search-suggestions" class="mt-4 hidden">
+                    <!-- Recent Searches -->
+                    <div id="recent-searches-section" class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold">Recent Searches</h4>
+                            <button onclick="clearRecentSearches()"
+                                class="text-gray-500 text-xs hover:text-vbk-gold transition">Clear All</button>
+                        </div>
+                        <div id="recent-searches" class="flex flex-wrap gap-2">
+                            <!-- Recent search pills will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Trending Searches -->
+                    <div class="mb-4">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold mb-2">
+                            <i class="fa-solid fa-fire text-orange-400 mr-1"></i> Trending
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span onclick="searchFor('Maggam Work')" class="search-pill">Maggam Work</span>
+                            <span onclick="searchFor('Bridal Blouse')" class="search-pill">Bridal Blouse</span>
+                            <span onclick="searchFor('V Neck')" class="search-pill">V Neck</span>
+                            <span onclick="searchFor('Boat Neck')" class="search-pill">Boat Neck</span>
+                            <span onclick="searchFor('Lehanga')" class="search-pill">Lehanga</span>
+                            <span onclick="searchFor('Zardosi')" class="search-pill">Zardosi</span>
+                        </div>
+                    </div>
+
+                    <!-- Category Shortcuts -->
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold mb-2">Popular Categories
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <a href="#blouse-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-shirt"></i> Blouses
+                            </a>
+                            <a href="#wedding" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-gem"></i> Bridal
+                            </a>
+                            <a href="#lehanga-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-star"></i> Lehangas
+                            </a>
+                            <a href="#maggam-designs" onclick="toggleSearch()" class="category-shortcut">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Maggam
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Search Results -->
+                <div id="search-results" class="mt-4 hidden">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider font-bold">
+                            <span id="search-results-count">0</span> Results
+                        </h4>
+                    </div>
+                    <div id="search-results-grid"
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-h-80 overflow-y-auto">
+                        <!-- Search result items will be rendered here -->
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -880,6 +1698,85 @@
 
     <main>
 
+        <!-- Offers Banner -->
+        <div class="offers-banner py-2 text-white">
+            <div class="offers-scroll">
+                <span class="offer-item">
+                    <i class="fa-solid fa-tag"></i>
+                    Use code <span class="offer-code">VBK20</span> for 20% OFF on first order!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-truck"></i>
+                    FREE Shipping on orders above ₹999
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-gift"></i>
+                    Use code <span class="offer-code">BRIDAL30</span> for 30% OFF on Bridal wear!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-percent"></i>
+                    FLAT 15% OFF on Maggam Work - Use <span class="offer-code">MAGGAM15</span>
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-heart"></i>
+                    Handcrafted with love 💕 New designs added weekly!
+                </span>
+                <!-- Duplicate for seamless loop -->
+                <span class="offer-item">
+                    <i class="fa-solid fa-tag"></i>
+                    Use code <span class="offer-code">VBK20</span> for 20% OFF on first order!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-truck"></i>
+                    FREE Shipping on orders above ₹999
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-gift"></i>
+                    Use code <span class="offer-code">BRIDAL30</span> for 30% OFF on Bridal wear!
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-percent"></i>
+                    FLAT 15% OFF on Maggam Work - Use <span class="offer-code">MAGGAM15</span>
+                </span>
+                <span class="offer-item">
+                    <i class="fa-solid fa-heart"></i>
+                    Handcrafted with love 💕 New designs added weekly!
+                </span>
+            </div>
+        </div>
+
+        <!-- Sticky Category Filter Pills -->
+        <div id="category-pills"
+            class="sticky top-[72px] z-30 bg-vbk-navy/95 backdrop-blur-lg border-b border-vbk-mid/20 py-3 shadow-lg">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+                    <!-- Filter & Sort Buttons -->
+                    <button onclick="toggleSearch()"
+                        class="flex-shrink-0 px-4 py-2 bg-vbk-purple text-white rounded-full text-xs font-bold flex items-center gap-2 hover:bg-vbk-gold hover:text-vbk-navy transition">
+                        <i class="fa-solid fa-sliders"></i> Filter
+                    </button>
+                    <select id="global-sort" onchange="app.applySorting()"
+                        class="flex-shrink-0 bg-vbk-card border border-vbk-mid text-white rounded-full px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-vbk-gold">
+                        <option value="">Sort</option>
+                        <option value="price-asc">Price ↑</option>
+                        <option value="price-desc">Price ↓</option>
+                        <option value="name-asc">A-Z</option>
+                    </select>
+
+                    <!-- Divider -->
+                    <div class="w-px h-6 bg-vbk-mid/30 flex-shrink-0"></div>
+
+                    <!-- Dynamic Category Pills - Loaded from Supabase -->
+                    <div id="category-pills-container" class="flex gap-2">
+                        <a href="#" class="category-pill active" data-category="all"
+                            onclick="filterByCategory('all', event)">All</a>
+                        <!-- More pills will be loaded dynamically -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <section id="top-designs" class="py-24 bg-vbk-navy relative">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -899,6 +1796,31 @@
                 </div>
 
                 <div id="grid-top-designs" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+                    <!-- Skeleton placeholders shown during loading -->
+                    <div class="skeleton-card" id="skeleton-loader">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text skeleton-text-short"></div>
+                        <div class="skeleton skeleton-price"></div>
+                    </div>
                 </div>
 
                 <div class="mt-12 text-center">
@@ -1094,69 +2016,182 @@
 
         <section id="reviews" class="py-24 bg-vbk-card relative">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">Client Diaries</h2>
+                <div class="text-center mb-12">
+                    <span class="text-vbk-purple font-bold uppercase tracking-widest text-xs mb-2 block">Real
+                        Reviews</span>
+                    <h2 class="text-3xl md:text-4xl font-serif text-white mb-4">What Our Customers Say</h2>
                     <div class="w-24 h-1 bg-vbk-gold mx-auto"></div>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"The fitting was absolutely perfect on the
-                            first try! The Maggam work details are so intricate. VBK is now my go-to boutique."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-vbk-gold to-purple-500 flex items-center justify-center text-vbk-navy font-bold">
-                                S</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Sneha Reddy</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Hyderabad</p>
+                <!-- Rating Stats Dashboard -->
+                <div class="review-stats mb-12 max-w-2xl mx-auto">
+                    <div class="rating-big">
+                        <div class="number">4.8</div>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <div class="count">Based on 2,847 reviews</div>
+                    </div>
+                    <div class="rating-bars">
+                        <div class="rating-bar">
+                            <span>5 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 78%"></div>
                             </div>
+                            <span>78%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>4 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 15%"></div>
+                            </div>
+                            <span>15%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>3 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 5%"></div>
+                            </div>
+                            <span>5%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>2 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 1%"></div>
+                            </div>
+                            <span>1%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>1 ⭐</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill" style="width: 1%"></div>
+                            </div>
+                            <span>1%</span>
                         </div>
                     </div>
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Ordered customized latkans and lining
-                            material. The quality is top-notch compared to local markets. Delivery was super fast."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-vbk-purple flex items-center justify-center text-white font-bold">
-                                P</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Priya K.</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Boutique Owner</p>
+                </div>
+
+                <!-- Customer Reviews Grid -->
+                <div class="reviews-grid">
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sneha"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Sneha Reddy</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>2 weeks ago</span>
+                                </div>
                             </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"The fitting was absolutely perfect on the first try! The Maggam work
+                            details are so intricate - every thread looks perfectly placed. VBK is now my go-to boutique
+                            for all occasions. The delivery was also super fast!"</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1610030469668-7a5795a7c0e3?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 24</button>
                         </div>
                     </div>
-                    <div
-                        class="bg-vbk-navy p-8 rounded-lg border border-vbk-mid/30 relative group hover:-translate-y-2 transition duration-300">
-                        <i
-                            class="fa-solid fa-quote-right absolute top-8 right-8 text-4xl text-vbk-mid/20 group-hover:text-vbk-gold/20 transition"></i>
-                        <div class="flex text-vbk-gold mb-4 text-xs"><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-6">"Designed my entire wedding trousseau
-                            here. They were very patient with my changes and the final output was stunning."</p>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-red-500 flex items-center justify-center text-white font-bold">
-                                L</div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Lakshmi M.</h4>
-                                <p class="text-[10px] text-gray-500 uppercase">Bangalore</p>
+
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Priya Krishnamurthy</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>1 month ago</span>
+                                </div>
                             </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"Ordered customized latkans and lining material for my boutique. The
+                            quality is top-notch compared to local markets. My customers loved the designs! Will
+                            definitely order again."</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 18</button>
                         </div>
                     </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Lakshmi"
+                                class="review-avatar">
+                            <div class="review-author">
+                                <div class="review-name">Lakshmi Menon</div>
+                                <div class="review-meta">
+                                    <span class="review-stars">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span>3 weeks ago</span>
+                                </div>
+                            </div>
+                            <span class="verified-badge"><i class="fa-solid fa-check"></i> Verified</span>
+                        </div>
+                        <p class="review-text">"Designed my entire wedding trousseau here. They were very patient with
+                            my changes and the final output was stunning. Everyone at my wedding complimented the blouse
+                            designs. Thank you VBK!"</p>
+                        <div class="review-photos">
+                            <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                            <img src="https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?w=100&h=100&fit=crop"
+                                class="review-photo" alt="Review">
+                        </div>
+                        <div class="review-helpful">
+                            <span>Helpful?</span>
+                            <button class="helpful-btn"><i class="fa-regular fa-thumbs-up"></i> 42</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View All Reviews Button -->
+                <div class="text-center mt-12">
+                    <button
+                        class="px-8 py-3 border border-vbk-gold text-vbk-gold hover:bg-vbk-gold hover:text-vbk-navy font-bold uppercase tracking-wider text-xs rounded-full transition">
+                        View All 2,847 Reviews <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -1320,13 +2355,20 @@
             onclick="app.closeModal('quick-view-modal')"></div>
 
         <div
-            class="bg-vbk-card w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden relative z-10 flex flex-col md:flex-row animate-fade-in border border-vbk-mid/30 max-h-[90vh]">
+            class="modal-content bg-vbk-card w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden relative z-10 flex flex-col md:flex-row animate-fade-in border border-vbk-mid/30 max-h-[90vh]">
+
+            <!-- Mobile Bottom Sheet Handle -->
+            <div class="bottom-sheet-handle md:hidden"></div>
+
             <button onclick="app.closeModal('quick-view-modal')"
                 class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 text-white rounded-full hover:bg-vbk-gold hover:text-vbk-navy transition flex items-center justify-center"><i
                     class="fa-solid fa-xmark"></i></button>
 
+            <!-- Image Section with Zoom -->
             <div class="md:w-1/2 bg-black relative h-64 md:h-auto group overflow-hidden">
-                <img id="qv-img" src="" class="w-full h-full object-cover opacity-90 transition-transform duration-700">
+                <div class="zoom-container w-full h-full" id="qv-zoom-container">
+                    <img id="qv-img" src="" class="w-full h-full object-cover opacity-90">
+                </div>
 
                 <!-- Carousel Controls -->
                 <button onclick="app.prevSlide()"
@@ -1342,6 +2384,18 @@
                     <!-- Dots will be injected here -->
                 </div>
 
+                <!-- Thumbnail Strip -->
+                <div class="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-2 z-20 bg-black/60 p-2 rounded-lg"
+                    id="carousel-thumbs">
+                    <!-- Thumbnails will be injected here -->
+                </div>
+
+                <!-- Zoom Hint -->
+                <div
+                    class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full z-10 hidden md:flex items-center gap-1">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i> Hover to zoom
+                </div>
+
                 <div class="absolute bottom-4 left-4 z-10">
                     <span id="qv-tag"
                         class="bg-vbk-purple text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest">New
@@ -1349,71 +2403,409 @@
                 </div>
             </div>
 
-            <div class="md:w-1/2 p-8 md:p-10 flex flex-col bg-vbk-navy overflow-y-auto">
+            <!-- Product Details Section -->
+            <div class="md:w-1/2 p-6 md:p-8 flex flex-col bg-vbk-navy overflow-y-auto">
                 <div class="mb-auto">
+                    <!-- Category & Price Row -->
                     <div class="flex justify-between items-start mb-2">
                         <span id="qv-category"
                             class="text-vbk-gold text-xs font-bold uppercase tracking-widest">Category</span>
-                        <span id="qv-price" class="text-white font-bold text-lg font-mono">₹0</span>
+                        <div class="text-right">
+                            <div id="qv-badge" class="text-xs text-white bg-pink-500/80 px-2 py-0.5 rounded mb-1">30%
+                                OFF</div>
+                        </div>
                     </div>
-                    <h2 id="qv-title" class="text-3xl md:text-4xl font-serif font-bold text-white mb-6 leading-tight">
+
+                    <!-- Title -->
+                    <h2 id="qv-title" class="text-2xl md:text-3xl font-serif font-bold text-white mb-3 leading-tight">
                         Product Title</h2>
 
-                    <div class="space-y-4 mb-8">
-                        <p id="qv-desc" class="text-gray-400 text-sm leading-relaxed">Description goes here.</p>
+                    <!-- Rating -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="product-rating">
+                            <span class="rating-value" id="qv-rating">4.2</span>
+                            <i class="fa-solid fa-star"></i>
+                            <span class="rating-count" id="qv-reviews">1.2k</span>
+                        </div>
+                        <span class="text-gray-500 text-xs">|</span>
+                        <span class="text-gray-400 text-xs" id="qv-sold">500+ sold</span>
+                    </div>
 
-                        <div class="bg-vbk-card/50 p-4 rounded border border-vbk-mid/30">
-                            <h4 class="text-white text-xs font-bold uppercase mb-3">Features</h4>
-                            <ul id="qv-features" class="grid grid-cols-2 gap-2 text-xs text-gray-400">
-                                <!-- Features will be injected dynamically -->
-                            </ul>
+                    <!-- Price Section -->
+                    <div class="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+                        <span id="qv-price" class="text-2xl font-bold text-vbk-gold">₹0</span>
+                        <span id="qv-original-price" class="text-gray-500 line-through text-sm">₹0</span>
+                        <span id="qv-discount" class="text-pink-400 text-sm font-semibold">(30% OFF)</span>
+                    </div>
+
+                    <!-- Size Chart Button -->
+                    <div class="mb-4">
+                        <button onclick="toggleSizeChart()" class="size-chart-btn">
+                            <i class="fa-solid fa-ruler"></i> Size Chart
+                        </button>
+                    </div>
+
+                    <!-- Size Chart (Hidden by default) -->
+                    <div id="size-chart" class="hidden mb-4 bg-vbk-card/50 rounded-lg p-4 border border-vbk-mid/30">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Size Guide</h4>
+                        <table class="size-chart-table">
+                            <tr>
+                                <th>Size</th>
+                                <th>Bust</th>
+                                <th>Waist</th>
+                                <th>Length</th>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>32"</td>
+                                <td>26"</td>
+                                <td>14"</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>34"</td>
+                                <td>28"</td>
+                                <td>15"</td>
+                            </tr>
+                            <tr>
+                                <td>L</td>
+                                <td>36"</td>
+                                <td>30"</td>
+                                <td>16"</td>
+                            </tr>
+                            <tr>
+                                <td>XL</td>
+                                <td>38"</td>
+                                <td>32"</td>
+                                <td>17"</td>
+                            </tr>
+                            <tr>
+                                <td>XXL</td>
+                                <td>40"</td>
+                                <td>34"</td>
+                                <td>18"</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Delivery Info -->
+                    <div class="bg-vbk-card/30 rounded-lg p-3 mb-4 border border-vbk-mid/20">
+                        <div class="flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-truck text-green-400"></i>
+                            <span class="text-gray-400">Free Delivery by</span>
+                            <span class="text-white font-semibold" id="qv-delivery-date">Dec 12</span>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="bg-vbk-card/50 p-4 rounded border border-vbk-mid/30 mb-4">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Features</h4>
+                        <ul id="qv-features" class="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                            <!-- Features will be injected dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Similar Products -->
+                    <div class="mb-4">
+                        <h4 class="text-white text-xs font-bold uppercase mb-3">Similar Products</h4>
+                        <div id="qv-similar" class="similar-products-grid">
+                            <!-- Similar products will be injected here -->
                         </div>
                     </div>
                 </div>
 
-                <div class="flex gap-4 mt-6">
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mt-4 pt-4 border-t border-white/10">
+                    <button onclick="store.toggleWishlist(currentProductId)"
+                        class="w-12 h-12 flex items-center justify-center border border-pink-500/50 text-pink-400 rounded-lg hover:bg-pink-500 hover:text-white transition">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
                     <button id="qv-add-btn"
-                        class="flex-1 bg-vbk-gold text-vbk-navy font-bold py-4 px-6 rounded-sm hover:bg-white transition uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(249,177,122,0.3)]">
-                        Add to Inquiry
+                        class="flex-1 bg-vbk-gold text-vbk-navy font-bold py-3 px-6 rounded-lg hover:bg-white transition uppercase tracking-wider text-xs shadow-[0_0_20px_rgba(249,177,122,0.3)] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Bag
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Size Chart Overlay Modal -->
+    <div id="size-chart-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/80" onclick="toggleSizeChart()"></div>
+        <div class="bg-vbk-card w-full max-w-md p-6 rounded-lg relative z-10 border border-vbk-mid/30">
+            <button onclick="toggleSizeChart()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-ruler text-vbk-gold"></i> Blouse Size Chart
+            </h3>
+            <table class="size-chart-table">
+                <tr>
+                    <th>Size</th>
+                    <th>Bust</th>
+                    <th>Waist</th>
+                    <th>Length</th>
+                </tr>
+                <tr>
+                    <td>S (32-34)</td>
+                    <td>32-34"</td>
+                    <td>26-28"</td>
+                    <td>14"</td>
+                </tr>
+                <tr>
+                    <td>M (34-36)</td>
+                    <td>34-36"</td>
+                    <td>28-30"</td>
+                    <td>15"</td>
+                </tr>
+                <tr>
+                    <td>L (36-38)</td>
+                    <td>36-38"</td>
+                    <td>30-32"</td>
+                    <td>16"</td>
+                </tr>
+                <tr>
+                    <td>XL (38-40)</td>
+                    <td>38-40"</td>
+                    <td>32-34"</td>
+                    <td>17"</td>
+                </tr>
+                <tr>
+                    <td>XXL (40-42)</td>
+                    <td>40-42"</td>
+                    <td>34-36"</td>
+                    <td>18"</td>
+                </tr>
+            </table>
+            <p class="text-gray-500 text-xs mt-4 text-center">
+                <i class="fa-solid fa-info-circle mr-1"></i> Custom sizes available on request
+            </p>
+        </div>
+    </div>
+
     <div id="checkout-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="app.closeModal('checkout-modal')"></div>
         <div
-            class="bg-vbk-card w-full max-w-md p-8 rounded-lg shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up">
+            class="bg-vbk-card w-full max-w-md p-6 rounded-2xl shadow-2xl relative z-10 border border-vbk-mid/50 animate-slide-up max-h-[90vh] overflow-y-auto">
             <div class="text-center mb-6">
-                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-2xl font-serif text-white font-bold">Final Step</h3>
-                <p class="text-xs text-gray-400 mt-2">Help us personalize your inquiry</p>
+                <i class="fa-brands fa-whatsapp text-4xl text-green-500 mb-3"></i>
+                <h3 class="text-xl font-serif text-white font-bold">Complete Your Inquiry</h3>
+                <p class="text-xs text-gray-400 mt-1">We'll contact you on WhatsApp</p>
             </div>
 
             <form onsubmit="app.processWhatsApp(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Your Name</label>
-                    <input type="text" id="cust-name" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Ananya">
+                <!-- Saved Addresses -->
+                <div id="saved-addresses-section" class="hidden">
+                    <label class="block text-xs uppercase text-gray-400 mb-2">Select Saved Address</label>
+                    <select id="saved-address-select" onchange="fillAddressFromSaved()"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                        <option value="">-- Enter New Address --</option>
+                    </select>
                 </div>
-                <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">City / Location</label>
-                    <input type="text" id="cust-city" required
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition"
-                        placeholder="e.g., Bangalore">
+
+                <div id="address-fields">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="col-span-2">
+                            <label class="block text-xs uppercase text-gray-400 mb-1">Full Name *</label>
+                            <input type="text" id="cust-name" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="Your full name">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-gray-400 mb-1">Email *</label>
+                            <input type="email" id="cust-email" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase text-gray-400 mb-1">Phone *</label>
+                            <input type="tel" id="cust-phone" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="9876543210">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs uppercase text-gray-400 mb-1">City / Location *</label>
+                            <input type="text" id="cust-city" required
+                                class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                                placeholder="e.g., Hyderabad">
+                        </div>
+                    </div>
                 </div>
+
                 <div>
-                    <label class="block text-xs uppercase text-gray-500 mb-1">Additional Notes (Optional)</label>
-                    <textarea id="cust-note"
-                        class="w-full bg-vbk-navy border border-vbk-mid rounded p-3 text-white focus:border-vbk-gold focus:outline-none transition h-24"
-                        placeholder="Specific fabric or date requirement?"></textarea>
+                    <label class="block text-xs uppercase text-gray-400 mb-1">Additional Notes (Optional)</label>
+                    <textarea id="cust-note" rows="2"
+                        class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                        placeholder="Specific fabric, design, or date requirement?"></textarea>
                 </div>
+
+                <!-- Order Summary -->
+                <div class="bg-vbk-navy/50 rounded-lg p-4 border border-vbk-mid/30">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="text-gray-400">Items in Bag</span>
+                        <span id="checkout-item-count" class="font-bold text-white">0</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Estimated Total</span>
+                        <span id="checkout-total" class="text-lg font-bold text-vbk-gold">₹0</span>
+                    </div>
+                </div>
+
                 <button type="submit"
-                    class="w-full bg-green-600 text-white font-bold py-3 rounded hover:bg-green-500 transition mt-4">
-                    Start WhatsApp Chat <i class="fa-solid fa-paper-plane ml-2"></i>
+                    class="w-full bg-green-600 text-white font-bold py-4 rounded-lg hover:bg-green-500 transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Send Inquiry via WhatsApp
                 </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-[95] hidden">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeProfileModal()"></div>
+        <div
+            class="absolute inset-x-0 bottom-0 top-0 md:top-16 bg-vbk-navy md:rounded-t-3xl overflow-hidden animate-slide-up">
+            <!-- Header with Navigation -->
+            <div class="sticky top-0 bg-vbk-card border-b border-vbk-mid/30 px-4 py-3 z-10">
+                <div class="flex items-center justify-between">
+                    <!-- Left: Back/Home buttons -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="closeProfileModal()"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-vbk-mid/50 hover:bg-vbk-mid text-white transition">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span class="text-sm">Back</span>
+                        </button>
+                        <a href="index.html"
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-vbk-gold/20 hover:bg-vbk-gold/30 text-vbk-gold transition">
+                            <i class="fa-solid fa-home"></i>
+                            <span class="text-sm hidden sm:inline">Shop</span>
+                        </a>
+                    </div>
+
+                    <!-- Center: Title -->
+                    <h2 class="text-lg font-bold text-white absolute left-1/2 -translate-x-1/2">My Account</h2>
+
+                    <!-- Right: Close button -->
+                    <button onclick="closeProfileModal()"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-white transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-vbk-mid/30 bg-vbk-card/80">
+                <button onclick="switchProfileTab('orders')" id="tab-orders"
+                    class="profile-tab flex-1 py-3 text-center font-semibold text-vbk-gold border-b-2 border-vbk-gold">
+                    <i class="fa-solid fa-box mr-2"></i>My Orders
+                </button>
+                <button onclick="switchProfileTab('addresses')" id="tab-addresses"
+                    class="profile-tab flex-1 py-3 text-center font-semibold text-gray-400 hover:text-white transition">
+                    <i class="fa-solid fa-location-dot mr-2"></i>Addresses
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="overflow-y-auto" style="height: calc(100% - 130px);">
+                <!-- Orders Tab -->
+                <div id="content-orders" class="profile-content p-6">
+                    <div id="orders-list" class="space-y-4">
+                        <!-- Orders will be loaded here -->
+                        <div class="text-center py-12 text-gray-400">
+                            <i class="fa-solid fa-spinner fa-spin text-3xl mb-4"></i>
+                            <p>Loading orders...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Addresses Tab -->
+                <div id="content-addresses" class="profile-content hidden p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold text-white text-lg">Saved Addresses</h3>
+                        <button onclick="openAddAddressModal()"
+                            class="px-4 py-2 bg-vbk-gold text-vbk-navy text-sm font-bold rounded-lg hover:bg-white transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Add New
+                        </button>
+                    </div>
+                    <div id="addresses-list" class="space-y-4">
+                        <!-- Addresses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Add Address Modal -->
+    <div id="address-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/90" onclick="closeAddressModal()"></div>
+        <div
+            class="bg-vbk-card w-full max-w-md p-6 rounded-2xl relative z-10 border border-vbk-mid/50 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold text-white mb-6">Add Address</h3>
+            <form id="address-form" class="space-y-4">
+                <input type="hidden" id="address-id">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Full Name</label>
+                        <input type="text" id="addr-name" required
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Phone</label>
+                        <input type="tel" id="addr-phone" required
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Address Line 1</label>
+                        <input type="text" id="addr-line1" required
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                            placeholder="House no, Building, Street">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Address Line 2</label>
+                        <input type="text" id="addr-line2"
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none"
+                            placeholder="Area, Landmark (optional)">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 mb-1">City</label>
+                        <input type="text" id="addr-city" required
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 mb-1">State</label>
+                        <input type="text" id="addr-state" required
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Pincode</label>
+                        <input type="text" id="addr-pincode" required pattern="[0-9]{6}"
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-gray-400 mb-1">Label</label>
+                        <select id="addr-label"
+                            class="w-full bg-vbk-navy border border-vbk-mid rounded-lg p-3 text-white focus:border-vbk-gold focus:outline-none">
+                            <option value="Home">Home</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="addr-default" class="w-4 h-4 accent-vbk-gold">
+                            <span class="text-sm text-gray-300">Set as default address</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeAddressModal()"
+                        class="flex-1 py-3 border border-vbk-mid text-white rounded-lg hover:bg-vbk-mid transition">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 py-3 bg-vbk-gold text-vbk-navy font-bold rounded-lg hover:bg-white transition">Save</button>
+
+                </div>
             </form>
         </div>
     </div>
@@ -1429,48 +2821,150 @@
     </script>
     <script>
         // Google Sheet CSV URL
-        // Google Sheet CSV URL (using allorigins JSON API to avoid 403s)
-        const SHEET_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv');
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRLbdAUWOkJRoMJMbrRAs5QY_e25pSz4zH4HG5wuwtt-i4-MwsMLClF3LA34NdQq89ncumr3b6zzhes/pub?output=csv';
+
+        // Multiple proxy options for reliability
+        const PROXIES = [
+            { url: 'https://api.allorigins.win/get?url=', type: 'json', field: 'contents' },
+            { url: 'https://corsproxy.io/?', type: 'text' },
+            { url: 'https://api.codetabs.com/v1/proxy?quest=', type: 'text' }
+        ];
 
         let DB = [];
 
         async function fetchProductData() {
-            try {
-                console.log('Fetching data from:', SHEET_URL);
-                const response = await fetch(SHEET_URL);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            let lastError = null;
 
-                const json = await response.json();
-                let data = json.contents; // Content is in .contents field
+            for (const proxy of PROXIES) {
+                try {
+                    const proxyUrl = proxy.url + encodeURIComponent(SHEET_CSV_URL);
+                    console.log('Trying proxy:', proxy.url);
 
-                if (!data) throw new Error('No data received from proxy');
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-                // Handle Base64 encoded data (data:text/csv;base64,...)
-                if (data.startsWith('data:')) {
-                    const base64Part = data.split(',')[1];
-                    if (base64Part) {
-                        // Decode Base64 (handling UTF-8 chars correctly)
-                        data = new TextDecoder().decode(Uint8Array.from(atob(base64Part), c => c.charCodeAt(0)));
+                    const response = await fetch(proxyUrl, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                    let data;
+                    if (proxy.type === 'json') {
+                        const json = await response.json();
+                        data = json[proxy.field];
+                        // Handle Base64 encoded data
+                        if (data && data.startsWith('data:')) {
+                            const base64Part = data.split(',')[1];
+                            if (base64Part) {
+                                data = new TextDecoder().decode(Uint8Array.from(atob(base64Part), c => c.charCodeAt(0)));
+                            }
+                        }
+                    } else {
+                        data = await response.text();
                     }
+
+                    if (!data) throw new Error('Empty response');
+
+                    console.log('Data loaded successfully, length:', data.length);
+                    DB = parseCSV(data);
+                    console.log('Products parsed:', DB.length);
+
+                    if (typeof store !== 'undefined') {
+                        store.products = DB;
+                    }
+
+                    app.init();
+                    loadCategories(); // Load categories after products
+                    setTimeout(initLazyLoading, 100); // Initialize lazy loading after DOM updates
+                    return; // Success - exit function
+
+
+                } catch (error) {
+                    console.warn('Proxy failed:', proxy.url, error.message);
+                    lastError = error;
                 }
-
-                console.log('Data received (first 50 chars):', data.substring(0, 50));
-
-                DB = parseCSV(data);
-                console.log('Products loaded from Sheet:', DB.length);
-
-                // Update store with new data
-                if (typeof store !== 'undefined') {
-                    store.products = DB;
-                } else {
-                    console.error('Store not defined!');
-                }
-
-                app.init();
-            } catch (error) {
-                console.error('Error loading products:', error);
-                alert(`Failed to load product data: ${error.message}. Check console for details.`);
             }
+
+            // All proxies failed
+            console.error('All proxies failed:', lastError);
+            alert('Failed to load products. Please refresh the page or try again later.');
+        }
+
+        // Load categories from Supabase and render pills
+        async function loadCategories() {
+            const container = document.getElementById('category-pills-container');
+            if (!container || !supabase) return;
+
+            try {
+                const { data: categories, error } = await supabase
+                    .from('categories')
+                    .select('id, name')
+                    .order('name');
+
+                if (error) {
+                    console.warn('Could not load categories from Supabase:', error);
+                    // Fallback: Extract unique categories from products
+                    const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                    renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+                    return;
+                }
+
+                if (categories && categories.length > 0) {
+                    renderCategoryPills(categories);
+                } else {
+                    // Fallback: Extract from product data
+                    const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                    renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+                }
+            } catch (err) {
+                console.error('Error loading categories:', err);
+                // Fallback
+                const uniqueCats = [...new Set(DB.map(p => p.cat).filter(Boolean))];
+                renderCategoryPills(uniqueCats.map((name, i) => ({ id: i, name })));
+            }
+        }
+
+        function renderCategoryPills(categories) {
+            const container = document.getElementById('category-pills-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <a href="#" class="category-pill active" data-category="all" onclick="filterByCategory('all', event)">All</a>
+                ${categories.map(cat => `
+                    <a href="#" class="category-pill" data-category="${cat.name}" onclick="filterByCategory('${cat.name}', event)">${cat.name}</a>
+                `).join('')}
+            `;
+        }
+
+        let currentCategory = 'all';
+
+        function filterByCategory(category, event) {
+            if (event) event.preventDefault();
+
+            currentCategory = category;
+
+            // Update active pill
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.dataset.category === category);
+            });
+
+            // Filter products
+            let filteredProducts;
+            if (category === 'all') {
+                filteredProducts = DB;
+            } else {
+                filteredProducts = DB.filter(p =>
+                    p.cat?.toLowerCase() === category.toLowerCase() ||
+                    p.sub?.toLowerCase() === category.toLowerCase()
+                );
+            }
+
+            // Update store and re-render
+            store.products = filteredProducts;
+            app.renderGrid(filteredProducts);
+
+            // Scroll to products section
+            document.getElementById('top-designs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function parseCSV(csvText) {
@@ -1940,10 +3434,53 @@
                 const displayProducts = products.slice(0, displayCount);
                 const hasMore = products.length > displayCount;
 
-                const productHTML = displayProducts.map((p, index) => `
+                // Helper functions for Myntra-style data
+                const getDiscount = (price) => {
+                    const discounts = [10, 15, 20, 25, 30, 35, 40];
+                    return discounts[Math.floor(Math.abs(price * 7) % discounts.length)];
+                };
+
+                const getOriginalPrice = (price, discount) => {
+                    return Math.round(price / (1 - discount / 100));
+                };
+
+                const getRating = (id) => {
+                    const hash = id.charCodeAt(0) + (id.charCodeAt(1) || 0);
+                    return (3.5 + (hash % 15) / 10).toFixed(1);
+                };
+
+                const getReviewCount = (id) => {
+                    const hash = (id.charCodeAt(0) || 0) * (id.charCodeAt(1) || 1);
+                    const count = 50 + (hash % 2000);
+                    return count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
+                };
+
+                const getBadgeType = (index, price) => {
+                    if (index < 3) return 'bestseller';
+                    if (price > 5000) return 'new';
+                    if (index % 5 === 0) return 'new';
+                    return null;
+                };
+
+                const productHTML = displayProducts.map((p, index) => {
+                    const discount = getDiscount(p.price);
+                    const originalPrice = getOriginalPrice(p.price, discount);
+                    const rating = getRating(p.id);
+                    const reviewCount = getReviewCount(p.id);
+                    const badgeType = getBadgeType(index, p.price);
+                    const showFreeDelivery = p.price >= 499;
+
+                    return `
     <div class="product-card bg-vbk-card rounded-sm overflow-hidden group relative border border-vbk-mid/20 h-full flex flex-col opacity-0 animate-fade-in"
         style="animation-delay: ${index * 50}ms">
         <div class="relative overflow-hidden h-72">
+            <!-- Discount Badge -->
+            <span class="product-badge badge-discount">${discount}% OFF</span>
+            
+            <!-- Bestseller/New Badge -->
+            ${badgeType === 'bestseller' ? '<span class="product-badge badge-bestseller">Bestseller</span>' : ''}
+            ${badgeType === 'new' ? '<span class="product-badge badge-new">New</span>' : ''}
+            
             <img data-src="${p.img}" alt="${p.title}" class="lazy w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
             <div
                 class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
@@ -1955,7 +3492,7 @@
                 <button onclick="store.toggleWishlist('${p.id}')"
                     class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
                     title="Add to Wishlist">
-                    <i class="${store.wishlist.some(w => w.id === '${p.id}') ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                    <i class="${store.wishlist.some(w => w.id === p.id) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                 </button>
                 <button onclick="store.addToCart('${p.id}')"
                     class="w-10 h-10 bg-vbk-purple rounded-full flex items-center justify-center text-white hover:bg-vbk-gold hover:text-vbk-navy transition transform hover:scale-110"
@@ -1970,19 +3507,38 @@
         </div>
         <div class="p-4 flex flex-col flex-grow">
             <div class="flex justify-between items-start mb-1">
-                <h3 class="text-white font-serif font-bold text-lg leading-tight group-hover:text-vbk-gold transition cursor-pointer"
+                <h3 class="text-white font-serif font-bold text-base leading-tight group-hover:text-vbk-gold transition cursor-pointer line-clamp-2"
                     onclick="app.openQuickView('${p.id}')">${p.title}</h3>
             </div>
-            <p class="text-gray-400 text-xs mb-3 flex-grow">Custom stitching available</p>
-            <div class="flex justify-between items-center border-t border-white/5 pt-3 mt-auto">
-                <span class="text-vbk-gold font-bold font-mono">${CONFIG.currency}${p.price}</span>
-                <button onclick="store.addToCart('${p.id}')"
-                    class="text-gray-400 text-xs hover:text-white uppercase tracking-wider font-bold transition">Add
-                    +</button>
+            
+            <!-- Star Rating -->
+            <div class="flex items-center gap-2 mb-2">
+                <div class="product-rating">
+                    <span class="rating-value">${rating}</span>
+                    <i class="fa-solid fa-star"></i>
+                    <span class="rating-count">${reviewCount}</span>
+                </div>
             </div>
+            
+            <!-- Price Section -->
+            <div class="price-container mt-auto">
+                <div class="price-row">
+                    <span class="price-current">${CONFIG.currency}${p.price}</span>
+                    <span class="price-original">${CONFIG.currency}${originalPrice}</span>
+                    <span class="price-discount">(${discount}% OFF)</span>
+                </div>
+                ${showFreeDelivery ? '<span class="delivery-label"><i class="fa-solid fa-truck"></i> Free Delivery</span>' : ''}
+            </div>
+            
+            <!-- Add Button -->
+            <button onclick="store.addToCart('${p.id}')"
+                class="w-full mt-3 bg-vbk-purple/20 border border-vbk-purple text-vbk-purple hover:bg-vbk-purple hover:text-white py-2 rounded text-xs uppercase tracking-wider font-bold transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-[10px]"></i> Add to Bag
+            </button>
         </div>
     </div>
-    `).join('');
+    `;
+                }).join('');
 
                 container.innerHTML = productHTML;
 
@@ -2297,6 +3853,7 @@
 
                 this.currentProduct = product;
                 this.currentSlide = 0;
+                currentProductId = id; // For wishlist button
 
                 // Ensure images array exists
                 if (!product.images) {
@@ -2306,40 +3863,70 @@
 
                 this.updateCarousel();
 
+                // Basic info
                 document.getElementById('qv-title').innerText = product.title;
+                document.getElementById('qv-category').innerText = product.cat.replace(/-/g, ' ');
+
+                // Price calculation with discount
+                const getDiscount = (price) => [10, 15, 20, 25, 30, 35, 40][Math.floor(Math.abs(price * 7) % 7)];
+                const discount = getDiscount(product.price);
+                const originalPrice = Math.round(product.price / (1 - discount / 100));
+
                 document.getElementById('qv-price').innerText = CONFIG.currency + product.price;
-                document.getElementById('qv-category').innerText = product.cat.replace('-', ' ');
-                document.getElementById('qv-desc').innerText = `Exclusive ${product.sub} design. Handcrafted with precision.
-        Available for custom sizing.`;
+                document.getElementById('qv-original-price').innerText = CONFIG.currency + originalPrice;
+                document.getElementById('qv-discount').innerText = `(${discount}% OFF)`;
+                document.getElementById('qv-badge').innerText = `${discount}% OFF`;
 
-                // Dynamic Features Logic
+                // Rating
+                const hash = id.charCodeAt(0) + (id.charCodeAt(1) || 0);
+                const rating = (3.5 + (hash % 15) / 10).toFixed(1);
+                const reviewCount = 50 + (hash % 2000);
+                const reviewDisplay = reviewCount > 999 ? (reviewCount / 1000).toFixed(1) + 'k' : reviewCount;
+
+                document.getElementById('qv-rating').innerText = rating;
+                document.getElementById('qv-reviews').innerText = reviewDisplay;
+                document.getElementById('qv-sold').innerText = `${Math.floor(50 + (hash % 500))}+ sold`;
+
+                // Delivery date (7 days from now)
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + 7);
+                document.getElementById('qv-delivery-date').innerText = deliveryDate.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+
+                // Dynamic Features
                 const features = ['Custom Fit', 'Premium Fabric', 'India Wide Shipping'];
-
-                // Embroidery Logic
-                let embroideryType = 'Machine Embroidery';
-                const isMaggamOrWedding = product.cat === 'wedding' ||
-                    product.cat === 'maggam-designs' ||
+                const isMaggamOrWedding = product.cat === 'wedding' || product.cat === 'maggam-designs' ||
                     (product.sub && (product.sub.toLowerCase().includes('maggam') || product.sub.toLowerCase().includes('heavy')));
-
-                if (isMaggamOrWedding) {
-                    embroideryType = 'Hand Embroidery';
-                }
-
-                // Add embroidery type if it's a relevant category (skip for materials)
                 if (product.cat !== 'materials') {
-                    features.splice(2, 0, embroideryType); // Insert at index 2
+                    features.splice(2, 0, isMaggamOrWedding ? 'Hand Embroidery' : 'Machine Embroidery');
                 }
 
-                const featuresContainer = document.getElementById('qv-features');
-                featuresContainer.innerHTML = features.map(f => `
-        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> ${f}</li>
-        `).join('');
+                document.getElementById('qv-features').innerHTML = features.map(f => `
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> ${f}</li>
+                `).join('');
 
-                const btn = document.getElementById('qv-add-btn');
-                btn.onclick = () => {
+                // Similar Products
+                const similarProducts = store.products
+                    .filter(p => p.cat === product.cat && p.id !== id)
+                    .slice(0, 4);
+
+                document.getElementById('qv-similar').innerHTML = similarProducts.map(p => `
+                    <div class="similar-item" onclick="app.openQuickView('${p.id}')">
+                        <img src="${p.img}" alt="${p.title}">
+                        <div class="info">
+                            <div class="title">${p.title}</div>
+                            <div class="price">${CONFIG.currency}${p.price}</div>
+                        </div>
+                    </div>
+                `).join('') || '<p class="text-gray-500 text-xs col-span-full">No similar products</p>';
+
+                // Add to bag button
+                document.getElementById('qv-add-btn').onclick = () => {
                     store.addToCart(id);
                     this.closeModal('quick-view-modal');
                 };
+
+                // Hide size chart when opening
+                document.getElementById('size-chart').classList.add('hidden');
 
                 document.getElementById('quick-view-modal').classList.remove('hidden');
             },
@@ -2360,6 +3947,7 @@
             updateCarousel() {
                 const img = document.getElementById('qv-img');
                 const dotsContainer = document.getElementById('carousel-dots');
+                const thumbsContainer = document.getElementById('carousel-thumbs');
 
                 // Animate opacity for transition effect
                 img.style.opacity = '0.5';
@@ -2370,10 +3958,28 @@
 
                 // Update dots
                 dotsContainer.innerHTML = this.currentProduct.images.map((_, i) => `
-        <div
-            class="w-2 h-2 rounded-full transition-all duration-300 ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50'}">
-        </div>
-        `).join('');
+                    <div onclick="app.goToSlide(${i})" 
+                        class="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === this.currentSlide ? 'bg-vbk-gold w-4' : 'bg-white/50 hover:bg-white/80'}">
+                    </div>
+                `).join('');
+
+                // Update thumbnails
+                if (this.currentProduct.images.length > 1) {
+                    thumbsContainer.classList.remove('hidden');
+                    thumbsContainer.innerHTML = this.currentProduct.images.map((imgUrl, i) => `
+                        <img src="${imgUrl}" onclick="app.goToSlide(${i})" 
+                            class="w-10 h-10 rounded object-cover cursor-pointer border-2 transition-all ${i === this.currentSlide ? 'border-vbk-gold opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}"
+                            onerror="this.style.display='none'">
+                    `).join('');
+                } else {
+                    thumbsContainer.classList.add('hidden');
+                }
+            },
+
+            goToSlide(index) {
+                if (!this.currentProduct || !this.currentProduct.images) return;
+                this.currentSlide = index;
+                this.updateCarousel();
             },
 
             openConsultation() {
@@ -2381,20 +3987,184 @@
                 window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
             },
 
-            openCheckoutModal() {
+            async openCheckoutModal() {
+                console.log('openCheckoutModal called, cart length:', store.cart.length);
                 if (store.cart.length === 0) return;
-                document.getElementById('checkout-modal').classList.remove('hidden');
+
+                try {
+                    // Check if user is logged in
+                    const { data: { session } } = await supabase.auth.getSession();
+                    console.log('Session:', session ? 'logged in' : 'not logged in');
+
+                    if (!session) {
+                        // Not logged in - show login prompt
+                        this.showLoginPrompt();
+                        return;
+                    }
+
+                    // Open modal immediately
+                    document.getElementById('checkout-modal').classList.remove('hidden');
+
+                    // Update order summary
+                    document.getElementById('checkout-item-count').textContent = store.cart.length;
+                    document.getElementById('checkout-total').textContent = '₹' + store.getCartTotal();
+
+                    // Pre-fill email from session
+                    const emailField = document.getElementById('cust-email');
+                    if (emailField) emailField.value = session.user.email || '';
+
+                    // Pre-fill name from Google metadata if available
+                    const nameFromGoogle = session.user.user_metadata?.name || session.user.user_metadata?.full_name || '';
+                    const nameField = document.getElementById('cust-name');
+                    if (nameField && nameFromGoogle) nameField.value = nameFromGoogle;
+
+                    // Try to get customer data (non-blocking)
+                    try {
+                        const { data: customer } = await supabase
+                            .from('customers')
+                            .select('name, phone, city')
+                            .eq('id', session.user.id)
+                            .single();
+
+                        if (customer) {
+                            if (customer.name && nameField) nameField.value = customer.name;
+                            if (customer.phone) document.getElementById('cust-phone').value = customer.phone;
+                            if (customer.city) document.getElementById('cust-city').value = customer.city;
+                        }
+                    } catch (customerErr) {
+                        console.log('Customer fetch failed (may not exist yet):', customerErr);
+                    }
+
+                    // Try to load saved addresses (non-blocking)
+                    try {
+                        const { data: addresses } = await supabase
+                            .from('addresses')
+                            .select('*')
+                            .eq('customer_id', session.user.id)
+                            .order('is_default', { ascending: false });
+
+                        if (addresses && addresses.length > 0) {
+                            document.getElementById('saved-addresses-section').classList.remove('hidden');
+                            const select = document.getElementById('saved-address-select');
+                            select.innerHTML = '<option value="">-- Enter New Address --</option>' +
+                                addresses.map(addr => `
+                                    <option value="${addr.id}" data-name="${addr.name}" data-phone="${addr.phone}" 
+                                        data-city="${addr.city}" ${addr.is_default ? 'selected' : ''}>
+                                        ${addr.label}: ${addr.name}, ${addr.city}
+                                    </option>
+                                `).join('');
+
+                            const defaultAddr = addresses.find(a => a.is_default);
+                            if (defaultAddr) {
+                                fillAddressFromSaved(defaultAddr);
+                            }
+                        } else {
+                            document.getElementById('saved-addresses-section').classList.add('hidden');
+                        }
+                    } catch (addrErr) {
+                        console.log('Addresses fetch failed:', addrErr);
+                        document.getElementById('saved-addresses-section').classList.add('hidden');
+                    }
+
+                } catch (err) {
+                    console.error('openCheckoutModal error:', err);
+                    alert('Error opening checkout. Please try again.');
+                }
             },
 
-            processWhatsApp(e) {
+            showLoginPrompt() {
+                // Create login prompt modal
+                const modal = document.createElement('div');
+                modal.id = 'login-prompt-modal';
+                modal.className = 'fixed inset-0 z-[100] flex items-center justify-center px-4';
+                modal.innerHTML = `
+                    <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="document.getElementById('login-prompt-modal').remove()"></div>
+                    <div class="bg-vbk-card w-full max-w-sm p-8 rounded-2xl relative z-10 border border-vbk-mid/50 text-center animate-slide-up">
+                        <i class="fa-solid fa-user-lock text-5xl text-vbk-gold mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Login Required</h3>
+                        <p class="text-gray-400 text-sm mb-6">Please login or create an account to place your order. This helps us track your orders and provide better service.</p>
+                        <div class="space-y-3">
+                            <a href="login.html" 
+                                class="block w-full py-3 bg-vbk-gold text-vbk-navy font-bold rounded-lg hover:bg-white transition">
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Login / Sign Up
+                            </a>
+                            <button onclick="document.getElementById('login-prompt-modal').remove()" 
+                                class="w-full py-3 border border-vbk-mid text-gray-400 rounded-lg hover:text-white hover:border-vbk-gold transition">
+                                Continue Browsing
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            },
+
+            async processWhatsApp(e) {
                 e.preventDefault();
+                console.log('processWhatsApp called');
+
                 const name = document.getElementById('cust-name').value;
+                const email = document.getElementById('cust-email').value;
                 const city = document.getElementById('cust-city').value;
                 const note = document.getElementById('cust-note').value;
+                const phone = document.getElementById('cust-phone')?.value || '';
 
+                console.log('Form values:', { name, email, city, phone });
+
+                // Prepare order items
+                const orderItems = store.cart.map(item => ({
+                    product_id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    img: item.img,
+                    qty: 1
+                }));
+
+                const totalAmount = store.getCartTotal();
+                console.log('Total amount:', totalAmount, 'Items:', orderItems.length);
+
+                // Save order to database (user must be logged in at this point)
+                let orderNumber = null;
+                try {
+                    const { data: { session } } = await supabase.auth.getSession();
+
+                    if (session?.user) {
+                        console.log('Saving order for user:', session.user.id);
+                        const { data: orderData, error } = await supabase
+                            .from('orders')
+                            .insert([{
+                                customer_id: session.user.id,
+                                items: orderItems,
+                                total_amount: totalAmount,
+                                status: 'pending',
+                                customer_notes: note || null,
+                                shipping_address: { name, email, city, phone }
+                            }])
+                            .select('order_number')
+                            .single();
+
+                        if (error) {
+                            console.error('Order save error:', error);
+                        } else if (orderData) {
+                            orderNumber = orderData.order_number;
+                            console.log('Order saved with number:', orderNumber);
+
+                            // Update customer orders count (non-blocking)
+                            supabase.rpc('increment_orders_count', { user_id: session.user.id }).catch(console.error);
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error saving order:', err);
+                }
+
+
+                // Build WhatsApp message
                 let msg = `*New Inquiry from VBK Website*\n\n`;
+                if (orderNumber) msg += `*Order #:* ${orderNumber}\n`;
                 msg += `*Name:* ${name}\n`;
+                msg += `*Email:* ${email}\n`;
                 msg += `*City:* ${city}\n`;
+                if (phone) msg += `*Phone:* ${phone}\n`;
+
                 if (note) msg += `*Note:* ${note}\n`;
                 msg += `\n*Selected Items:*\n`;
 
@@ -2402,12 +4172,53 @@
                     msg += `${i + 1}. ${item.title} (${CONFIG.currency}${item.price})\n`;
                 });
 
-                msg += `\n*Est. Total:* ${CONFIG.currency}${store.getCartTotal()}\n`;
+                msg += `\n*Est. Total:* ${CONFIG.currency}${totalAmount}\n`;
                 msg += `\nPlease confirm availability and stitching time.`;
 
-                window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`, '_blank');
-                this.closeModal('checkout-modal');
+                console.log('Opening WhatsApp with message');
+                const waUrl = `https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(msg)}`;
+                console.log('WhatsApp URL:', waUrl);
+                window.open(waUrl, '_blank');
+
+                // Show confirmation
+                if (orderNumber) {
+                    this.showOrderConfirmation(orderNumber, totalAmount);
+                } else {
+                    // Still show a success message even if order wasn't saved
+                    alert('Your inquiry will open in WhatsApp!');
+                    this.closeModal('checkout-modal');
+                }
+
+                // Clear cart
+                store.cart = [];
+                store.save();
+                this.updateCartBadge();
                 this.toggleCart(false);
+            },
+
+            showOrderConfirmation(orderNumber, total) {
+                document.getElementById('checkout-modal').innerHTML = `
+                    <div class="bg-vbk-card rounded-2xl p-8 text-center max-w-md mx-auto">
+                        <i class="fa-solid fa-circle-check text-5xl text-green-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">Order Received!</h3>
+                        <p class="text-gray-400 mb-4">Your inquiry has been sent via WhatsApp</p>
+                        <div class="bg-vbk-navy rounded-lg p-4 mb-6">
+                            <p class="text-sm text-gray-400">Order Number</p>
+                            <p class="text-2xl font-bold text-vbk-gold">${orderNumber}</p>
+                            <p class="text-sm text-gray-400 mt-2">Total: ₹${total}</p>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6">We'll confirm your order on WhatsApp shortly.</p>
+                        <button onclick="app.closeModal('checkout-modal')" 
+                            class="w-full py-3 bg-vbk-gold text-vbk-navy font-bold rounded-lg hover:bg-white transition">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+
+                // Restore modal content after closing
+                setTimeout(() => {
+                    location.reload(); // Simple way to restore modal
+                }, 10000);
             },
 
             closeModal(id) {
@@ -2459,17 +4270,120 @@
             }
         };
 
-        // Helper: Search Toggle
+        // === ENHANCED SEARCH SYSTEM ===
+        let recentSearches = JSON.parse(localStorage.getItem('vbk_recent_searches')) || [];
+
         function toggleSearch() {
             const bar = document.getElementById('search-bar');
             const isOpen = !bar.classList.contains('opacity-0');
 
             if (isOpen) {
                 bar.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                document.getElementById('search-suggestions').classList.add('hidden');
+                document.getElementById('search-results').classList.add('hidden');
             } else {
                 bar.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
                 document.getElementById('global-search').focus();
+                showSearchSuggestions();
             }
+        }
+
+        function showSearchSuggestions() {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            const resultsEl = document.getElementById('search-results');
+            const recentSection = document.getElementById('recent-searches-section');
+            const recentContainer = document.getElementById('recent-searches');
+
+            suggestionsEl.classList.remove('hidden');
+            resultsEl.classList.add('hidden');
+
+            // Render recent searches
+            if (recentSearches.length > 0) {
+                recentSection.classList.remove('hidden');
+                recentContainer.innerHTML = recentSearches.slice(0, 5).map(term => `
+                    <span onclick="searchFor('${term}')" class="search-pill">
+                        <i class="fa-solid fa-clock-rotate-left mr-1 text-gray-500"></i>${term}
+                    </span>
+                `).join('');
+            } else {
+                recentSection.classList.add('hidden');
+            }
+        }
+
+        function searchFor(term) {
+            document.getElementById('global-search').value = term;
+            performSearch(term);
+            addToRecentSearches(term);
+        }
+
+        function addToRecentSearches(term) {
+            if (!term || term.length < 2) return;
+            recentSearches = recentSearches.filter(t => t.toLowerCase() !== term.toLowerCase());
+            recentSearches.unshift(term);
+            recentSearches = recentSearches.slice(0, 10);
+            localStorage.setItem('vbk_recent_searches', JSON.stringify(recentSearches));
+        }
+
+        function clearRecentSearches() {
+            recentSearches = [];
+            localStorage.removeItem('vbk_recent_searches');
+            showSearchSuggestions();
+            app.toast('Search history cleared', 'info');
+        }
+
+        function clearSearch() {
+            document.getElementById('global-search').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            showSearchSuggestions();
+            app.renderAllSections();
+        }
+
+        function performSearch(val) {
+            const suggestionsEl = document.getElementById('search-suggestions');
+            const resultsEl = document.getElementById('search-results');
+            const resultsGrid = document.getElementById('search-results-grid');
+            const resultsCount = document.getElementById('search-results-count');
+            const clearBtn = document.getElementById('clear-search-btn');
+
+            if (val.length < 2) {
+                showSearchSuggestions();
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+            suggestionsEl.classList.add('hidden');
+            resultsEl.classList.remove('hidden');
+
+            // Filter products
+            const lowerVal = val.toLowerCase();
+            const matched = store.products.filter(p =>
+                p.title.toLowerCase().includes(lowerVal) ||
+                p.sub.toLowerCase().includes(lowerVal) ||
+                p.cat.toLowerCase().includes(lowerVal)
+            ).slice(0, 12);
+
+            resultsCount.textContent = matched.length;
+
+            if (matched.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <i class="fa-solid fa-search text-3xl mb-2 opacity-30"></i>
+                        <p class="text-sm">No results for "${val}"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsGrid.innerHTML = matched.map(p => `
+                <div class="search-result-item" onclick="app.openQuickView('${p.id}'); toggleSearch();">
+                    <img src="${p.img}" alt="${p.title}">
+                    <div class="info">
+                        <div class="title">${p.title}</div>
+                        <div class="price">${CONFIG.currency}${p.price}</div>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // Scroll to Section Function
@@ -2485,31 +4399,515 @@
             }
         }
 
-        // Global Search Logic
+        // Global Search Logic with debounce
+        let searchTimeout;
         document.getElementById('global-search').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            if (val.length < 2) {
-                app.renderAllSections();
-                return;
-            }
-
-            // Filter everything
-            const allProducts = store.products;
-            const matched = allProducts.filter(p =>
-                p.title.toLowerCase().includes(val) ||
-                p.sub.toLowerCase().includes(val) ||
-                p.cat.toLowerCase().includes(val)
-            );
-
-            // A crude way to show results in Top Designs grid for demo
-            app.renderGrid('grid-top-designs', matched);
-            // Hide others to focus on search results
-            document.getElementById('grid-blouses').innerHTML = '';
-            document.getElementById('grid-wedding').innerHTML = '';
+            const val = e.target.value;
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(val);
+                if (val.length >= 2) {
+                    addToRecentSearches(val);
+                }
+            }, 150);
         });
 
+        // === SIZE CHART & ZOOM HELPERS ===
+        let currentProductId = null;
+
+        function toggleSizeChart() {
+            const inlineChart = document.getElementById('size-chart');
+            inlineChart.classList.toggle('hidden');
+        }
+
+        // Image zoom functionality
+        const zoomContainer = document.getElementById('qv-zoom-container');
+        if (zoomContainer) {
+            zoomContainer.addEventListener('mousemove', (e) => {
+                const rect = zoomContainer.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                zoomContainer.style.setProperty('--zoom-x', x + '%');
+                zoomContainer.style.setProperty('--zoom-y', y + '%');
+                zoomContainer.classList.add('zooming');
+            });
+            zoomContainer.addEventListener('mouseleave', () => {
+                zoomContainer.classList.remove('zooming');
+            });
+        }
+
+        // === SUPABASE AUTH ===
+        const SUPABASE_URL = 'https://rgekvrlxmwxnpcxpnvdn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnZWt2cmx4bXd4bnBjeHBudmRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5NDM5ODUsImV4cCI6MjA4MDUxOTk4NX0.lCXjqFD7Mlcawa2G481wJmliJ4JSxNJbaXgewylvIc8';
+
+        let supabaseClient = null;
+        let supabase = null; // Global alias
+        let currentUser = null;
+
+        // Initialize Supabase
+        if (window.supabase) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            supabase = supabaseClient; // Set global alias
+
+            // Check for existing session
+            supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    handleUserLogin(session.user);
+                }
+            });
+
+            // Listen for auth changes
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session) {
+                    handleUserLogin(session.user);
+                } else if (event === 'SIGNED_OUT') {
+                    handleUserLogout();
+                }
+            });
+        }
+
+        function handleUserLogin(user) {
+            currentUser = user;
+            const loginBtn = document.getElementById('login-btn-header');
+            const userMenu = document.getElementById('user-menu');
+
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (userMenu) userMenu.classList.remove('hidden');
+
+            // Set user info
+            const name = user.user_metadata?.name || user.user_metadata?.full_name || user.email.split('@')[0];
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-email').textContent = user.email;
+
+            // Set avatar if available
+            const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+            if (avatarUrl) {
+                document.getElementById('user-avatar').src = avatarUrl;
+                document.getElementById('user-avatar').classList.remove('hidden');
+                document.getElementById('user-icon').classList.add('hidden');
+            }
+
+            // Load user's wishlist from Supabase
+            loadUserWishlist();
+        }
+
+        function handleUserLogout() {
+            currentUser = null;
+            const loginBtn = document.getElementById('login-btn-header');
+            const userMenu = document.getElementById('user-menu');
+
+            if (loginBtn) loginBtn.classList.remove('hidden');
+            if (userMenu) userMenu.classList.add('hidden');
+        }
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function closeUserDropdown() {
+            document.getElementById('user-dropdown').classList.add('hidden');
+        }
+
+        async function logoutUser() {
+            if (supabaseClient) {
+                await supabaseClient.auth.signOut();
+            }
+            closeUserDropdown();
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('user-menu-container');
+            if (container && !container.contains(e.target)) {
+                closeUserDropdown();
+            }
+        });
+
+        // Load user wishlist from Supabase
+        async function loadUserWishlist() {
+            if (!supabaseClient || !currentUser) return;
+
+            const { data } = await supabaseClient
+                .from('customers')
+                .select('wishlist')
+                .eq('id', currentUser.id)
+                .single();
+
+            if (data?.wishlist) {
+                store.wishlist = data.wishlist;
+                store.saveWishlist();
+                app.updateWishlistBadge();
+            }
+        }
+
+        // Sync wishlist to Supabase
+        async function syncWishlistToCloud() {
+            if (!supabaseClient || !currentUser) return;
+
+            await supabaseClient
+                .from('customers')
+                .update({ wishlist: store.wishlist })
+                .eq('id', currentUser.id);
+        }
+
+        // === PROFILE / ORDERS / ADDRESSES ===
+        async function showOrders() {
+            closeUserDropdown();
+            document.getElementById('profile-modal').classList.remove('hidden');
+            switchProfileTab('orders');
+            await loadUserOrders();
+        }
+
+        async function showAddresses() {
+            closeUserDropdown();
+            document.getElementById('profile-modal').classList.remove('hidden');
+            switchProfileTab('addresses');
+            await loadUserAddresses();
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        // Fill checkout form from saved address
+        function fillAddressFromSaved(addr = null) {
+            if (!addr) {
+                const select = document.getElementById('saved-address-select');
+                const selectedOption = select.options[select.selectedIndex];
+                if (!selectedOption || !selectedOption.value) return;
+
+                addr = {
+                    name: selectedOption.dataset.name,
+                    phone: selectedOption.dataset.phone,
+                    city: selectedOption.dataset.city
+                };
+            }
+
+            if (addr.name) document.getElementById('cust-name').value = addr.name;
+            if (addr.phone) document.getElementById('cust-phone').value = addr.phone;
+            if (addr.city) document.getElementById('cust-city').value = addr.city;
+        }
+
+        function switchProfileTab(tab) {
+            // Update tab styles
+            document.querySelectorAll('.profile-tab').forEach(t => {
+                t.classList.remove('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+                t.classList.add('text-gray-400');
+            });
+            document.getElementById(`tab-${tab}`).classList.remove('text-gray-400');
+            document.getElementById(`tab-${tab}`).classList.add('text-vbk-gold', 'border-b-2', 'border-vbk-gold');
+
+            // Show/hide content
+            document.querySelectorAll('.profile-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+        }
+
+        async function loadUserOrders() {
+            const ordersList = document.getElementById('orders-list');
+
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) return;
+
+                const { data: orders, error } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('customer_id', session.user.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!orders || orders.length === 0) {
+                    ordersList.innerHTML = `
+                        <div class="text-center py-12">
+                            <i class="fa-solid fa-box-open text-5xl text-gray-600 mb-4"></i>
+                            <p class="text-gray-500">No orders yet</p>
+                            <p class="text-sm text-gray-600 mt-2">Your order history will appear here</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const statusConfig = {
+                    pending: { color: 'bg-yellow-500/20 text-yellow-400', icon: '🟡', label: 'Pending' },
+                    accepted: { color: 'bg-green-500/20 text-green-400', icon: '🟢', label: 'Accepted' },
+                    processing: { color: 'bg-blue-500/20 text-blue-400', icon: '🔵', label: 'Processing' },
+                    shipped: { color: 'bg-purple-500/20 text-purple-400', icon: '🟣', label: 'Shipped' },
+                    delivered: { color: 'bg-emerald-500/20 text-emerald-400', icon: '✅', label: 'Delivered' },
+                    cancelled: { color: 'bg-red-500/20 text-red-400', icon: '🔴', label: 'Cancelled' }
+                };
+
+                ordersList.innerHTML = orders.map(order => {
+                    const status = statusConfig[order.status] || statusConfig.pending;
+                    const items = Array.isArray(order.items) ? order.items : [];
+                    const date = new Date(order.created_at).toLocaleDateString('en-IN', {
+                        day: 'numeric', month: 'short', year: 'numeric'
+                    });
+
+                    return `
+                        <div class="bg-vbk-card rounded-xl border border-vbk-mid/30 overflow-hidden">
+                            <div class="p-4 border-b border-vbk-mid/30 flex items-center justify-between">
+                                <div>
+                                    <p class="font-mono font-bold text-vbk-gold">${order.order_number || 'N/A'}</p>
+                                    <p class="text-xs text-gray-500">${date}</p>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold ${status.color}">
+                                    ${status.icon} ${status.label}
+                                </span>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex gap-3 overflow-x-auto pb-2">
+                                    ${items.slice(0, 4).map(item => `
+                                        <img src="${item.img}" class="w-16 h-16 object-cover rounded-lg flex-shrink-0" 
+                                            onerror="this.style.display='none'">
+                                    `).join('')}
+                                    ${items.length > 4 ? `<div class="w-16 h-16 bg-vbk-mid rounded-lg flex items-center justify-center text-sm text-gray-400">+${items.length - 4}</div>` : ''}
+                                </div>
+                                <div class="flex items-center justify-between mt-3">
+                                    <p class="text-sm text-gray-400">${items.length} item${items.length > 1 ? 's' : ''}</p>
+                                    <p class="font-bold text-vbk-gold">₹${order.total_amount}</p>
+                                </div>
+                                ${order.tracking_number ? `
+                                    <div class="mt-3 p-3 bg-vbk-navy/80 rounded-lg border border-vbk-mid/30">
+                                        <p class="text-xs text-gray-400 mb-1">Tracking</p>
+                                        <p class="text-sm text-white font-medium">${order.shipping_carrier || 'Carrier'}: ${order.tracking_number}</p>
+                                        ${order.estimated_delivery ? `<p class="text-xs text-vbk-gold mt-1">Est. Delivery: ${new Date(order.estimated_delivery).toLocaleDateString()}</p>` : ''}
+                                    </div>
+                                ` : ''}
+
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Error loading orders:', err);
+                ordersList.innerHTML = '<p class="text-center text-red-400 py-8">Error loading orders</p>';
+            }
+        }
+
+        async function loadUserAddresses() {
+            const addressesList = document.getElementById('addresses-list');
+
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) return;
+
+                const { data: addresses, error } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .eq('customer_id', session.user.id)
+                    .order('is_default', { ascending: false });
+
+                if (error) throw error;
+
+                if (!addresses || addresses.length === 0) {
+                    addressesList.innerHTML = `
+                        <div class="text-center py-12">
+                            <i class="fa-solid fa-map-marker-alt text-5xl text-gray-600 mb-4"></i>
+                            <p class="text-gray-500">No saved addresses</p>
+                            <p class="text-sm text-gray-600 mt-2">Add an address for faster checkout</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                addressesList.innerHTML = addresses.map(addr => `
+                    <div class="bg-vbk-card rounded-xl border border-vbk-mid/30 p-4 ${addr.is_default ? 'border-vbk-gold/50' : ''}">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-0.5 bg-vbk-purple/20 text-vbk-purple text-xs rounded">${addr.label}</span>
+                                ${addr.is_default ? '<span class="px-2 py-0.5 bg-vbk-gold/20 text-vbk-gold text-xs rounded">Default</span>' : ''}
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="editAddress('${addr.id}')" class="text-gray-400 hover:text-vbk-gold">
+                                    <i class="fa-solid fa-edit"></i>
+                                </button>
+                                <button onclick="deleteAddress('${addr.id}')" class="text-gray-400 hover:text-red-400">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="font-medium text-white">${addr.name}</p>
+
+                        <p class="text-sm text-gray-400">${addr.phone}</p>
+                        <p class="text-sm text-gray-400 mt-1">${addr.address_line1}${addr.address_line2 ? ', ' + addr.address_line2 : ''}</p>
+                        <p class="text-sm text-gray-400">${addr.city}, ${addr.state} - ${addr.pincode}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading addresses:', err);
+                addressesList.innerHTML = '<p class="text-center text-red-400 py-8">Error loading addresses</p>';
+            }
+        }
+
+        function openAddAddressModal(addressId = null) {
+            document.getElementById('address-modal').classList.remove('hidden');
+            document.getElementById('address-form').reset();
+            document.getElementById('address-id').value = '';
+
+            if (addressId) {
+                // Load address data for editing
+                loadAddressForEdit(addressId);
+            }
+        }
+
+        function closeAddressModal() {
+            document.getElementById('address-modal').classList.add('hidden');
+        }
+
+        async function loadAddressForEdit(addressId) {
+            const { data: addr, error } = await supabase
+                .from('addresses')
+                .select('*')
+                .eq('id', addressId)
+                .single();
+
+            if (addr) {
+                document.getElementById('address-id').value = addr.id;
+                document.getElementById('addr-name').value = addr.name;
+                document.getElementById('addr-phone').value = addr.phone;
+                document.getElementById('addr-line1').value = addr.address_line1;
+                document.getElementById('addr-line2').value = addr.address_line2 || '';
+                document.getElementById('addr-city').value = addr.city;
+                document.getElementById('addr-state').value = addr.state;
+                document.getElementById('addr-pincode').value = addr.pincode;
+                document.getElementById('addr-label').value = addr.label;
+                document.getElementById('addr-default').checked = addr.is_default;
+            }
+        }
+
+        function editAddress(id) {
+            openAddAddressModal(id);
+        }
+
+        async function deleteAddress(id) {
+            if (!confirm('Delete this address?')) return;
+
+            const { error } = await supabase.from('addresses').delete().eq('id', id);
+            if (!error) {
+                loadUserAddresses();
+            }
+        }
+
+        // Address form submit
+        document.getElementById('address-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) return;
+
+            const id = document.getElementById('address-id').value;
+            const addressData = {
+                customer_id: session.user.id,
+                name: document.getElementById('addr-name').value,
+                phone: document.getElementById('addr-phone').value,
+                address_line1: document.getElementById('addr-line1').value,
+                address_line2: document.getElementById('addr-line2').value || null,
+                city: document.getElementById('addr-city').value,
+                state: document.getElementById('addr-state').value,
+                pincode: document.getElementById('addr-pincode').value,
+                label: document.getElementById('addr-label').value,
+                is_default: document.getElementById('addr-default').checked
+            };
+
+            // If setting as default, unset other defaults first
+            if (addressData.is_default) {
+                await supabase.from('addresses').update({ is_default: false }).eq('customer_id', session.user.id);
+            }
+
+            let result;
+            if (id) {
+                result = await supabase.from('addresses').update(addressData).eq('id', id);
+            } else {
+                result = await supabase.from('addresses').insert([addressData]);
+            }
+
+            if (result.error) {
+                alert('Error saving address');
+            } else {
+                closeAddressModal();
+                loadUserAddresses();
+            }
+        });
+
+
         // --- INIT ---
-        document.addEventListener('DOMContentLoaded', () => fetchProductData());
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProductData();
+
+            // Add swipe support for carousel
+            const carouselArea = document.getElementById('qv-zoom-container');
+            if (carouselArea) {
+                let touchStartX = 0;
+                let touchEndX = 0;
+
+                carouselArea.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                carouselArea.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    const swipeThreshold = 50;
+                    const diff = touchStartX - touchEndX;
+
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            app.nextSlide(); // Swipe left = next
+                        } else {
+                            app.prevSlide(); // Swipe right = previous
+                        }
+                    }
+                }, { passive: true });
+            }
+        });
+
+        // === LAZY LOADING IMAGES ===
+        function initLazyLoading() {
+            const lazyImages = document.querySelectorAll('img.lazy');
+
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy');
+                                img.classList.add('loaded');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                }, { rootMargin: '100px' });
+
+                lazyImages.forEach(img => imageObserver.observe(img));
+            } else {
+                // Fallback for browsers without IntersectionObserver
+                lazyImages.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                    }
+                });
+            }
+        }
+
+        // === SEARCH DEBOUNCE ===
+        let lazySearchTimeout = null;
+        function debounceSearch(callback, delay = 300) {
+            return function (...args) {
+                clearTimeout(lazySearchTimeout);
+                lazySearchTimeout = setTimeout(() => callback.apply(this, args), delay);
+            };
+        }
+
+        // Enhanced search with debounce
+        const debouncedSearch = debounceSearch((query) => {
+            if (typeof app !== 'undefined' && app.performSearch) {
+                app.performSearch(query);
+            }
+        }, 300);
 
         // --- PWA INSTALL ---
         let deferredPrompt;
