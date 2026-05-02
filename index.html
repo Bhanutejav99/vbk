@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VBK Designs — Tradition. Elegance. Forever.</title>
+  <meta name="description" content="VBK Designs - Exquisite embroidered adutheras for your special moments and lifelong blessings. Handcrafted traditional Indian ceremonial cloths.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-logo">
+      <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" stroke="#8B1A1A" stroke-width="1.5" fill="none"/>
+        <path d="M20 6C20 6 12 14 12 22C12 26.4 15.6 30 20 30C24.4 30 28 26.4 28 22C28 14 20 6 20 6Z" fill="#8B1A1A" opacity="0.15"/>
+        <path d="M20 10L22 18H18L20 10Z" fill="#8B1A1A"/>
+        <circle cx="20" cy="22" r="4" stroke="#8B1A1A" stroke-width="1.2" fill="none"/>
+        <circle cx="20" cy="22" r="1.5" fill="#8B1A1A"/>
+      </svg>
+      <div class="logo-text">
+        <span class="brand-name">VBK DESIGNS</span>
+        <span class="brand-tagline">Tradition · Elegance · Forever</span>
+      </div>
+    </div>
+
+    <div class="navbar-links" id="navLinks">
+      <a href="#" class="active">Home</a>
+      <a href="#collections" class="nav-dropdown">Collections <span class="dropdown-arrow">▼</span></a>
+      <a href="#bestsellers">Shop</a>
+      <a href="#cta">Custom Order</a>
+      <a href="#trust">About Us</a>
+      <a href="#trends">Blog</a>
+      <a href="#footer">Contact</a>
+    </div>
+
+    <div class="navbar-icons">
+      <button id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
+      <button id="wishlistBtn" aria-label="Wishlist"><i class="far fa-heart"></i></button>
+      <button id="accountBtn" aria-label="Account"><i class="far fa-user"></i></button>
+      <button id="cartBtn" aria-label="Cart" style="position:relative;">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SLIDER ===== -->
+  <section class="hero-section" id="hero">
+    <div class="hero-slider">
+      <div class="hero-slide active">
+        <div class="hero-slide-content">
+          <img src="images/hero-aduthera.png" alt="Traditional Aduthera" class="hero-slide-bg">
+          <div class="hero-text-overlay">
+            <p class="hero-label">Traditional Adutheras</p>
+            <h1 class="hero-title">Sacred. Timeless.<br>Yours Forever.</h1>
+            <p class="hero-desc">Exquisite embroidered adutheras for your special moments and lifelong blessings.</p>
+            <a href="#collections" class="btn-primary">Explore Collection</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-slide-content">
+          <img src="images/basic-aduthera.png" alt="Lakshmi Aduthera" class="hero-slide-bg">
+          <div class="hero-text-overlay">
+            <p class="hero-label">Handcrafted with Love</p>
+            <h1 class="hero-title">Divine Artistry.<br>Every Thread.</h1>
+            <p class="hero-desc">Each piece is meticulously handcrafted by skilled artisans preserving centuries-old traditions.</p>
+            <a href="#bestsellers" class="btn-primary">Shop Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-slide-content">
+          <img src="images/shankh-chakra.png" alt="Shankh Chakra Collection" class="hero-slide-bg">
+          <div class="hero-text-overlay">
+            <p class="hero-label">Premium Collection</p>
+            <h1 class="hero-title">Blessed.<br>Handcrafted.<br>Authentic.</h1>
+            <p class="hero-desc">Discover our exclusive range of Shankh Chakra Namalu designs.</p>
+            <a href="#collections" class="btn-primary">View Collection</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-slide-content">
+          <img src="images/priya-sachin-aduthera.png" alt="Custom Orders" class="hero-slide-bg">
+          <div class="hero-text-overlay">
+            <p class="hero-label">Custom Orders</p>
+            <h1 class="hero-title">Personalized.<br>Meaningful.<br>Unique.</h1>
+            <p class="hero-desc">Create personalized adutheras with custom names, dates, and designs.</p>
+            <a href="#cta" class="btn-primary">Order Custom</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="hero-nav-btn prev" id="heroPrev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+    <button class="hero-nav-btn next" id="heroNext" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+
+    <div class="hero-dots" id="heroDots">
+      <span class="hero-dot active" data-index="0"></span>
+      <span class="hero-dot" data-index="1"></span>
+      <span class="hero-dot" data-index="2"></span>
+      <span class="hero-dot" data-index="3"></span>
+    </div>
+  </section>
+
+  <!-- ===== OUR COLLECTIONS ===== -->
+  <section class="section-container" id="collections">
+    <div class="section-header animate-in">
+      <h2 class="section-title">Our Collections</h2>
+      <div class="section-divider"></div>
+      <span class="section-icon">✦</span>
+    </div>
+
+    <div class="collections-grid">
+      <div class="collection-card animate-in">
+        <div class="collection-card-img">
+          <img src="images/basic-aduthera.png" alt="Basic Adutheras">
+        </div>
+        <div class="collection-card-body">
+          <div class="collection-card-icon">
+            <span><i class="fas fa-om"></i></span>
+            <h3 class="collection-card-name">Basic Adutheras</h3>
+          </div>
+          <p class="collection-card-desc">Timeless essentials for every tradition.</p>
+          <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+        </div>
+      </div>
+
+      <div class="collection-card animate-in">
+        <div class="collection-card-img">
+          <img src="images/surya-aduthera.png" alt="Swastik Adutheras">
+        </div>
+        <div class="collection-card-body">
+          <div class="collection-card-icon">
+            <span><i class="fas fa-star-of-david"></i></span>
+            <h3 class="collection-card-name">Swastik Adutheras</h3>
+          </div>
+          <p class="collection-card-desc">Symbol of prosperity and positivity.</p>
+          <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+        </div>
+      </div>
+
+      <div class="collection-card animate-in">
+        <div class="collection-card-img">
+          <img src="images/shankh-chakra.png" alt="Shankh Chakra Namalu">
+        </div>
+        <div class="collection-card-body">
+          <div class="collection-card-icon">
+            <span><i class="fas fa-dharmachakra"></i></span>
+            <h3 class="collection-card-name">Shankh Chakra Namalu</h3>
+          </div>
+          <p class="collection-card-desc">Divine symbols of protection and power.</p>
+          <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+        </div>
+      </div>
+
+      <div class="collection-card animate-in">
+        <div class="collection-card-img">
+          <img src="images/other-collection.png" alt="Other Collections">
+        </div>
+        <div class="collection-card-body">
+          <div class="collection-card-icon">
+            <span><i class="fas fa-spa"></i></span>
+            <h3 class="collection-card-name">Other Collections</h3>
+          </div>
+          <p class="collection-card-desc">Explore our unique &amp; exclusive designs.</p>
+          <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BESTSELLERS ===== -->
+  <section class="bestsellers-section" id="bestsellers">
+    <div class="section-container">
+      <div class="section-header animate-in">
+        <h2 class="section-title">Bestsellers</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="carousel-wrapper">
+        <button class="carousel-nav-btn prev" data-carousel="bestsellers-track" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+
+        <div class="carousel-track" id="bestsellers-track">
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/basic-aduthera.png" alt="Lakshmi Aduthera">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Lakshmi Aduthera</p>
+              <p class="product-card-price">₹2,499</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/surya-aduthera.png" alt="Swastik Aduthera">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Swastik Aduthera</p>
+              <p class="product-card-price">₹2,199</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/shankh-chakra.png" alt="Shankh Chakra Namalu">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Shankh Chakra Namalu</p>
+              <p class="product-card-price">₹2,799</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/surya-aduthera.png" alt="Surya Aduthera">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Surya Aduthera</p>
+              <p class="product-card-price">₹2,299</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/priya-sachin-aduthera.png" alt="Priya Sachin Aduthera">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Priya Sachin Aduthera</p>
+              <p class="product-card-price">₹2,499</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-img">
+              <img src="images/hero-aduthera.png" alt="Custom Name Aduthera">
+            </div>
+            <div class="product-card-body">
+              <p class="product-card-name">Custom Name Aduthera</p>
+              <p class="product-card-price">₹2,999</p>
+              <a href="#" class="view-details-link">View Details <span>→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-nav-btn next" data-carousel="bestsellers-track" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="section-container" id="cta">
+    <div class="cta-banner animate-in">
+      <div class="cta-banner-text">
+        <h2 class="cta-banner-title">Crafted with devotion.<br>Preserved for generations.</h2>
+        <p class="cta-banner-desc">Authentic. Handcrafted. Blessed.</p>
+        <a href="#" class="btn-outline">Discover More</a>
+      </div>
+      <div class="cta-banner-img">
+        <img src="images/banner-cta.png" alt="VBK Designs Collection">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BADGES ===== -->
+  <section class="trust-section" id="trust">
+    <div class="section-container" style="padding: 0 40px;">
+      <div class="trust-badges">
+        <div class="trust-badge animate-in">
+          <div class="trust-badge-icon"><i class="fas fa-certificate"></i></div>
+          <div class="trust-badge-text">
+            <h4>Authentic &amp; Traditional</h4>
+            <p>100% Handcrafted</p>
+          </div>
+        </div>
+        <div class="trust-badge animate-in">
+          <div class="trust-badge-icon"><i class="fas fa-scissors"></i></div>
+          <div class="trust-badge-text">
+            <h4>Premium Embroidery</h4>
+            <p>Finest Quality Threads</p>
+          </div>
+        </div>
+        <div class="trust-badge animate-in">
+          <div class="trust-badge-icon"><i class="fas fa-palette"></i></div>
+          <div class="trust-badge-text">
+            <h4>Custom Made</h4>
+            <p>Personalized for You</p>
+          </div>
+        </div>
+        <div class="trust-badge animate-in">
+          <div class="trust-badge-icon"><i class="fas fa-box"></i></div>
+          <div class="trust-badge-text">
+            <h4>Secure Packaging</h4>
+            <p>Delivered with Care</p>
+          </div>
+        </div>
+        <div class="trust-badge animate-in">
+          <div class="trust-badge-icon"><i class="fas fa-globe"></i></div>
+          <div class="trust-badge-text">
+            <h4>Worldwide Shipping</h4>
+            <p>Bringing Tradition Global</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CUSTOMER TRENDS ===== -->
+  <section class="trends-section" id="trends">
+    <div class="section-container">
+      <div class="section-header animate-in">
+        <h2 class="section-title">Customer Trends</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="carousel-wrapper">
+        <button class="carousel-nav-btn prev" data-carousel="trends-track" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+
+        <div class="carousel-track" id="trends-track">
+          <div class="trend-card">
+            <div class="trend-card-img">
+              <img src="images/wedding-essentials.png" alt="Wedding Essentials">
+            </div>
+            <div class="trend-card-body">
+              <p class="trend-card-name">Wedding Essentials</p>
+              <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <div class="trend-card-img">
+              <img src="images/pooja-essentials.png" alt="Pooja Essentials">
+            </div>
+            <div class="trend-card-body">
+              <p class="trend-card-name">Pooja Essentials</p>
+              <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <div class="trend-card-img">
+              <img src="images/gifting-ideas.png" alt="Gifting Ideas">
+            </div>
+            <div class="trend-card-body">
+              <p class="trend-card-name">Gifting Ideas</p>
+              <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <div class="trend-card-img">
+              <img src="images/return-gifts.png" alt="Return Gifts">
+            </div>
+            <div class="trend-card-body">
+              <p class="trend-card-name">Return Gifts</p>
+              <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <div class="trend-card-img">
+              <img src="images/custom-orders.png" alt="Custom Orders">
+            </div>
+            <div class="trend-card-body">
+              <p class="trend-card-name">Custom Orders</p>
+              <a href="#" class="shop-now-link">Shop Now <span>→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-nav-btn next" data-carousel="trends-track" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="footer-left">
+      <div class="footer-logo">
+        <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M20 10L22 18H18L20 10Z" fill="white"/>
+          <circle cx="20" cy="22" r="4" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="20" cy="22" r="1.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="footer-text">
+        <h4>Keeping Traditions Alive</h4>
+        <p>With Love, Devotion &amp; Elegance.</p>
+      </div>
+    </div>
+
+    <div class="footer-center">
+      DM for orders
+    </div>
+
+    <div class="footer-right">
+      <a href="#" class="btn-follow">FOLLOW US</a>
+      <a href="#" class="footer-social" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="script.js"></script>
+</body>
+</html>
