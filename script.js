@@ -72,14 +72,58 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== SMOOTH SCROLL FOR NAV LINKS =====
-document.querySelectorAll('.navbar-links a[href^="#"]').forEach(link => {
+document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href === '#') return;
     e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    document.querySelectorAll('.navbar-links a').forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
+    
+    // Manage active states dynamically
+    if (link.classList.contains('drawer-item')) {
+      document.querySelectorAll('.drawer-item').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    } else {
+      document.querySelectorAll('.navbar-links a').forEach(l => l.classList.remove('active'));
+      const dropdownParent = link.closest('.nav-dropdown-container');
+      if (dropdownParent) {
+        dropdownParent.querySelector('.nav-dropdown').classList.add('active');
+      } else if (link.closest('.navbar-links')) {
+        link.classList.add('active');
+      }
+    }
   });
 });
+
+// ===== MOBILE DRAWER TOGGLE =====
+const menuToggle = document.getElementById('menuToggle');
+const closeDrawer = document.getElementById('closeDrawer');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+
+function openMobileDrawer() {
+  mobileDrawer.classList.add('active');
+  drawerOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeMobileDrawer() {
+  mobileDrawer.classList.remove('active');
+  drawerOverlay.classList.remove('active');
+  document.body.style.overflow = ''; // Restore background scrolling
+}
+
+if (menuToggle && mobileDrawer && drawerOverlay) {
+  menuToggle.addEventListener('click', openMobileDrawer);
+  if (closeDrawer) closeDrawer.addEventListener('click', closeMobileDrawer);
+  drawerOverlay.addEventListener('click', closeMobileDrawer);
+
+  // Auto-close drawer when clicking on any link inside it
+  document.querySelectorAll('.drawer-item').forEach(item => {
+    item.addEventListener('click', closeMobileDrawer);
+  });
+}
+
