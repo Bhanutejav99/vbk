@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+  
+  <!-- ===== SCROLL PROGRESS BAR ===== -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgress"></div>
+  </div>
 
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" id="navbar">
@@ -51,6 +56,9 @@
       <button id="cartBtn" aria-label="Cart" style="position:relative;">
         <i class="fas fa-shopping-bag"></i>
         <span class="cart-badge">0</span>
+      </button>
+      <button id="themeToggleBtn" aria-label="Toggle Royal Dark Mode" class="theme-toggle-btn">
+        <i class="fas fa-moon"></i>
       </button>
       <button class="menu-toggle-btn" id="menuToggle" aria-label="Toggle Menu">
         <i class="fas fa-bars"></i>
@@ -115,6 +123,68 @@
       <span class="hero-dot" data-index="1"></span>
       <span class="hero-dot" data-index="2"></span>
       <span class="hero-dot" data-index="3"></span>
+    </div>
+  </section>
+
+  <div class="pattern-divider"></div>
+
+  <!-- ===== HERITAGE STORY ===== -->
+  <section class="heritage-section section-container animate-in" id="heritage">
+    <!-- Spinning Mandala Watermark -->
+    <div class="mandala-watermark mandala-right">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+        <circle cx="50" cy="50" r="48"/>
+        <circle cx="50" cy="50" r="40"/>
+        <circle cx="50" cy="50" r="30"/>
+        <path d="M50 2L50 98M2 50L98 50M16 16L84 84M16 84L84 16"/>
+        <path d="M50 10 C55 25, 45 25, 50 10 Z" />
+        <g transform="rotate(45 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(90 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(135 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(180 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(225 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(270 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(315 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <circle cx="50" cy="50" r="8" stroke-dasharray="2 2"/>
+        <circle cx="50" cy="50" r="18" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="35" stroke-dasharray="1 3"/>
+      </svg>
+    </div>
+    
+    <div class="heritage-grid">
+      <div class="heritage-image-container">
+        <div class="ornamental-frame">
+          <img src="images/hero-1.png" alt="Zari Embroidery Artisan Craft" class="heritage-image">
+        </div>
+      </div>
+      <div class="heritage-content">
+        <span class="heritage-subtitle">Crafted with Devotion</span>
+        <h2 class="heritage-title">The Sacred Art of the Aduthera</h2>
+        <div class="ornamental-separator">✦ ✦ ✦</div>
+        <p class="heritage-text">
+          At VBK Designs, every stitch is a prayer, and every thread carries a legacy. The Aduthera is not simply a ceremonial fabric—it is a sacred canvas of blessings, meticulously hand-embroidered by master artisans who have preserved traditional craftsmanship across generations.
+        </p>
+        <p class="heritage-text">
+          Using only the finest raw silks, rich satins, and premium gold Zardosi cords, we breathe life into divine motifs. Each curve of a lotus, each curve of a peacock feather, and the sacred geometry of the Swastik are brought to life through hours of meditative needlework, ensuring your most auspicious moments are crowned with timeless elegance.
+        </p>
+        <div class="craft-milestones">
+          <div class="milestone">
+            <span class="milestone-icon"><i class="fas fa-gem"></i></span>
+            <h5>Elite Fabrics</h5>
+            <p>Satin, Silk & Velvet</p>
+          </div>
+          <div class="milestone">
+            <span class="milestone-icon"><i class="fas fa-scroll"></i></span>
+            <h5>Sacred Motifs</h5>
+            <p>Traditional Zardosi</p>
+          </div>
+          <div class="milestone">
+            <span class="milestone-icon"><i class="fas fa-hand-holding-heart"></i></span>
+            <h5>100% Devotion</h5>
+            <p>Blessed & Handcrafted</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -186,6 +256,135 @@
       </div>
     </div>
   </section>
+
+  <div class="pattern-divider"></div>
+
+  <!-- ===== CUSTOMIZER SHOWCASE ===== -->
+  <section class="customizer-section section-container animate-in" id="customizer">
+    <!-- Spinning Mandala Watermark -->
+    <div class="mandala-watermark mandala-left">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+        <circle cx="50" cy="50" r="48"/>
+        <circle cx="50" cy="50" r="40"/>
+        <circle cx="50" cy="50" r="30"/>
+        <path d="M50 2L50 98M2 50L98 50M16 16L84 84M16 84L84 16"/>
+        <path d="M50 10 C55 25, 45 25, 50 10 Z" />
+        <g transform="rotate(45 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(90 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(135 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(180 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(225 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(270 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <g transform="rotate(315 50 50)"><path d="M50 10 C55 25, 45 25, 50 10 Z" /></g>
+        <circle cx="50" cy="50" r="8" stroke-dasharray="2 2"/>
+        <circle cx="50" cy="50" r="18" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="35" stroke-dasharray="1 3"/>
+      </svg>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title">Design Your Sacred Space</h2>
+      <div class="section-divider"></div>
+      <span class="section-icon">✦</span>
+    </div>
+    
+    <div class="customizer-grid">
+      <!-- Left Side: Interactive Preview -->
+      <div class="customizer-preview">
+        <div class="ornamental-frame preview-frame">
+          <div class="preview-image-container">
+            <img src="images/hero-2.png" alt="Custom Aduthera Preview" id="customizerPreviewImg" class="customizer-img">
+            <div class="preview-overlay">
+              <span id="previewFabricTag" class="preview-tag">Royal Silk</span>
+              <span class="preview-tag-divider">•</span>
+              <span id="previewMotifTag" class="preview-tag">Lakshmi Devotion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Side: Customizer Controls -->
+      <div class="customizer-controls">
+        <span class="customizer-subtitle">Bespoke Handcrafting</span>
+        <h3 class="customizer-title">Interactive Customizer</h3>
+        <p class="customizer-description">
+          Select your desired fabric and sacred motif to visualize your customized Aduthera. Every custom order is handcrafted exactly to your preferences.
+        </p>
+        
+        <!-- Fabric Selector -->
+        <div class="control-group">
+          <h4 class="control-group-title">1. Select Fabric Base</h4>
+          <div class="selector-grid fabrics-grid">
+            <button class="selector-btn fabric-btn active" data-fabric="Royal Silk">
+              <span class="swatch silk-swatch"></span>
+              <div class="selector-btn-text">
+                <span class="option-name">Royal Silk</span>
+                <span class="option-desc">Luxury traditional sheen</span>
+              </div>
+            </button>
+            <button class="selector-btn fabric-btn" data-fabric="Premium Satin">
+              <span class="swatch satin-swatch"></span>
+              <div class="selector-btn-text">
+                <span class="option-name">Premium Satin</span>
+                <span class="option-desc">Soft, elegant luster</span>
+              </div>
+            </button>
+            <button class="selector-btn fabric-btn" data-fabric="Sacred Cotton">
+              <span class="swatch cotton-swatch"></span>
+              <div class="selector-btn-text">
+                <span class="option-name">Sacred Cotton</span>
+                <span class="option-desc">Pure, matte traditional weave</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Motif Selector -->
+        <div class="control-group">
+          <h4 class="control-group-title">2. Choose Sacred Motif</h4>
+          <div class="selector-grid motifs-grid">
+            <button class="selector-btn motif-btn active" data-motif="Lakshmi Devotion" data-image="images/hero-2.png">
+              <i class="fas fa-om option-icon"></i>
+              <div class="selector-btn-text">
+                <span class="option-name">Lakshmi Devotion</span>
+                <span class="option-desc">Prosperity &amp; blessings</span>
+              </div>
+            </button>
+            <button class="selector-btn motif-btn" data-motif="Swastik Prosperity" data-image="images/surya-aduthera.png">
+              <i class="fas fa-star-of-david option-icon"></i>
+              <div class="selector-btn-text">
+                <span class="option-name">Swastik Prosperity</span>
+                <span class="option-desc">Auspicious beginnings</span>
+              </div>
+            </button>
+            <button class="selector-btn motif-btn" data-motif="Shankh Chakra Divine" data-image="images/hero-3.png">
+              <i class="fas fa-dharmachakra option-icon"></i>
+              <div class="selector-btn-text">
+                <span class="option-name">Shankh Chakra Divine</span>
+                <span class="option-desc">Divine protection</span>
+              </div>
+            </button>
+            <button class="selector-btn motif-btn" data-motif="Name Embroidery" data-image="images/hero-1.png">
+              <i class="fas fa-signature option-icon"></i>
+              <div class="selector-btn-text">
+                <span class="option-name">Name Embroidery</span>
+                <span class="option-desc">Personalized names &amp; date</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- CTA button -->
+        <div class="customizer-action">
+          <button id="customizerInquiryBtn" class="btn-primary customizer-submit-btn">
+            <i class="fab fa-whatsapp"></i> DM to Order This Design
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pattern-divider"></div>
 
   <!-- ===== BESTSELLERS ===== -->
   <section class="bestsellers-section" id="bestsellers">
@@ -448,6 +647,62 @@
     </div>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ===== QUICK VIEW MODAL ===== -->
+  <div class="inquiry-modal" id="inquiryModal">
+    <div class="modal-overlay" id="closeModalOverlay"></div>
+    <div class="modal-content animate-modal">
+      <button class="modal-close-btn" id="closeInquiryModal" aria-label="Close Modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="modal-grid">
+        <!-- Modal Left: Product Image -->
+        <div class="modal-image-panel">
+          <div class="ornamental-frame modal-frame">
+            <img src="" alt="" id="modalProductImg" class="modal-img">
+          </div>
+        </div>
+        <!-- Modal Right: Product Details -->
+        <div class="modal-details-panel">
+          <span class="modal-subtitle">Sacred Collection</span>
+          <h3 class="modal-title" id="modalProductName">Lakshmi Aduthera</h3>
+          <div class="modal-price" id="modalProductPrice">₹2,499</div>
+          
+          <div class="ornamental-separator" style="margin: 12px 0;">✦ ✦ ✦</div>
+          
+          <p class="modal-desc" id="modalProductDesc">
+            A premium handcrafted Aduthera adorned with intricate gold zari embroidery of the sacred Goddess Lakshmi. Perfect for holding deities, auspicious items, or lining ceremonial plates during sacred family moments.
+          </p>
+          
+          <div class="modal-specs">
+            <div class="spec-row">
+              <span class="spec-label">Fabric:</span>
+              <span class="spec-value" id="modalProductFabric">Royal Silk (or customizable Satin/Cotton)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Craftsmanship:</span>
+              <span class="spec-value">100% Traditional Hand Zardosi</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Size:</span>
+              <span class="spec-value">Standard 15" x 15" (Customizable sizes available)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Care:</span>
+              <span class="spec-value">Dry Clean Only</span>
+            </div>
+          </div>
+          
+          <div class="modal-action-box">
+            <a href="#" id="modalWhatsAppBtn" target="_blank" class="btn-primary modal-wa-btn">
+              <i class="fab fa-whatsapp"></i> DM to Order on WhatsApp
+            </a>
+            <p class="modal-note">Clicking will open WhatsApp click-to-chat directly with the designer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== JAVASCRIPT ===== -->
   <script src="script.js"></script>
