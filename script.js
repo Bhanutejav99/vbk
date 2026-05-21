@@ -765,3 +765,107 @@ async function initCMS() {
 
 // Start CMS Initialization
 initCMS();
+
+// ===== HIGH-EFFICIENCY DYNAMIC IMAGE LOADING FALLBACK =====
+// Intercepts any external resource loading failures (e.g. broken Pinterest/CDN hotlinks)
+// and seamlessly switches the src to pre-packaged local high-quality assets.
+function handleImageError(img) {
+  // Prevent infinite recursive load loops if the fallback asset is also somehow missing
+  if (img.dataset.fallbackTried === "true") return;
+  img.dataset.fallbackTried = "true";
+
+  const originalSrc = img.src;
+  console.warn(`CMS Fallback: Image failed to load: ${originalSrc}. Swapping to local traditional asset...`);
+
+  // 1. Identify and recover Hero slider background images
+  if (img.classList.contains('hero-slide-bg')) {
+    const textOverlay = img.parentNode.querySelector('.hero-text-overlay');
+    if (textOverlay) {
+      const heading = textOverlay.querySelector('.hero-title') ? textOverlay.querySelector('.hero-title').textContent : "";
+      if (heading.includes("Sacred")) { img.src = "images/hero-1.png"; return; }
+      if (heading.includes("Artistry")) { img.src = "images/hero-2.png"; return; }
+      if (heading.includes("Blessed")) { img.src = "images/hero-3.png"; return; }
+      if (heading.includes("Personalized")) { img.src = "images/hero-4.png"; return; }
+    }
+    // Secondary fallback using current index
+    const allSlides = Array.from(document.querySelectorAll('.hero-slide-bg'));
+    const index = allSlides.indexOf(img);
+    if (index !== -1) {
+      img.src = `images/hero-${(index % 4) + 1}.png`;
+      return;
+    }
+  }
+
+  // 2. Identify and recover Catalog Cards, collections, customizer previews, and Quick View modals
+  let productName = "";
+
+  const productCard = img.closest('.product-card');
+  if (productCard) {
+    const nameEl = productCard.querySelector('.product-card-name');
+    if (nameEl) productName = nameEl.textContent.trim();
+  }
+
+  const collectionCard = img.closest('.collection-card');
+  if (collectionCard) {
+    const nameEl = collectionCard.querySelector('.collection-card-name');
+    if (nameEl) productName = nameEl.textContent.trim();
+  }
+
+  const modalContent = img.closest('.modal-content');
+  if (modalContent) {
+    const nameEl = document.getElementById('modalProductName');
+    if (nameEl) productName = nameEl.textContent.trim();
+  }
+
+  if (img.id === 'customizerPreviewImg') {
+    const activeMotifBtn = document.querySelector('.motif-btn.active');
+    if (activeMotifBtn) {
+      productName = activeMotifBtn.dataset.motif;
+    }
+  }
+
+  // Fall back to ALT text keyword parsing if no element-structure text is found
+  if (!productName && img.alt) {
+    productName = img.alt;
+  }
+
+  if (productName) {
+    const nameLower = productName.toLowerCase();
+    
+    if (nameLower.includes("shrirasthu")) {
+      img.src = "images/sreenivasa-kalyanam-shrirasthu.png";
+      return;
+    }
+    if (nameLower.includes("swastik") && nameLower.includes("shanku")) {
+      img.src = "images/swastik-shanku-chakra.png";
+      return;
+    }
+    if (nameLower.includes("namalu") || nameLower.includes("tilak")) {
+      img.src = "images/hero-3.png";
+      return;
+    }
+    if (nameLower.includes("swastik")) {
+      img.src = "images/hero-2.png";
+      return;
+    }
+    if (nameLower.includes("sreenivasa") || nameLower.includes("kalyanam")) {
+      img.src = "images/sreenivasa-kalyanam.png";
+      return;
+    }
+    if (nameLower.includes("name") || nameLower.includes("bespoke")) {
+      img.src = "images/hero-1.png";
+      return;
+    }
+  }
+
+  // 3. Absolute catch-all standard default asset fallback
+  img.src = "images/hero-1.png";
+}
+
+// Global Capturing Event Listener for Resource Errors
+window.addEventListener('error', function(event) {
+  const target = event.target;
+  if (target && target.tagName === 'IMG') {
+    handleImageError(target);
+  }
+}, true); // Capture phase is critical to catch non-bubbling resource load errors!
