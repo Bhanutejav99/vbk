@@ -98,6 +98,42 @@ ul, ol { list-style: none; }
 img { max-width: 100%; display: block; }
 button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
 
+/* ===== ANNOUNCEMENT BAR ===== */
+.announcement-bar {
+  background-color: var(--red-primary);
+  color: var(--gold-light);
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  z-index: 1001;
+  position: relative;
+  border-bottom: 1px solid var(--gold);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark-mode .announcement-bar {
+  background-color: #1a0505;
+  color: var(--gold-light);
+  border-bottom: 1px solid var(--gold-dark);
+}
+
+.announcement-text {
+  display: inline-block;
+  animation: pulse-rose 3s infinite ease-in-out;
+}
+
+@keyframes pulse-rose {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.4)); }
+}
+
 /* ===== NAVBAR ===== */
 .navbar {
   display: flex;
@@ -1443,6 +1479,37 @@ body.dark-mode .mandala-watermark {
   border-color: var(--gold-light);
   background: var(--bg-accent-light);
   box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15);
+}
+
+/* Multi-select checkmark badges */
+.selector-btn {
+  position: relative !important;
+}
+
+.check-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: var(--gold-light);
+  color: #180606; /* dark color to contrast gold */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+  z-index: 10;
+}
+
+.selector-btn.active .check-badge {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .swatch {

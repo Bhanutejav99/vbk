@@ -1,0 +1,8 @@
+Option_Type,Option_Name,Subtitle,Icon_Class,Image_URL
+Fabric,"Royal Silk","Luxury traditional sheen","silk-swatch",""
+Fabric,"Premium Satin","Soft, elegant luster","satin-swatch",""
+Fabric,"Sacred Cotton","Pure, matte traditional weave","cotton-swatch",""
+Motif,"Sreenivasa Kalyanam","Celestial wedding blessings","fas fa-om","images/sreenivasa-kalyanam.png"
+Motif,"Swastik with Shanku","Prosperity and divine conch","fas fa-star-of-david","images/swastik-shanku-chakra.png"
+Motif,"Shanku Chakra Tilak","Divine protection symbols","fas fa-dharmachakra","images/hero-3.png"
+Motif,"Name Embroidery","Bespoke names & mantras","fas fa-signature","images/hero-1.png"
