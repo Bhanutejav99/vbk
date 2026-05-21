@@ -109,7 +109,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    
+
     // Manage active states dynamically
     if (link.classList.contains('drawer-item')) {
       document.querySelectorAll('.drawer-item').forEach(l => l.classList.remove('active'));
@@ -175,7 +175,7 @@ const customizerPreviewImg = document.getElementById('customizerPreviewImg');
 const customizerInquiryBtn = document.getElementById('customizerInquiryBtn');
 
 let selectedFabric = "Royal Silk";
-let selectedMotif = "Lakshmi Devotion";
+let selectedMotif = "Sreenivasa Kalyanam";
 
 if (fabricBtns.length > 0 && motifBtns.length > 0) {
   // Fabric Selectors
@@ -199,7 +199,7 @@ if (fabricBtns.length > 0 && motifBtns.length > 0) {
       if (previewMotifTag) {
         previewMotifTag.textContent = selectedMotif;
       }
-      
+
       // Dynamic cross-fade animation for the preview image
       if (customizerPreviewImg && btn.dataset.image) {
         customizerPreviewImg.style.opacity = '0.3';
@@ -226,40 +226,40 @@ if (fabricBtns.length > 0 && motifBtns.length > 0) {
 
 // ===== BESTSELLERS DATA & QUICK VIEW MODAL =====
 const bestsellersData = {
-  "Lakshmi Aduthera": {
-    image: "images/hero-2.png",
-    price: "₹2,499",
-    desc: "A premium handcrafted Aduthera adorned with intricate gold Zardosi embroidery of the sacred Goddess Lakshmi. Perfect for lining ceremonial plates, holding deities, or elevating home temple shrines during festive pujas.",
-    fabric: "Royal Silk (Customizable in Satin or Cotton)"
+  "Sreenivasa Kalyanam with Shrirasthu": {
+    image: "images/sreenivasa-kalyanam-shrirasthu.png",
+    price: "₹2,999",
+    desc: "An exceptionally beautiful ceremonial Aduthera featuring the sacred Sreenivasa Kalyanam wedding motif alongside the divine blessing 'Shrirasthu Shubhamasthu'. Hand-embroidered with brilliant golden Zardosi on pure raw silk.",
+    fabric: "Royal Silk (Customizable in Velvet or Satin)"
   },
-  "Swastik Aduthera": {
-    image: "images/surya-aduthera.png",
-    price: "₹2,199",
-    desc: "This sacred Aduthera features the holy Swastik motif, representing auspicious beginnings, peace, and eternal prosperity. Meticulously stitched with shimmering gold thread onto pure velvet-maroon fabric base.",
-    fabric: "Premium Satin (Customizable in Silk or Cotton)"
+  "Swastik with Shanku Chakra": {
+    image: "images/swastik-shanku-chakra.png",
+    price: "₹2,699",
+    desc: "An auspicious blend of the sacred Swastik and the divine symbols of the Shanku (Conch) and Chakra (Discus) flanking the corners. Imbues your prayer space with divine protection and eternal prosperity.",
+    fabric: "Premium Satin (Customizable in Silk or Velvet)"
   },
-  "Shankh Chakra Namalu": {
+  "Classic Shanku Chakra Namalu": {
     image: "images/hero-3.png",
     price: "₹2,799",
     desc: "Adorned with the majestic symbols of the Shankha (Conch shell) and Chakra (Divine discus) flanking the sacred Tilak. Invokes powerful divine protections and celestial grace for your household altars.",
     fabric: "Royal Silk (Customizable in Satin or Cotton)"
   },
-  "Surya Aduthera": {
-    image: "images/surya-aduthera.png",
+  "Sacred Swastik": {
+    image: "images/hero-2.png",
     price: "₹2,299",
-    desc: "Inspired by the ultimate source of cosmic energy, the Surya Aduthera features a brilliant sunburst motif in golden zari work. Brings warmth, vitality, and glowing traditional brilliance to your spiritual spaces.",
-    fabric: "Sacred Cotton (Customizable in Silk or Satin)"
+    desc: "This sacred Aduthera features the holy Swastik motif, representing auspicious beginnings, peace, and eternal prosperity. Meticulously stitched with shimmering gold thread onto pure velvet-maroon fabric base.",
+    fabric: "Premium Satin (Customizable in Silk or Cotton)"
   },
-  "Priya Sachin Aduthera": {
-    image: "images/hero-4.png",
-    price: "₹2,499",
-    desc: "A premium celebratory custom-embellished Aduthera designed specifically for sacred wedding milestones. Embellished with beautiful traditional border motifs and customizable family name lettering.",
+  "Sreenivasa Kalyanam": {
+    image: "images/sreenivasa-kalyanam.png",
+    price: "₹2,899",
+    desc: "An exquisite representation of the divine marriage of Lord Venkateswara and Goddess Padmavathi. Beautifully embroidered in meticulous detail to commemorate and bless wedding milestones.",
     fabric: "Royal Silk (Customizable in Satin or Cotton)"
   },
-  "Custom Name Aduthera": {
-    image: "images/hero-1.png",
-    price: "₹2,999",
-    desc: "Our finest bespoke offering. Personalize this exquisite Aduthera with custom hand-embroidered family names, special wedding dates, or unique personalized mantras. Handcrafted with utmost devotion.",
+  "Sreenivasa Kalyanam with Swastik": {
+    image: "images/sreenivasa-kalyanam-swastik.png",
+    price: "₹3,199",
+    desc: "A magnificent blend of Lord Venkateswara's wedding scene with the auspicious Swastik and Shanku Chakra motifs. The ultimate offering of traditional grace, devotion, and elite craftsmanship.",
     fabric: "Bespoke Silk / Velvet (Customizable)"
   }
 };
