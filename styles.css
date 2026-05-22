@@ -18,6 +18,9 @@
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Poppins', sans-serif;
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.15s ease-out;
+  --transition-3d: transform 0.15s ease-out, box-shadow 0.15s ease-out;
 
   /* SEMANTIC VARIABLE BASE (LIGHT MODE) */
   --bg-primary: #FFF8F0;      /* Soft warm traditional cream */
@@ -458,15 +461,28 @@ body.dark-mode .announcement-bar {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.08) translateZ(0);
+  transition: transform 6s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 0.8s ease;
+}
+
+.hero-slide.active .hero-slide-bg {
+  transform: scale(1.0) translateZ(0);
 }
 
 .hero-text-overlay {
   position: absolute;
   left: 60px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate3d(-40px, -50%, 60px);
+  opacity: 0;
   z-index: 2;
   max-width: 380px;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.4s ease;
+}
+
+.hero-slide.active .hero-text-overlay {
+  transform: translate3d(0, -50%, 0);
+  opacity: 1;
 }
 
 .hero-label {
@@ -1215,11 +1231,15 @@ body.dark-mode .announcement-bar {
   background-size: 24px 24px;
   opacity: 0.28;
   margin: 30px 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, background-position-x 0.5s ease-out;
 }
 body.dark-mode .pattern-divider {
   opacity: 0.38;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='0.8'%3E%3Cpath d='M12 0 L24 12 L12 24 L0 12 Z M12 6 L18 12 L12 18 L6 12 Z M12 11 A1 1 0 1 0 12 13 A1 1 0 1 0 12 11 Z'/%3E%3C/svg%3E");
+}
+.pattern-divider:hover {
+  opacity: 0.65;
+  animation: scroll-pattern 4s linear infinite;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -1228,15 +1248,23 @@ body.dark-mode .pattern-divider {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes scroll-pattern {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 96px; }
+}
+
 .animate-in {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: perspective(1000px) rotateX(12deg) translateY(45px) scale(0.96);
+  transform-origin: top center;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .animate-in.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1787,6 +1815,349 @@ body.dark-mode .mandala-watermark {
     gap: 8px;
   }
   .modal-title {
+    font-size: 1.8rem;
+  }
+}
+
+/* ==========================================================================
+   MAJESTIC 3D PERSPECTIVE & LUXURY MICRO-INTERACTIONS SYSTEM
+   ========================================================================== */
+
+/* 1. Hardware-Accelerated 3D Container Configurations */
+.product-card, 
+.collection-card, 
+.trend-card, 
+.ornamental-frame, 
+.preview-frame {
+  transform-style: preserve-3d !important;
+  perspective: 1000px !important;
+  position: relative !important;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  will-change: transform, box-shadow;
+}
+
+/* 2. Physical Depth Layering (translateZ) */
+.product-card-img img, 
+.collection-card-img img, 
+.trend-card-img img, 
+.heritage-image, 
+.customizer-img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden;
+}
+
+/* Lift imagery forward on hover */
+.product-card:hover .product-card-img img,
+.collection-card:hover .collection-card-img img,
+.trend-card:hover .trend-card-img img,
+.ornamental-frame:hover .heritage-image {
+  transform: translateZ(35px) scale(1.04) !important;
+  filter: drop-shadow(0 15px 25px rgba(24, 6, 6, 0.22)) !important;
+}
+
+body.dark-mode .product-card:hover .product-card-img img,
+body.dark-mode .collection-card:hover .collection-card-img img,
+body.dark-mode .trend-card:hover .trend-card-img img,
+body.dark-mode .ornamental-frame:hover .heritage-image {
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.55)) !important;
+}
+
+/* Raise texts and actions midway */
+.product-card-body, 
+.collection-card-body, 
+.trend-card-body {
+  transform-style: preserve-3d !important;
+}
+
+.product-card-name, 
+.collection-card-name, 
+.trend-card-name {
+  transform: translateZ(18px) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.product-card-price, 
+.collection-card-desc, 
+.trend-card-body .shop-now-link,
+.view-details-link,
+.shop-now-link {
+  transform: translateZ(12px) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.check-badge {
+  transform: translateZ(28px) !important;
+}
+
+/* 3. Gold Zari Glisten Glare Sheen Overlay */
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+  background: radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.22) 0%, rgba(201, 168, 76, 0) 70%);
+}
+
+body.dark-mode .card-sheen {
+  mix-blend-mode: overlay;
+}
+
+/* 4. Metallic Gold Zari Diagonal Sweep CTA Glisten */
+@keyframes gold-zari-sweep {
+  0% { left: -150%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+.btn-primary, 
+.btn-outline, 
+.customizer-submit-btn, 
+.modal-wa-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+}
+
+.btn-primary::after, 
+.btn-outline::after, 
+.customizer-submit-btn::after, 
+.modal-wa-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -150% !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0) 20%,
+    rgba(212, 175, 55, 0.65) 50%,
+    rgba(212, 175, 55, 0) 80%,
+    transparent
+  ) !important;
+  transform: skewX(-30deg) !important;
+  transition: none !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+.btn-primary:hover::after, 
+.btn-outline:hover::after, 
+.customizer-submit-btn:hover::after, 
+.modal-wa-btn:hover::after {
+  animation: gold-zari-sweep 2s cubic-bezier(0.25, 0.8, 0.25, 1) infinite !important;
+}
+
+/* 5. Smooth Custom Interactive Hero Parallax */
+.hero-slide-bg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.hero-text-overlay {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ===== CINEMATIC 3D MANDALA PRELOADER ===== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background-color: #180606; /* Elite dark velvet maroon */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+  overflow: hidden;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+}
+
+.preloader-mandala {
+  width: 140px;
+  height: 140px;
+  color: var(--gold-light);
+  filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.45));
+  animation: preloader-spin 8s infinite linear;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.5s ease;
+}
+
+@keyframes preloader-spin {
+  0% { transform: rotate(0deg) rotateX(10deg); }
+  50% { transform: rotate(180deg) rotateX(-10deg); }
+  100% { transform: rotate(360deg) rotateX(10deg); }
+}
+
+.preloader-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.preloader-brand {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 4px;
+  text-shadow: 0 2px 10px rgba(201, 168, 76, 0.2);
+}
+
+.preloader-tagline {
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #BCA49C;
+  font-weight: 500;
+}
+
+.preloader-line {
+  width: 180px;
+  height: 2px;
+  background: rgba(201, 168, 76, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 16px;
+  position: relative;
+}
+
+.preloader-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+  box-shadow: 0 0 6px var(--gold-light);
+  transition: width 0.3s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* ===== 3D CUSTOMIZER CONTAINER ===== */
+.customizer-preview {
+  position: relative;
+  perspective: 1500px;
+}
+
+.customizer-3d-container {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  background-color: var(--bg-accent-light);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.customizer-3d-container:active {
+  cursor: grabbing;
+}
+
+#customizer3DCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+.customizer-spinner {
+  position: absolute;
+  z-index: 2;
+  font-size: 2.2rem;
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(201, 168, 76, 0.3);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.customizer-spinner.hidden {
+  opacity: 0;
+}
+
+/* Glassmorphism custom tags overlay inside 3D Canvas */
+.preview-overlay {
+  z-index: 3 !important; /* Stack cleanly above 3D Canvas */
+}
+
+/* ===== TACTILE HOVER-TILT CARD STYLING ===== */
+.product-card,
+.collection-card,
+.trend-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* We will apply the active 3D tilt effect on the card contents themselves to keep shadow projections realistic */
+.product-card > *,
+.collection-card > *,
+.trend-card > * {
+  transform-style: preserve-3d;
+}
+
+/* Specular glare overlay sheet inside cards */
+.card-glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+  border-radius: inherit;
+}
+
+/* ===== DYNAMIC 3D GSAP ANIMATION SUPPORT ===== */
+.reveal-3d-title-wrapper {
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+.reveal-3d-title {
+  display: inline-block;
+  transform-origin: top center;
+}
+
+/* Responsive adjustment for 3D Customizer height */
+@media (max-width: 1024px) {
+  .customizer-3d-container {
+    height: 380px;
+  }
+}
+@media (max-width: 480px) {
+  .customizer-3d-container {
+    height: 300px;
+  }
+  .preloader-brand {
     font-size: 1.8rem;
   }
 }

@@ -405,6 +405,9 @@ function bindCustomizerEvents() {
         if (previewFabricTag) {
           previewFabricTag.textContent = selectedFabric;
         }
+        if (typeof update3DFabric === 'function') {
+          update3DFabric(selectedFabric);
+        }
       }
     });
   }
@@ -434,14 +437,8 @@ function bindCustomizerEvents() {
           previewMotifTag.textContent = selectedMotifs.join(" + ");
         }
 
-        if (customizerPreviewImg && btn.dataset.image) {
-          customizerPreviewImg.style.opacity = '0.3';
-          customizerPreviewImg.style.transform = 'scale(0.97)';
-          setTimeout(() => {
-            customizerPreviewImg.src = btn.dataset.image;
-            customizerPreviewImg.style.opacity = '1';
-            customizerPreviewImg.style.transform = 'scale(1)';
-          }, 180);
+        if (btn.dataset.image && typeof update3DMotif === 'function') {
+          update3DMotif(btn.dataset.image);
         }
       }
     });
@@ -710,6 +707,10 @@ async function initCMS() {
   renderCustomizerOptions(fallbackCustomizerOptions);
   applyGlobalSettings(fallbackGlobalSettings);
 
+  // Initialize majestic 3D effects for initial content
+  init3DTilt();
+  initHeroParallax();
+
   // 2. If a Spreadsheet ID is provided, fetch sheets in the background asynchronously
   if (!SPREADSHEET_ID || SPREADSHEET_ID.trim() === "" || SPREADSHEET_ID.includes("YOUR_SPREADSHEET_ID")) {
     console.log("CMS: No spreadsheet ID configured. Operating in high-performance local offline fallback mode.");
@@ -760,6 +761,8 @@ async function initCMS() {
     applyGlobalSettings(settingsData[0]); // Use first row of settings
   }
 
+  // Re-trigger 3D tilts for newly dynamic components from spreadsheet
+  init3DTilt();
   console.log("CMS: Live sheet sync complete.");
 }
 
@@ -869,3 +872,632 @@ window.addEventListener('error', function(event) {
     handleImageError(target);
   }
 }, true); // Capture phase is critical to catch non-bubbling resource load errors!
+
+// ===== MAJESTIC 3D PERSPECTIVE & LUXURY MOTION INTERACTIVITY =====
+
+function init3DTilt() {
+  // Mobile / Tablet safety switch: Bypass 3D rotate logic below 1024px to ensure buttery frame rates and standard gestures
+  if (window.innerWidth < 1024) {
+    document.querySelectorAll('.product-card, .collection-card, .trend-card, .ornamental-frame, .preview-frame').forEach(card => {
+      card.style.transform = '';
+      const sheen = card.querySelector('.card-sheen');
+      if (sheen) sheen.style.opacity = '0';
+    });
+    return;
+  }
+
+  const cards = document.querySelectorAll('.product-card, .collection-card, .trend-card, .ornamental-frame, .preview-frame');
+  cards.forEach(card => {
+    // Inject dynamic gold zari sheen layer if missing
+    let sheen = card.querySelector('.card-sheen');
+    if (!sheen) {
+      sheen = document.createElement('div');
+      sheen.className = 'card-sheen';
+      card.appendChild(sheen);
+    }
+
+    // Shield against duplicate mouse event registers
+    if (card.dataset.tiltInitialized === "true") return;
+    card.dataset.tiltInitialized = "true";
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const w = rect.width;
+      const h = rect.height;
+
+      // Custom coordinate mathematical vector rotation angles (capped at premium 12deg)
+      const rotateX = -((y / h) - 0.5) * 24; 
+      const rotateY = ((x / w) - 0.5) * 24;  
+
+      // Glare center reflection mapping
+      const sheenX = (x / w) * 100;
+      const sheenY = (y / h) * 100;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+      
+      const curSheen = card.querySelector('.card-sheen');
+      if (curSheen) {
+        curSheen.style.opacity = '1';
+        curSheen.style.background = `radial-gradient(circle at ${sheenX}% ${sheenY}%, rgba(201, 168, 76, 0.22) 0%, rgba(201, 168, 76, 0) 70%)`;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      const curSheen = card.querySelector('.card-sheen');
+      if (curSheen) {
+        curSheen.style.opacity = '0';
+      }
+    });
+  });
+}
+
+function initHeroParallax() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+
+  // Track cursor offsets to push active background slide and header overlay in depth directions
+  hero.addEventListener('mousemove', (e) => {
+    if (window.innerWidth < 1024) return;
+    
+    const rect = hero.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const offsetX = (x / rect.width) - 0.5; 
+    const offsetY = (y / rect.height) - 0.5; 
+    
+    const activeBg = hero.querySelector('.hero-slide.active .hero-slide-bg');
+    const activeText = hero.querySelector('.hero-slide.active .hero-text-overlay');
+    
+    if (activeBg) {
+      activeBg.style.transform = `scale(1.06) translate(${offsetX * -25}px, ${offsetY * -25}px)`;
+    }
+    if (activeText) {
+      activeText.style.transform = `translateY(-50%) translate(${offsetX * 20}px, ${offsetY * 20}px)`;
+    }
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    const bgs = hero.querySelectorAll('.hero-slide-bg');
+    const texts = hero.querySelectorAll('.hero-text-overlay');
+    bgs.forEach(bg => bg.style.transform = '');
+    texts.forEach(txt => txt.style.transform = 'translateY(-50%)');
+  });
+}
+
+// Seamlessly handle responsive resizing transitions
+window.addEventListener('resize', () => {
+  init3DTilt();
+});
+
+/* ===== CINEMATIC 3D PRELOADER CONTROLLER ===== */
+(function() {
+  const preloader = document.getElementById('preloader');
+  const preloaderProgress = document.getElementById('preloaderProgress');
+  
+  if (preloader && preloaderProgress) {
+    let progress = 0;
+    const interval = setInterval(() => {
+      // Simulate natural progressive loading
+      progress += Math.floor(Math.random() * 12) + 6;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          preloader.classList.add('fade-out');
+          // Initialize GSAP animations after preloader fades out
+          initGSAPAnimations();
+        }, 500);
+      }
+      preloaderProgress.style.width = progress + '%';
+    }, 60);
+  } else {
+    // If no preloader elements exist, trigger GSAP immediately
+    window.addEventListener('load', () => {
+      initGSAPAnimations();
+    });
+  }
+})();
+
+/* ===== HIGH-EFFICIENCY DYNAMIC 3D TILT EFFECT ===== */
+function init3DTilt() {
+  const cards = document.querySelectorAll('.product-card, .collection-card, .trend-card');
+  
+  cards.forEach(card => {
+    // Inject dynamic gloss reflection overlay sheet if not present
+    if (!card.querySelector('.card-glare')) {
+      const glare = document.createElement('div');
+      glare.className = 'card-glare';
+      card.appendChild(glare);
+    }
+    
+    const glare = card.querySelector('.card-glare');
+    
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      // Calculate realistic rotation tilt values (max 8 degrees tilt to maintain luxury stability)
+      const rotateX = -(y - centerY) / (centerY / 8);
+      const rotateY = (x - centerX) / (centerX / 8);
+      
+      // Hardware-accelerated 3D transforms
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+      card.style.transition = 'transform 0.1s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      
+      // Cast glossy reflections on gold cords
+      if (glare) {
+        const angle = Math.atan2(y - centerY, x - centerX) * 180 / Math.PI;
+        glare.style.opacity = '1';
+        glare.style.background = `linear-gradient(${angle - 45}deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 75%)`;
+        glare.style.transition = 'opacity 0.15s ease';
+      }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      if (glare) {
+        glare.style.opacity = '0';
+      }
+    });
+  });
+}
+
+// Instantiate Tilt effect on document load
+document.addEventListener('DOMContentLoaded', () => {
+  init3DTilt();
+});
+
+// Re-instantiate Tilt effect if catalog cards are re-rendered by CMS
+const originalRenderCatalog = window.renderBestsellersAndCollections;
+if (typeof originalRenderCatalog === 'function') {
+  window.renderBestsellersAndCollections = function(products) {
+    originalRenderCatalog(products);
+    setTimeout(init3DTilt, 150);
+  };
+}
+
+/* ===== THREE.JS INTERACTIVE 3D CUSTOMIZER ENGINE ===== */
+let update3DFabric, update3DMotif;
+
+(function() {
+  const container = document.getElementById('customizer3DContainer');
+  const canvas = document.getElementById('customizer3DCanvas');
+  
+  if (!container || !canvas) return;
+  
+  // 1. Create Scene, Camera, and Renderer
+  const scene = new THREE.Scene();
+  
+  // Set camera with standard perspective (45-deg FOV, matching realistic focus distance)
+  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 5.2);
+  
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true,
+    preserveDrawingBuffer: true
+  });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  
+  // 2. Setup Lighting (Premium Studio Array)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
+  scene.add(ambientLight);
+  
+  // Warm direction spotlight for shadows
+  const dirLight = new THREE.DirectionalLight(0xfffaee, 0.85);
+  dirLight.position.set(5, 8, 4);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.width = 1024;
+  dirLight.shadow.mapSize.height = 1024;
+  dirLight.shadow.bias = -0.001;
+  scene.add(dirLight);
+  
+  // Soft cool fill light from opposite corner
+  const fillLight = new THREE.DirectionalLight(0xe6f2ff, 0.4);
+  fillLight.position.set(-5, -4, 2);
+  scene.add(fillLight);
+  
+  // GOLD Mouse-Tracking point light to simulate real gold embroidery Zari reflections
+  const goldenSparkLight = new THREE.PointLight(0xffc547, 0.7, 8);
+  goldenSparkLight.position.set(0, 0, 1.5);
+  scene.add(goldenSparkLight);
+  
+  // 3. Create the 3D Cloth slab representing the Aduthera fabric base
+  // A rounded box geometry simulating a padded traditional ceremonial fabric board
+  const clothGeometry = new THREE.BoxGeometry(3.0, 3.0, 0.10, 8, 8, 1);
+  
+  // Define base material maps
+  const textureLoader = new THREE.TextureLoader();
+  
+  // Configure detailed PBR materials array
+  // Index 4 is the Front embroidered face. Sides and back are luxurious gold braided satin border trim.
+  const sideMaterial = new THREE.MeshStandardMaterial({
+    color: 0xC9A84C, // Royal Gold
+    roughness: 0.15,
+    metalness: 0.85,
+    bumpScale: 0.05
+  });
+  
+  const frontMaterial = new THREE.MeshPhysicalMaterial({
+    roughness: 0.38,
+    metalness: 0.15,
+    clearcoat: 0.3,
+    clearcoatRoughness: 0.25,
+    bumpScale: 0.08
+  });
+  
+  const materials = [
+    sideMaterial, // right
+    sideMaterial, // left
+    sideMaterial, // top
+    sideMaterial, // bottom
+    frontMaterial,// front face
+    sideMaterial  // back
+  ];
+  
+  const clothMesh = new THREE.Mesh(clothGeometry, materials);
+  clothMesh.castShadow = true;
+  clothMesh.receiveShadow = true;
+  scene.add(clothMesh);
+  
+  // Set rest rotation angle for optimal perspective projection
+  clothMesh.rotation.set(0.1, -0.05, 0);
+  
+  // 4. Fabric Base Texture Properties Handler
+  update3DFabric = function(fabricName) {
+    if (fabricName === 'Royal Silk') {
+      frontMaterial.roughness = 0.42;
+      frontMaterial.metalness = 0.15;
+      frontMaterial.clearcoat = 0.25;
+      frontMaterial.clearcoatRoughness = 0.3;
+    } else if (fabricName === 'Premium Satin') {
+      frontMaterial.roughness = 0.22;
+      frontMaterial.metalness = 0.08;
+      frontMaterial.clearcoat = 0.65;
+      frontMaterial.clearcoatRoughness = 0.15;
+    } else if (fabricName === 'Sacred Cotton') {
+      frontMaterial.roughness = 0.85;
+      frontMaterial.metalness = 0.0;
+      frontMaterial.clearcoat = 0.0;
+      frontMaterial.clearcoatRoughness = 0.0;
+    }
+    frontMaterial.needsUpdate = true;
+  };
+  
+  // 5. Motif Texture Projection Handler (Projecting actual product images with relief mapping)
+  let activeTexture = null;
+  
+  update3DMotif = function(imageUrl) {
+    const spinner = document.getElementById('customizerSpinner');
+    if (spinner) spinner.classList.remove('hidden');
+    
+    // Asynchronously fetch high-fidelity motif texture
+    textureLoader.load(imageUrl, 
+      (texture) => {
+        texture.generateMipmaps = true;
+        texture.minFilter = THREE.LinearMipmapLinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy() || 8;
+        
+        if (activeTexture) activeTexture.dispose();
+        activeTexture = texture;
+        
+        // Map texture onto front face
+        frontMaterial.map = texture;
+        
+        // Dynamically create a high-contrast bump map from the texture itself 
+        // to raise the golden Zardosi embroidery lines in realistic 3D relief!
+        frontMaterial.bumpMap = texture;
+        frontMaterial.bumpScale = 0.05;
+        
+        frontMaterial.needsUpdate = true;
+        
+        if (spinner) spinner.classList.add('hidden');
+      },
+      undefined,
+      (err) => {
+        console.warn("Three.js Customizer: Failed to load texture, applying color fallback.", err);
+        if (spinner) spinner.classList.add('hidden');
+      }
+    );
+  };
+  
+  // Initialize with Sreenivasa Kalyanam fallback motif
+  update3DMotif('images/sreenivasa-kalyanam.png');
+  update3DFabric('Royal Silk');
+  
+  // 6. Interactive Grab-to-Drag & Smooth Mouse Tilting Controls
+  let isDragging = false;
+  let prevMousePos = { x: 0, y: 0 };
+  let targetRotation = { x: 0.1, y: -0.05 };
+  let mouseRelative = { x: 0, y: 0 };
+  
+  // Drag to rotate mesh fully on X and Y axes
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    prevMousePos = { x: e.clientX, y: e.clientY };
+  });
+  
+  window.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Normalized Mouse Coordinates (-1 to 1) inside container
+    mouseRelative.x = (x / rect.width) * 2 - 1;
+    mouseRelative.y = -(y / rect.height) * 2 + 1;
+    
+    // Position goldenPointLight to follow mouse coordinates in 3D
+    goldenSparkLight.position.x = mouseRelative.x * 2;
+    goldenSparkLight.position.y = mouseRelative.y * 2;
+    
+    if (isDragging) {
+      const deltaX = e.clientX - prevMousePos.x;
+      const deltaY = e.clientY - prevMousePos.y;
+      
+      targetRotation.y += deltaX * 0.007;
+      targetRotation.x += deltaY * 0.007;
+      
+      // Clamp rotation on X axis to avoid flipping inverted
+      targetRotation.x = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotation.x));
+      
+      prevMousePos = { x: e.clientX, y: e.clientY };
+    }
+  });
+  
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+  
+  // Mobile touch support
+  container.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  }, { passive: true });
+  
+  container.addEventListener('touchmove', (e) => {
+    if (isDragging && e.touches.length === 1) {
+      const deltaX = e.touches[0].clientX - prevMousePos.x;
+      const deltaY = e.touches[0].clientY - prevMousePos.y;
+      
+      targetRotation.y += deltaX * 0.008;
+      targetRotation.x += deltaY * 0.008;
+      
+      targetRotation.x = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotation.x));
+      
+      prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  }, { passive: true });
+  
+  container.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  // 7. Render Animation Loop
+  let floatTime = 0;
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    // Soft automatic floating wave behavior
+    floatTime += 0.015;
+    const hoverFloat = Math.sin(floatTime) * 0.06;
+    clothMesh.position.y = hoverFloat;
+    
+    // Gentle auto-rotation drift when user is not actively dragging
+    if (!isDragging) {
+      // Create a smooth tilt reaction pointing the cloth face slightly towards cursor position
+      const mouseTiltX = mouseRelative.y * 0.18;
+      const mouseTiltY = mouseRelative.x * 0.18;
+      
+      clothMesh.rotation.x += (targetRotation.x + mouseTiltX - clothMesh.rotation.x) * 0.08;
+      clothMesh.rotation.y += (targetRotation.y + mouseTiltY - clothMesh.rotation.y) * 0.08;
+      clothMesh.rotation.z += (0 - clothMesh.rotation.z) * 0.08;
+      
+      // Auto slowly spin on Y-axis for exhibition depth
+      targetRotation.y += 0.0012;
+    } else {
+      // Direct drag rotation tracking
+      clothMesh.rotation.x += (targetRotation.x - clothMesh.rotation.x) * 0.15;
+      clothMesh.rotation.y += (targetRotation.y - clothMesh.rotation.y) * 0.15;
+    }
+    
+    renderer.render(scene, camera);
+  }
+  
+  // Start Three.js Render Loop
+  animate();
+  
+  // 8. Responsive viewport resize handler
+  window.addEventListener('resize', () => {
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    
+    renderer.setSize(width, height);
+  });
+})();
+
+/* ===== GSAP + SCROLLTRIGGER CINEMATIC 3D ANIMATIONS ===== */
+function initGSAPAnimations() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    console.warn("GSAP / ScrollTrigger libraries not loaded. Operating in standard CSS transition mode.");
+    return;
+  }
+  
+  // Register ScrollTrigger plugin
+  gsap.registerPlugin(ScrollTrigger);
+  
+  // 1. Spinning Mandala Watermarks 3D Parallax rotation
+  gsap.to('.mandala-watermark svg', {
+    rotation: 360,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2
+    }
+  });
+  
+  // 2. Staggered 3D reveal on Section Titles
+  gsap.utils.toArray('.section-header').forEach(header => {
+    const title = header.querySelector('.section-title');
+    const divider = header.querySelector('.section-divider');
+    const icon = header.querySelector('.section-icon');
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: header,
+        start: 'top 85%',
+        toggleActions: 'play none none none'
+      }
+    });
+    
+    if (title) {
+      tl.from(title, {
+        opacity: 0,
+        y: 25,
+        rotateX: -25,
+        duration: 1,
+        ease: 'power3.out'
+      });
+    }
+    
+    if (divider) {
+      tl.from(divider, {
+        scaleX: 0,
+        transformOrigin: 'left center',
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.6');
+    }
+    
+    if (icon) {
+      tl.from(icon, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.5,
+        ease: 'back.out(2)'
+      }, '-=0.4');
+    }
+  });
+  
+  // 3. Staggered 3D slide-in animations for section cards
+  gsap.utils.toArray('.collections-grid').forEach(grid => {
+    const cards = grid.querySelectorAll('.collection-card');
+    gsap.from(cards, {
+      opacity: 0,
+      y: 60,
+      rotateY: -15,
+      rotateX: 8,
+      stagger: 0.18,
+      duration: 1.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: grid,
+        start: 'top 80%'
+      }
+    });
+  });
+  
+  // Staggered products grid animations
+  gsap.utils.toArray('.carousel-track').forEach(track => {
+    const cards = track.querySelectorAll('.product-card, .trend-card');
+    gsap.from(cards, {
+      opacity: 0,
+      x: 50,
+      rotateY: 12,
+      stagger: 0.12,
+      duration: 1.0,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: track,
+        start: 'top 85%'
+      }
+    });
+  });
+  
+  // 4. Heritage Grid Cinematic 3D Parallax entrance
+  const heritageSec = document.querySelector('.heritage-section');
+  if (heritageSec) {
+    const imageFrame = heritageSec.querySelector('.ornamental-frame');
+    const content = heritageSec.querySelector('.heritage-content');
+    
+    if (imageFrame && content) {
+      gsap.from(imageFrame, {
+        opacity: 0,
+        x: -80,
+        rotateY: 20,
+        duration: 1.4,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: heritageSec,
+          start: 'top 80%'
+        }
+      });
+      
+      gsap.from(content, {
+        opacity: 0,
+        x: 80,
+        duration: 1.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: heritageSec,
+          start: 'top 80%'
+        }
+      });
+    }
+  }
+  
+  // 5. CTA Banner 3D tilt zoom reveal
+  const ctaBanner = document.querySelector('.cta-banner');
+  if (ctaBanner) {
+    gsap.from(ctaBanner, {
+      opacity: 0,
+      scale: 0.95,
+      rotateX: -10,
+      duration: 1.3,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: ctaBanner,
+        start: 'top 85%'
+      }
+    });
+  }
+  
+  // 6. Trust Badges slide reveal
+  const trustBadges = document.querySelectorAll('.trust-badge');
+  if (trustBadges.length > 0) {
+    gsap.from(trustBadges, {
+      opacity: 0,
+      y: 35,
+      stagger: 0.1,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.trust-badges',
+        start: 'top 90%'
+      }
+    });
+  }
+}
