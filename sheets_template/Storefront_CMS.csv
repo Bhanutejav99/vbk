@@ -9,13 +9,13 @@ Product,"Classic Shanku Chakra Namalu","₹2,799","Shanku Chakra Namalu","Adorne
 Product,"Sacred Swastik","₹2,299","Auspicious Swastik Series","This sacred Aduthera features the holy Swastik motif, representing auspicious beginnings, peace, and eternal prosperity. Meticulously stitched with shimmering gold thread onto pure velvet-maroon fabric base.","Premium Satin (Customizable in Silk or Cotton)","images/hero-2.png",TRUE,"Standard 15"" x 15"" (Customizable)","Dry Clean Only"
 Product,"Sreenivasa Kalyanam","₹2,899","Sreenivasa Kalyanam Series","An exquisite representation of the divine marriage of Lord Venkateswara and Goddess Padmavathi. Beautifully embroidered in meticulous detail to commemorate and bless wedding milestones.","Royal Silk (Customizable in Satin or Cotton)","images/sreenivasa-kalyanam.png",TRUE,"Standard 15"" x 15"" (Customizable)","Dry Clean Only"
 Product,"Sreenivasa Kalyanam with Swastik","₹3,199","Sreenivasa Kalyanam Series","A magnificent blend of Lord Venkateswara's wedding scene with the auspicious Swastik and Shanku Chakra motifs. The ultimate offering of traditional grace, devotion, and elite craftsmanship.","Bespoke Silk / Velvet (Customizable)","images/sreenivasa-kalyanam-swastik.png",TRUE,"Standard 15"" x 15"" (Customizable)","Dry Clean Only"
-Customizer,"Royal Silk","Luxury traditional sheen",Fabric,,,"silk-swatch",,,
-Customizer,"Premium Satin","Soft, elegant luster",Fabric,,,"satin-swatch",,,
-Customizer,"Sacred Cotton","Pure, matte traditional weave",Fabric,,,"cotton-swatch",,,
-Customizer,"Sreenivasa Kalyanam","Celestial wedding blessings",Motif,,,"fas fa-om","images/sreenivasa-kalyanam.png",,
-Customizer,"Swastik with Shanku","Prosperity and divine conch",Motif,,,"fas fa-star-of-david","images/swastik-shanku-chakra.png",,
-Customizer,"Shanku Chakra Tilak","Divine protection symbols",Motif,,,"fas fa-dharmachakra","images/hero-3.png",,
-Customizer,"Name Embroidery","Bespoke names & mantras",Motif,,,"fas fa-signature","images/hero-1.png",,
+Customizer,"Royal Silk","Luxury traditional sheen",Fabric,,,,"silk-swatch",,
+Customizer,"Premium Satin","Soft, elegant luster",Fabric,,,,"satin-swatch",,
+Customizer,"Sacred Cotton","Pure, matte traditional weave",Fabric,,,,"cotton-swatch",,
+Customizer,"Sreenivasa Kalyanam","Celestial wedding blessings",Motif,,,"images/sreenivasa-kalyanam.png","fas fa-om",,
+Customizer,"Swastik with Shanku","Prosperity and divine conch",Motif,,,"images/swastik-shanku-chakra.png","fas fa-star-of-david",,
+Customizer,"Shanku Chakra Tilak","Divine protection symbols",Motif,,,"images/hero-3.png","fas fa-dharmachakra",,
+Customizer,"Name Embroidery","Bespoke names & mantras",Motif,,,"images/hero-1.png","fas fa-signature",,
 Setting,"WhatsApp_Number","91738220377",,,,,,,
 Setting,"Announcement_Bar_Text","Accepting bookings for the upcoming wedding season!",,,,,,,
 Setting,"Instagram_URL","https://instagram.com/vbkdesigns",,,,,,,
