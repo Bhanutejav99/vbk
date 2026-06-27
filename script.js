@@ -1,7 +1,7 @@
 // ===== GOOGLE SHEETS CMS CONFIGURATION =====
 // Paste your published Google Spreadsheet ID here (e.g. "1FpLqV0vAExV1r9kLqFm-2Ww5Zle0Jj8QeJ8gqJ1cZ_8")
 // Make sure you have set the sheet to "Anyone with the link can view" under Share settings!
-const SPREADSHEET_ID = ""; // Leave blank to run entirely on offline fallback data, or enter sheet ID to sync live!
+const SPREADSHEET_ID = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2ST8_eeZ1gzsyWJNK55IN9_MmnXDqX63fU2bIc_ZdFrX9rPkommMR3IbzRuf2g3IQgJCcaXH3cOgA/pub?output=csv"; // Leave blank to run entirely on offline fallback data, or enter sheet ID to sync live!
 
 // ===== GLOBAL CMS STATE & FALLBACK DATA =====
 let globalWhatsAppNumber = "91738220377";
@@ -170,10 +170,10 @@ function goToSlide(index) {
   const heroSlides = document.querySelectorAll('.hero-slide');
   const heroDots = document.querySelectorAll('.hero-dot');
   if (heroSlides.length === 0) return;
-  
+
   heroSlides.forEach(s => s.classList.remove('active'));
   heroDots.forEach(d => d.classList.remove('active'));
-  
+
   currentSlide = (index + heroSlides.length) % heroSlides.length;
   if (heroSlides[currentSlide]) heroSlides[currentSlide].classList.add('active');
   if (heroDots[currentSlide]) heroDots[currentSlide].classList.add('active');
@@ -395,7 +395,7 @@ function bindCustomizerEvents() {
     // Replace listener with a fresh clean delegation
     const newFabricsGrid = fabricsGrid.cloneNode(true);
     fabricsGrid.parentNode.replaceChild(newFabricsGrid, fabricsGrid);
-    
+
     newFabricsGrid.addEventListener('click', (e) => {
       const btn = e.target.closest('.fabric-btn');
       if (btn) {
@@ -465,7 +465,7 @@ function parseCSV(text) {
 
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
-    const next = text[i+1];
+    const next = text[i + 1];
 
     if (inQuotes) {
       if (c === '"') {
@@ -554,7 +554,7 @@ function renderBestsellersAndCollections(products) {
   if (bestsellersTrack) {
     bestsellersTrack.innerHTML = '';
     const bestsellers = products.filter(p => p.Is_Bestseller === 'TRUE' || p.Is_Bestseller === true || p.Is_Bestseller === 'true');
-    
+
     bestsellers.forEach(prod => {
       const cardHTML = `
         <div class="product-card">
@@ -588,12 +588,12 @@ function renderBestsellersAndCollections(products) {
   if (collectionsGrid && products.length > 0) {
     collectionsGrid.innerHTML = '';
     const categories = [...new Set(products.map(p => p.Category))];
-    
+
     categories.forEach(cat => {
       const sampleProd = products.find(p => p.Category === cat);
       const prodImg = sampleProd ? sampleProd.Image_URL : 'images/hero-1.png';
       const catCount = products.filter(p => p.Category === cat).length;
-      
+
       const iconMap = {
         'Sreenivasa Kalyanam Series': 'fas fa-om',
         'Auspicious Swastik Series': 'fas fa-star-of-david',
@@ -627,14 +627,14 @@ function renderBestsellersAndCollections(products) {
 function renderCustomizerOptions(options) {
   const fabricsGrid = document.querySelector('.fabrics-grid');
   const motifsGrid = document.querySelector('.motifs-grid');
-  
+
   if (fabricsGrid) {
     fabricsGrid.innerHTML = '';
     const fabrics = options.filter(o => o.Option_Type === 'Fabric');
     fabrics.forEach((fabric, idx) => {
       const activeClass = idx === 0 ? 'active' : '';
       if (idx === 0) selectedFabric = fabric.Option_Name;
-      
+
       const buttonHTML = `
         <button class="selector-btn fabric-btn ${activeClass}" data-fabric="${fabric.Option_Name}">
           <span class="swatch ${fabric.Icon_Class || 'silk-swatch'}"></span>
@@ -693,12 +693,74 @@ function applyGlobalSettings(settings) {
 
   const footerInsta = document.querySelector('.footer-social[aria-label="Instagram"]');
   if (footerInsta && settings.Instagram_URL) footerInsta.href = settings.Instagram_URL;
-  
+
   const footerFB = document.querySelector('.footer-social[aria-label="Facebook"]');
   if (footerFB && settings.Facebook_URL) footerFB.href = settings.Facebook_URL;
 }
 
 // ===== DYNAMIC ASYNC SHEET CMS INITIALIZER =====
+function processUnifiedCMSData(data) {
+  const banners = [];
+  const products = [];
+  const customizerOptions = [];
+  const settings = {};
+
+  data.forEach(row => {
+    const section = (row.Section || "").trim();
+    if (section === "Hero") {
+      banners.push({
+        Slide_Number: row.Title_Name ? (banners.length + 1).toString() : "",
+        Title: row.Title_Name || "",
+        Subtitle: row.Subtitle_Price_Value || "",
+        Description: row.Description || "",
+        Image_URL: row.Image_URL || "",
+        Button_Link: row.Link_Or_Bestseller || ""
+      });
+    } else if (section === "Product") {
+      products.push({
+        Product_Name: row.Title_Name || "",
+        Price: row.Subtitle_Price_Value || "",
+        Category: row.Category || "",
+        Description: row.Description || "",
+        Fabric_Type: row.Fabric_Type || "",
+        Image_URL: row.Image_URL || "",
+        Is_Bestseller: row.Link_Or_Bestseller || "",
+        Product_Size: row.Product_Size || "",
+        Product_Care: row.Product_Care || ""
+      });
+    } else if (section === "Customizer") {
+      customizerOptions.push({
+        Option_Type: row.Category || "", // "Fabric" or "Motif"
+        Option_Name: row.Title_Name || "",
+        Subtitle: row.Subtitle_Price_Value || "",
+        Icon_Class: row.Link_Or_Bestseller || "", // Swatch class or FontAwesome class
+        Image_URL: row.Image_URL || ""
+      });
+    } else if (section === "Setting") {
+      if (row.Title_Name) {
+        settings[row.Title_Name] = row.Subtitle_Price_Value || "";
+      }
+    }
+  });
+
+  if (banners.length > 0) {
+    console.log(`CMS: Loaded ${banners.length} hero slides from sheet.`);
+    renderHeroBanners(banners);
+  }
+  if (products.length > 0) {
+    console.log(`CMS: Loaded ${products.length} products from sheet.`);
+    renderBestsellersAndCollections(products);
+  }
+  if (customizerOptions.length > 0) {
+    console.log(`CMS: Loaded ${customizerOptions.length} customizer options from sheet.`);
+    renderCustomizerOptions(customizerOptions);
+  }
+  if (Object.keys(settings).length > 0) {
+    console.log("CMS: Applied global settings from sheet.");
+    applyGlobalSettings(settings);
+  }
+}
+
 async function initCMS() {
   // 1. Instantly render everything using fallback data to guarantee 100% immediate load speed and offline safety
   console.log("CMS: Initializing local static fallback dataset...");
@@ -711,54 +773,37 @@ async function initCMS() {
   init3DTilt();
   initHeroParallax();
 
-  // 2. If a Spreadsheet ID is provided, fetch sheets in the background asynchronously
+  // 2. If a Spreadsheet ID/URL is provided, fetch sheet in the background asynchronously
   if (!SPREADSHEET_ID || SPREADSHEET_ID.trim() === "" || SPREADSHEET_ID.includes("YOUR_SPREADSHEET_ID")) {
     console.log("CMS: No spreadsheet ID configured. Operating in high-performance local offline fallback mode.");
     return;
   }
 
-  console.log(`CMS: Found spreadsheet ID: ${SPREADSHEET_ID}. Commencing fetch...`);
-
-  async function fetchTab(tabName) {
-    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&sheet=${tabName}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const csvText = await response.text();
-      return parseCSV(csvText);
-    } catch (err) {
-      console.warn(`CMS: Failed to fetch tab "${tabName}". Details:`, err);
-      return null;
+  // Parse the spreadsheet ID/URL and construct the direct CSV export link
+  let url = SPREADSHEET_ID.trim();
+  if (!url.startsWith("http")) {
+    url = `https://docs.google.com/spreadsheets/d/${url}/export?format=csv`;
+  } else if (url.includes("docs.google.com/spreadsheets") && !url.includes("output=csv")) {
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    const id = match ? match[1] : "";
+    if (id) {
+      url = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`;
     }
   }
 
-  // Fetch all 4 sheets in parallel for high efficiency
-  const [bannersData, productsData, customizerData, settingsData] = await Promise.all([
-    fetchTab('Hero_Banner'),
-    fetchTab('Products_Catalog'),
-    fetchTab('Customizer_Options'),
-    fetchTab('Global_Settings')
-  ]);
+  console.log(`CMS: Commencing unified fetch from: ${url}`);
 
-  // Apply fetched data selectively only if successful
-  if (bannersData && bannersData.length > 0) {
-    console.log("CMS: Hero slider data loaded successfully from sheet.");
-    renderHeroBanners(bannersData);
-  }
-  
-  if (productsData && productsData.length > 0) {
-    console.log("CMS: Catalog products loaded successfully from sheet.");
-    renderBestsellersAndCollections(productsData);
-  }
-
-  if (customizerData && customizerData.length > 0) {
-    console.log("CMS: Customizer options loaded successfully from sheet.");
-    renderCustomizerOptions(customizerData);
-  }
-
-  if (settingsData && settingsData.length > 0) {
-    console.log("CMS: Global configuration settings applied successfully from sheet.");
-    applyGlobalSettings(settingsData[0]); // Use first row of settings
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
+    const csvText = await response.text();
+    const parsedData = parseCSV(csvText);
+    
+    if (parsedData && parsedData.length > 0) {
+      processUnifiedCMSData(parsedData);
+    }
+  } catch (err) {
+    console.warn("CMS: Failed to fetch live Google Sheets data. Operating on static offline fallbacks. Details:", err);
   }
 
   // Re-trigger 3D tilts for newly dynamic components from spreadsheet
@@ -834,7 +879,7 @@ function handleImageError(img) {
 
   if (productName) {
     const nameLower = productName.toLowerCase();
-    
+
     if (nameLower.includes("shrirasthu")) {
       img.src = "images/sreenivasa-kalyanam-shrirasthu.png";
       return;
@@ -866,7 +911,7 @@ function handleImageError(img) {
 }
 
 // Global Capturing Event Listener for Resource Errors
-window.addEventListener('error', function(event) {
+window.addEventListener('error', function (event) {
   const target = event.target;
   if (target && target.tagName === 'IMG') {
     handleImageError(target);
@@ -878,7 +923,7 @@ window.addEventListener('error', function(event) {
 function init3DTilt() {
   // Mobile / Tablet safety switch: Bypass 3D rotate logic below 1024px to ensure buttery frame rates and standard gestures
   if (window.innerWidth < 1024) {
-    document.querySelectorAll('.product-card, .collection-card, .trend-card, .ornamental-frame, .preview-frame').forEach(card => {
+    document.querySelectorAll('.product-card, .collection-card, .ornamental-frame, .preview-frame').forEach(card => {
       card.style.transform = '';
       const sheen = card.querySelector('.card-sheen');
       if (sheen) sheen.style.opacity = '0';
@@ -886,7 +931,7 @@ function init3DTilt() {
     return;
   }
 
-  const cards = document.querySelectorAll('.product-card, .collection-card, .trend-card, .ornamental-frame, .preview-frame');
+  const cards = document.querySelectorAll('.product-card, .collection-card, .ornamental-frame, .preview-frame');
   cards.forEach(card => {
     // Inject dynamic gold zari sheen layer if missing
     let sheen = card.querySelector('.card-sheen');
@@ -908,15 +953,15 @@ function init3DTilt() {
       const h = rect.height;
 
       // Custom coordinate mathematical vector rotation angles (capped at premium 12deg)
-      const rotateX = -((y / h) - 0.5) * 24; 
-      const rotateY = ((x / w) - 0.5) * 24;  
+      const rotateX = -((y / h) - 0.5) * 24;
+      const rotateY = ((x / w) - 0.5) * 24;
 
       // Glare center reflection mapping
       const sheenX = (x / w) * 100;
       const sheenY = (y / h) * 100;
 
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-      
+
       const curSheen = card.querySelector('.card-sheen');
       if (curSheen) {
         curSheen.style.opacity = '1';
@@ -941,17 +986,17 @@ function initHeroParallax() {
   // Track cursor offsets to push active background slide and header overlay in depth directions
   hero.addEventListener('mousemove', (e) => {
     if (window.innerWidth < 1024) return;
-    
+
     const rect = hero.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
-    const offsetX = (x / rect.width) - 0.5; 
-    const offsetY = (y / rect.height) - 0.5; 
-    
+
+    const offsetX = (x / rect.width) - 0.5;
+    const offsetY = (y / rect.height) - 0.5;
+
     const activeBg = hero.querySelector('.hero-slide.active .hero-slide-bg');
     const activeText = hero.querySelector('.hero-slide.active .hero-text-overlay');
-    
+
     if (activeBg) {
       activeBg.style.transform = `scale(1.06) translate(${offsetX * -25}px, ${offsetY * -25}px)`;
     }
@@ -974,10 +1019,10 @@ window.addEventListener('resize', () => {
 });
 
 /* ===== CINEMATIC 3D PRELOADER CONTROLLER ===== */
-(function() {
+(function () {
   const preloader = document.getElementById('preloader');
   const preloaderProgress = document.getElementById('preloaderProgress');
-  
+
   if (preloader && preloaderProgress) {
     let progress = 0;
     const interval = setInterval(() => {
@@ -1004,8 +1049,8 @@ window.addEventListener('resize', () => {
 
 /* ===== HIGH-EFFICIENCY DYNAMIC 3D TILT EFFECT ===== */
 function init3DTilt() {
-  const cards = document.querySelectorAll('.product-card, .collection-card, .trend-card');
-  
+  const cards = document.querySelectorAll('.product-card, .collection-card');
+
   cards.forEach(card => {
     // Inject dynamic gloss reflection overlay sheet if not present
     if (!card.querySelector('.card-glare')) {
@@ -1013,25 +1058,25 @@ function init3DTilt() {
       glare.className = 'card-glare';
       card.appendChild(glare);
     }
-    
+
     const glare = card.querySelector('.card-glare');
-    
+
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      
+
       // Calculate realistic rotation tilt values (max 8 degrees tilt to maintain luxury stability)
       const rotateX = -(y - centerY) / (centerY / 8);
       const rotateY = (x - centerX) / (centerX / 8);
-      
+
       // Hardware-accelerated 3D transforms
       card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
       card.style.transition = 'transform 0.1s cubic-bezier(0.25, 0.8, 0.25, 1)';
-      
+
       // Cast glossy reflections on gold cords
       if (glare) {
         const angle = Math.atan2(y - centerY, x - centerX) * 180 / Math.PI;
@@ -1040,7 +1085,7 @@ function init3DTilt() {
         glare.style.transition = 'opacity 0.15s ease';
       }
     });
-    
+
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
       card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
@@ -1059,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Re-instantiate Tilt effect if catalog cards are re-rendered by CMS
 const originalRenderCatalog = window.renderBestsellersAndCollections;
 if (typeof originalRenderCatalog === 'function') {
-  window.renderBestsellersAndCollections = function(products) {
+  window.renderBestsellersAndCollections = function (products) {
     originalRenderCatalog(products);
     setTimeout(init3DTilt, 150);
   };
@@ -1068,19 +1113,19 @@ if (typeof originalRenderCatalog === 'function') {
 /* ===== THREE.JS INTERACTIVE 3D CUSTOMIZER ENGINE ===== */
 let update3DFabric, update3DMotif;
 
-(function() {
+(function () {
   const container = document.getElementById('customizer3DContainer');
   const canvas = document.getElementById('customizer3DCanvas');
-  
+
   if (!container || !canvas) return;
-  
+
   // 1. Create Scene, Camera, and Renderer
   const scene = new THREE.Scene();
-  
+
   // Set camera with standard perspective (45-deg FOV, matching realistic focus distance)
   const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
   camera.position.set(0, 0, 5.2);
-  
+
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
@@ -1093,11 +1138,11 @@ let update3DFabric, update3DMotif;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
-  
+
   // 2. Setup Lighting (Premium Studio Array)
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
   scene.add(ambientLight);
-  
+
   // Warm direction spotlight for shadows
   const dirLight = new THREE.DirectionalLight(0xfffaee, 0.85);
   dirLight.position.set(5, 8, 4);
@@ -1106,24 +1151,24 @@ let update3DFabric, update3DMotif;
   dirLight.shadow.mapSize.height = 1024;
   dirLight.shadow.bias = -0.001;
   scene.add(dirLight);
-  
+
   // Soft cool fill light from opposite corner
   const fillLight = new THREE.DirectionalLight(0xe6f2ff, 0.4);
   fillLight.position.set(-5, -4, 2);
   scene.add(fillLight);
-  
+
   // GOLD Mouse-Tracking point light to simulate real gold embroidery Zari reflections
   const goldenSparkLight = new THREE.PointLight(0xffc547, 0.7, 8);
   goldenSparkLight.position.set(0, 0, 1.5);
   scene.add(goldenSparkLight);
-  
+
   // 3. Create the 3D Cloth slab representing the Aduthera fabric base
   // A rounded box geometry simulating a padded traditional ceremonial fabric board
   const clothGeometry = new THREE.BoxGeometry(3.0, 3.0, 0.10, 8, 8, 1);
-  
+
   // Define base material maps
   const textureLoader = new THREE.TextureLoader();
-  
+
   // Configure detailed PBR materials array
   // Index 4 is the Front embroidered face. Sides and back are luxurious gold braided satin border trim.
   const sideMaterial = new THREE.MeshStandardMaterial({
@@ -1132,7 +1177,7 @@ let update3DFabric, update3DMotif;
     metalness: 0.85,
     bumpScale: 0.05
   });
-  
+
   const frontMaterial = new THREE.MeshPhysicalMaterial({
     roughness: 0.38,
     metalness: 0.15,
@@ -1140,7 +1185,7 @@ let update3DFabric, update3DMotif;
     clearcoatRoughness: 0.25,
     bumpScale: 0.08
   });
-  
+
   const materials = [
     sideMaterial, // right
     sideMaterial, // left
@@ -1149,17 +1194,17 @@ let update3DFabric, update3DMotif;
     frontMaterial,// front face
     sideMaterial  // back
   ];
-  
+
   const clothMesh = new THREE.Mesh(clothGeometry, materials);
   clothMesh.castShadow = true;
   clothMesh.receiveShadow = true;
   scene.add(clothMesh);
-  
+
   // Set rest rotation angle for optimal perspective projection
   clothMesh.rotation.set(0.1, -0.05, 0);
-  
+
   // 4. Fabric Base Texture Properties Handler
-  update3DFabric = function(fabricName) {
+  update3DFabric = function (fabricName) {
     if (fabricName === 'Royal Silk') {
       frontMaterial.roughness = 0.42;
       frontMaterial.metalness = 0.15;
@@ -1178,35 +1223,35 @@ let update3DFabric, update3DMotif;
     }
     frontMaterial.needsUpdate = true;
   };
-  
+
   // 5. Motif Texture Projection Handler (Projecting actual product images with relief mapping)
   let activeTexture = null;
-  
-  update3DMotif = function(imageUrl) {
+
+  update3DMotif = function (imageUrl) {
     const spinner = document.getElementById('customizerSpinner');
     if (spinner) spinner.classList.remove('hidden');
-    
+
     // Asynchronously fetch high-fidelity motif texture
-    textureLoader.load(imageUrl, 
+    textureLoader.load(imageUrl,
       (texture) => {
         texture.generateMipmaps = true;
         texture.minFilter = THREE.LinearMipmapLinearFilter;
         texture.magFilter = THREE.LinearFilter;
         texture.anisotropy = renderer.capabilities.getMaxAnisotropy() || 8;
-        
+
         if (activeTexture) activeTexture.dispose();
         activeTexture = texture;
-        
+
         // Map texture onto front face
         frontMaterial.map = texture;
-        
+
         // Dynamically create a high-contrast bump map from the texture itself 
         // to raise the golden Zardosi embroidery lines in realistic 3D relief!
         frontMaterial.bumpMap = texture;
         frontMaterial.bumpScale = 0.05;
-        
+
         frontMaterial.needsUpdate = true;
-        
+
         if (spinner) spinner.classList.add('hidden');
       },
       undefined,
@@ -1216,54 +1261,54 @@ let update3DFabric, update3DMotif;
       }
     );
   };
-  
+
   // Initialize with Sreenivasa Kalyanam fallback motif
   update3DMotif('images/sreenivasa-kalyanam.png');
   update3DFabric('Royal Silk');
-  
+
   // 6. Interactive Grab-to-Drag & Smooth Mouse Tilting Controls
   let isDragging = false;
   let prevMousePos = { x: 0, y: 0 };
   let targetRotation = { x: 0.1, y: -0.05 };
   let mouseRelative = { x: 0, y: 0 };
-  
+
   // Drag to rotate mesh fully on X and Y axes
   container.addEventListener('mousedown', (e) => {
     isDragging = true;
     prevMousePos = { x: e.clientX, y: e.clientY };
   });
-  
+
   window.addEventListener('mousemove', (e) => {
     const rect = container.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     // Normalized Mouse Coordinates (-1 to 1) inside container
     mouseRelative.x = (x / rect.width) * 2 - 1;
     mouseRelative.y = -(y / rect.height) * 2 + 1;
-    
+
     // Position goldenPointLight to follow mouse coordinates in 3D
     goldenSparkLight.position.x = mouseRelative.x * 2;
     goldenSparkLight.position.y = mouseRelative.y * 2;
-    
+
     if (isDragging) {
       const deltaX = e.clientX - prevMousePos.x;
       const deltaY = e.clientY - prevMousePos.y;
-      
+
       targetRotation.y += deltaX * 0.007;
       targetRotation.x += deltaY * 0.007;
-      
+
       // Clamp rotation on X axis to avoid flipping inverted
       targetRotation.x = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotation.x));
-      
+
       prevMousePos = { x: e.clientX, y: e.clientY };
     }
   });
-  
+
   window.addEventListener('mouseup', () => {
     isDragging = false;
   });
-  
+
   // Mobile touch support
   container.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
@@ -1271,46 +1316,46 @@ let update3DFabric, update3DMotif;
       prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }
   }, { passive: true });
-  
+
   container.addEventListener('touchmove', (e) => {
     if (isDragging && e.touches.length === 1) {
       const deltaX = e.touches[0].clientX - prevMousePos.x;
       const deltaY = e.touches[0].clientY - prevMousePos.y;
-      
+
       targetRotation.y += deltaX * 0.008;
       targetRotation.x += deltaY * 0.008;
-      
+
       targetRotation.x = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotation.x));
-      
+
       prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }
   }, { passive: true });
-  
+
   container.addEventListener('touchend', () => {
     isDragging = false;
   });
-  
+
   // 7. Render Animation Loop
   let floatTime = 0;
-  
+
   function animate() {
     requestAnimationFrame(animate);
-    
+
     // Soft automatic floating wave behavior
     floatTime += 0.015;
     const hoverFloat = Math.sin(floatTime) * 0.06;
     clothMesh.position.y = hoverFloat;
-    
+
     // Gentle auto-rotation drift when user is not actively dragging
     if (!isDragging) {
       // Create a smooth tilt reaction pointing the cloth face slightly towards cursor position
       const mouseTiltX = mouseRelative.y * 0.18;
       const mouseTiltY = mouseRelative.x * 0.18;
-      
+
       clothMesh.rotation.x += (targetRotation.x + mouseTiltX - clothMesh.rotation.x) * 0.08;
       clothMesh.rotation.y += (targetRotation.y + mouseTiltY - clothMesh.rotation.y) * 0.08;
       clothMesh.rotation.z += (0 - clothMesh.rotation.z) * 0.08;
-      
+
       // Auto slowly spin on Y-axis for exhibition depth
       targetRotation.y += 0.0012;
     } else {
@@ -1318,21 +1363,21 @@ let update3DFabric, update3DMotif;
       clothMesh.rotation.x += (targetRotation.x - clothMesh.rotation.x) * 0.15;
       clothMesh.rotation.y += (targetRotation.y - clothMesh.rotation.y) * 0.15;
     }
-    
+
     renderer.render(scene, camera);
   }
-  
+
   // Start Three.js Render Loop
   animate();
-  
+
   // 8. Responsive viewport resize handler
   window.addEventListener('resize', () => {
     const width = container.clientWidth;
     const height = container.clientHeight;
-    
+
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    
+
     renderer.setSize(width, height);
   });
 })();
@@ -1343,10 +1388,10 @@ function initGSAPAnimations() {
     console.warn("GSAP / ScrollTrigger libraries not loaded. Operating in standard CSS transition mode.");
     return;
   }
-  
+
   // Register ScrollTrigger plugin
   gsap.registerPlugin(ScrollTrigger);
-  
+
   // 1. Spinning Mandala Watermarks 3D Parallax rotation
   gsap.to('.mandala-watermark svg', {
     rotation: 360,
@@ -1358,13 +1403,13 @@ function initGSAPAnimations() {
       scrub: 1.2
     }
   });
-  
+
   // 2. Staggered 3D reveal on Section Titles
   gsap.utils.toArray('.section-header').forEach(header => {
     const title = header.querySelector('.section-title');
     const divider = header.querySelector('.section-divider');
     const icon = header.querySelector('.section-icon');
-    
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: header,
@@ -1372,132 +1417,123 @@ function initGSAPAnimations() {
         toggleActions: 'play none none none'
       }
     });
-    
+
     if (title) {
-      tl.from(title, {
-        opacity: 0,
-        y: 25,
-        rotateX: -25,
-        duration: 1,
-        ease: 'power3.out'
-      });
+      tl.fromTo(title,
+        { opacity: 0, y: 25, rotateX: -25 },
+        { opacity: 1, y: 0, rotateX: 0, duration: 1, ease: 'power3.out' });
     }
-    
+
     if (divider) {
-      tl.from(divider, {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: 0.8,
-        ease: 'power2.out'
-      }, '-=0.6');
+      tl.fromTo(divider,
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 0.8, ease: 'power2.out' }, '-=0.6');
     }
-    
+
     if (icon) {
-      tl.from(icon, {
-        opacity: 0,
-        scale: 0,
-        duration: 0.5,
-        ease: 'back.out(2)'
-      }, '-=0.4');
+      tl.fromTo(icon,
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' }, '-=0.4');
     }
   });
-  
+
   // 3. Staggered 3D slide-in animations for section cards
   gsap.utils.toArray('.collections-grid').forEach(grid => {
     const cards = grid.querySelectorAll('.collection-card');
-    gsap.from(cards, {
-      opacity: 0,
-      y: 60,
-      rotateY: -15,
-      rotateX: 8,
-      stagger: 0.18,
-      duration: 1.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: grid,
-        start: 'top 80%'
-      }
-    });
+    gsap.fromTo(cards,
+      { opacity: 0, y: 60, rotateY: -15, rotateX: 8 },
+      {
+        opacity: 1, y: 0, rotateY: 0, rotateX: 0,
+        stagger: 0.18,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: grid,
+          start: 'top 80%'
+        }
+      });
   });
-  
+
   // Staggered products grid animations
   gsap.utils.toArray('.carousel-track').forEach(track => {
-    const cards = track.querySelectorAll('.product-card, .trend-card');
-    gsap.from(cards, {
-      opacity: 0,
-      x: 50,
-      rotateY: 12,
-      stagger: 0.12,
-      duration: 1.0,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: track,
-        start: 'top 85%'
-      }
-    });
+    const cards = track.querySelectorAll('.product-card');
+    gsap.fromTo(cards,
+      { opacity: 0, x: 50, rotateY: 12 },
+      {
+        opacity: 1, x: 0, rotateY: 0,
+        stagger: 0.12,
+        duration: 1.0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: track,
+          start: 'top 85%'
+        }
+      });
   });
-  
+
   // 4. Heritage Grid Cinematic 3D Parallax entrance
   const heritageSec = document.querySelector('.heritage-section');
   if (heritageSec) {
     const imageFrame = heritageSec.querySelector('.ornamental-frame');
     const content = heritageSec.querySelector('.heritage-content');
-    
+
     if (imageFrame && content) {
-      gsap.from(imageFrame, {
-        opacity: 0,
-        x: -80,
-        rotateY: 20,
-        duration: 1.4,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: heritageSec,
-          start: 'top 80%'
-        }
-      });
-      
-      gsap.from(content, {
-        opacity: 0,
-        x: 80,
-        duration: 1.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: heritageSec,
-          start: 'top 80%'
-        }
-      });
+      gsap.fromTo(imageFrame,
+        { opacity: 0, x: -80, rotateY: 20 },
+        {
+          opacity: 1, x: 0, rotateY: 0,
+          duration: 1.4,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: heritageSec,
+            start: 'top 80%'
+          }
+        });
+
+      gsap.fromTo(content,
+        { opacity: 0, x: 80 },
+        {
+          opacity: 1, x: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: heritageSec,
+            start: 'top 80%'
+          }
+        });
     }
   }
-  
+
   // 5. CTA Banner 3D tilt zoom reveal
   const ctaBanner = document.querySelector('.cta-banner');
   if (ctaBanner) {
-    gsap.from(ctaBanner, {
-      opacity: 0,
-      scale: 0.95,
-      rotateX: -10,
-      duration: 1.3,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: ctaBanner,
-        start: 'top 85%'
-      }
-    });
+    gsap.fromTo(ctaBanner,
+      { opacity: 0, scale: 0.95, rotateX: -10 },
+      {
+        opacity: 1, scale: 1, rotateX: 0,
+        duration: 1.3,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: ctaBanner,
+          start: 'top 85%'
+        }
+      });
   }
-  
+
   // 6. Trust Badges slide reveal
   const trustBadges = document.querySelectorAll('.trust-badge');
   if (trustBadges.length > 0) {
-    gsap.from(trustBadges, {
-      opacity: 0,
-      y: 35,
-      stagger: 0.1,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.trust-badges',
-        start: 'top 90%'
-      }
-    });
+    gsap.fromTo(trustBadges,
+      { opacity: 0, y: 35 },
+      {
+        opacity: 1, y: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.trust-badges',
+          start: 'top 90%'
+        }
+      });
   }
 }

@@ -435,7 +435,8 @@ body.dark-mode .announcement-bar {
 .hero-slider {
   position: relative;
   width: 100%;
-  height: 520px;
+  aspect-ratio: 16 / 6; /* Premium wide banner format (e.g. 1600x600 or 1920x720) */
+  min-height: 350px;
 }
 
 .hero-slide {
@@ -455,6 +456,34 @@ body.dark-mode .announcement-bar {
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+/* Legibility scrim so hero copy stays readable over any slide.
+   The hero artwork is always light cream, and the hero text stays dark in both
+   themes, so the scrim is a fixed warm-cream gradient regardless of dark mode. */
+.hero-slide-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 248, 240, 0.92) 0%,
+    rgba(255, 248, 240, 0.55) 32%,
+    rgba(255, 248, 240, 0) 58%
+  );
+}
+
+@media (max-width: 768px) {
+  .hero-slide-content::after {
+    background: linear-gradient(
+      100deg,
+      rgba(255, 248, 240, 0.94) 0%,
+      rgba(255, 248, 240, 0.7) 45%,
+      rgba(255, 248, 240, 0.1) 75%
+    );
+  }
 }
 
 .hero-slide-bg {
@@ -628,7 +657,7 @@ body.dark-mode .announcement-bar {
   border-radius: 4px;
   width: 100%;
   max-width: 440px;
-  height: 480px;
+  aspect-ratio: 3 / 4; /* Editorial portrait format (e.g. 600x800) */
   object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -779,7 +808,7 @@ body.dark-mode .announcement-bar {
 
 .collection-card-img {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 4 / 3; /* Classic landscape format (e.g. 800x600) */
   overflow: hidden;
   padding: 16px;
   display: flex;
@@ -925,7 +954,7 @@ body.dark-mode .announcement-bar {
 
 .product-card-img {
   width: 100%;
-  height: 160px;
+  aspect-ratio: 1 / 1; /* Standard square product frame (e.g. 800x800) */
   overflow: hidden;
   padding: 12px;
   display: flex;
@@ -1091,53 +1120,6 @@ body.dark-mode .announcement-bar {
   color: var(--brown-light);
 }
 
-/* ===== CUSTOMER TRENDS ===== */
-.trends-section {
-  background: var(--cream);
-}
-
-.trend-card {
-  min-width: 200px;
-  max-width: 200px;
-  border-radius: 12px;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: var(--transition);
-}
-
-.trend-card:hover {
-  transform: translateY(-4px);
-}
-
-.trend-card-img {
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.trend-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.trend-card:hover .trend-card-img img {
-  transform: scale(1.08);
-}
-
-.trend-card-body {
-  padding: 12px 4px;
-}
-
-.trend-card-name {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--brown-dark);
-  margin-bottom: 6px;
-}
-
 /* ===== FOOTER ===== */
 .footer {
   background: var(--red-primary);
@@ -1268,6 +1250,13 @@ body.dark-mode .pattern-divider {
 }
 
 /* ===== RESPONSIVE ===== */
+/* Collapse the full nav to a drawer before the links collide with the logo/icons (~1100px). */
+@media (max-width: 1100px) {
+  .navbar-links { display: none; }
+  .menu-toggle-btn { display: block; }
+  .navbar { padding: 12px 28px; }
+}
+
 @media (max-width: 1024px) {
   .collections-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-title { font-size: 2.4rem; }
@@ -1279,15 +1268,19 @@ body.dark-mode .pattern-divider {
 }
 
 @media (max-width: 768px) {
-  .navbar { padding: 10px 16px; }
+  .navbar { padding: 10px 14px; }
   .navbar-links { display: none; }
-  .menu-toggle-btn { display: block; }
-  .hero-slider { height: 380px; }
+  .menu-toggle-btn { display: block; margin-left: 2px; }
+  .navbar-icons { gap: 12px; }
+  .navbar-icons button { font-size: 1rem; }
+  .navbar-logo .brand-name { font-size: 1.3rem; letter-spacing: 1.5px; }
+  .navbar-logo .logo-icon { width: 34px; height: 34px; }
+  .hero-slider { aspect-ratio: 16 / 9; height: auto; }
   .hero-text-overlay { left: 20px; max-width: 280px; }
   .hero-title { font-size: 1.8rem; }
   .section-container { padding: 40px 16px; }
   .collections-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .collection-card-img { height: 140px; padding: 10px; }
+  .collection-card-img { padding: 10px; }
   .footer { flex-direction: column; gap: 16px; text-align: center; }
   .trust-badge { flex: 0 0 calc(50% - 10px); }
   .cta-banner { margin: 0 16px; }
@@ -1296,7 +1289,6 @@ body.dark-mode .pattern-divider {
 
 @media (max-width: 480px) {
   .collections-grid { grid-template-columns: 1fr; }
-  .hero-slider { height: 300px; }
   .hero-title { font-size: 1.5rem; }
   .trust-badge { flex: 0 0 100%; }
 }
@@ -1692,7 +1684,8 @@ body.dark-mode .mandala-watermark {
 
 .modal-img {
   width: 100%;
-  height: 380px;
+  aspect-ratio: 1 / 1; /* Standard square product preview (e.g. 800x800) */
+  height: auto;
   object-fit: contain !important;
   border-radius: 8px;
   background-color: var(--bg-accent-light);
@@ -1794,9 +1787,6 @@ body.dark-mode .mandala-watermark {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .modal-img {
-    height: 280px;
-  }
   .modal-content {
     padding: 28px;
   }
@@ -1824,10 +1814,9 @@ body.dark-mode .mandala-watermark {
    ========================================================================== */
 
 /* 1. Hardware-Accelerated 3D Container Configurations */
-.product-card, 
-.collection-card, 
-.trend-card, 
-.ornamental-frame, 
+.product-card,
+.collection-card,
+.ornamental-frame,
 .preview-frame {
   transform-style: preserve-3d !important;
   perspective: 1000px !important;
@@ -1837,10 +1826,9 @@ body.dark-mode .mandala-watermark {
 }
 
 /* 2. Physical Depth Layering (translateZ) */
-.product-card-img img, 
-.collection-card-img img, 
-.trend-card-img img, 
-.heritage-image, 
+.product-card-img img,
+.collection-card-img img,
+.heritage-image,
 .customizer-img {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
   transform-style: preserve-3d !important;
@@ -1850,7 +1838,6 @@ body.dark-mode .mandala-watermark {
 /* Lift imagery forward on hover */
 .product-card:hover .product-card-img img,
 .collection-card:hover .collection-card-img img,
-.trend-card:hover .trend-card-img img,
 .ornamental-frame:hover .heritage-image {
   transform: translateZ(35px) scale(1.04) !important;
   filter: drop-shadow(0 15px 25px rgba(24, 6, 6, 0.22)) !important;
@@ -1858,28 +1845,24 @@ body.dark-mode .mandala-watermark {
 
 body.dark-mode .product-card:hover .product-card-img img,
 body.dark-mode .collection-card:hover .collection-card-img img,
-body.dark-mode .trend-card:hover .trend-card-img img,
 body.dark-mode .ornamental-frame:hover .heritage-image {
   filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.55)) !important;
 }
 
 /* Raise texts and actions midway */
-.product-card-body, 
-.collection-card-body, 
-.trend-card-body {
+.product-card-body,
+.collection-card-body {
   transform-style: preserve-3d !important;
 }
 
-.product-card-name, 
-.collection-card-name, 
-.trend-card-name {
+.product-card-name,
+.collection-card-name {
   transform: translateZ(18px) !important;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.product-card-price, 
-.collection-card-desc, 
-.trend-card-body .shop-now-link,
+.product-card-price,
+.collection-card-desc,
 .view-details-link,
 .shop-now-link {
   transform: translateZ(12px) !important;
@@ -2110,8 +2093,7 @@ body.dark-mode .card-sheen {
 
 /* ===== TACTILE HOVER-TILT CARD STYLING ===== */
 .product-card,
-.collection-card,
-.trend-card {
+.collection-card {
   perspective: 1000px;
   transform-style: preserve-3d;
   will-change: transform;
@@ -2119,8 +2101,7 @@ body.dark-mode .card-sheen {
 
 /* We will apply the active 3D tilt effect on the card contents themselves to keep shadow projections realistic */
 .product-card > *,
-.collection-card > *,
-.trend-card > * {
+.collection-card > * {
   transform-style: preserve-3d;
 }
 
