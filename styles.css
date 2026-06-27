@@ -808,14 +808,14 @@ body.dark-mode .announcement-bar {
 
 .collection-card-img {
   width: 100%;
-  aspect-ratio: 4 / 3; /* Classic landscape format (e.g. 800x600) */
+  aspect-ratio: 16 / 10; /* Unified widescreen aspect ratio matching product cards */
   overflow: hidden;
   padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-accent-light);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
+  background-color: #F5EBE1; /* Matches the warm cream background of your product photos */
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -937,14 +937,15 @@ body.dark-mode .announcement-bar {
 
 /* ===== PRODUCT CARD ===== */
 .product-card {
-  min-width: 190px;
-  max-width: 190px;
-  background: var(--cream-mid);
+  min-width: 260px;
+  max-width: 260px;
+  background: var(--bg-card);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-smooth);
   flex-shrink: 0;
+  box-shadow: var(--shadow-soft);
 }
 
 .product-card:hover {
@@ -954,14 +955,14 @@ body.dark-mode .announcement-bar {
 
 .product-card-img {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Standard square product frame (e.g. 800x800) */
+  aspect-ratio: 16 / 10; /* Sleek widescreen format (e.g. 800x500) matching horizontal product shape */
   overflow: hidden;
-  padding: 12px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-accent-light);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-color: #F5EBE1; /* Seamless warm cream backdrop matching your photo background */
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -971,6 +972,15 @@ body.dark-mode .announcement-bar {
   object-fit: contain !important;
   border-radius: 6px;
   transition: transform 0.3s ease;
+}
+
+/* Smart override for wide banner-format images used as product thumbnails: 
+   crops the empty left side background and focuses directly on the product artwork */
+.product-card-img img[src*="hero-"],
+.collection-card-img img[src*="hero-"],
+.modal-img[src*="hero-"] {
+  object-fit: cover !important;
+  object-position: right center !important;
 }
 
 .product-card-body {
@@ -1684,13 +1694,13 @@ body.dark-mode .mandala-watermark {
 
 .modal-img {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Standard square product preview (e.g. 800x800) */
+  aspect-ratio: 16 / 10; /* Unified widescreen aspect ratio matching product cards */
   height: auto;
   object-fit: contain !important;
   border-radius: 8px;
-  background-color: var(--bg-accent-light);
+  background-color: #F5EBE1; /* Seamless warm cream backdrop matching your photo background */
   padding: 20px;
-  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 .modal-details-panel {
@@ -2046,7 +2056,7 @@ body.dark-mode .card-sheen {
   width: 100%;
   height: 480px;
   position: relative;
-  background-color: var(--bg-accent-light);
+  background-color: #F5EBE1; /* Seamless warm cream backdrop matching customizer textures */
   border-radius: 8px;
   overflow: hidden;
   box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.08);

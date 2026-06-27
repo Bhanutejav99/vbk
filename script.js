@@ -1179,6 +1179,7 @@ let update3DFabric, update3DMotif;
   });
 
   const frontMaterial = new THREE.MeshPhysicalMaterial({
+    color: 0xF5EBE1,
     roughness: 0.38,
     metalness: 0.15,
     clearcoat: 0.3,
@@ -1356,8 +1357,6 @@ let update3DFabric, update3DMotif;
       clothMesh.rotation.y += (targetRotation.y + mouseTiltY - clothMesh.rotation.y) * 0.08;
       clothMesh.rotation.z += (0 - clothMesh.rotation.z) * 0.08;
 
-      // Auto slowly spin on Y-axis for exhibition depth
-      targetRotation.y += 0.0012;
     } else {
       // Direct drag rotation tracking
       clothMesh.rotation.x += (targetRotation.x - clothMesh.rotation.x) * 0.15;
